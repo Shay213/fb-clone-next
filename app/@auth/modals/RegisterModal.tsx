@@ -58,7 +58,7 @@ const RegisterModal = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="bg-white p-5 shadow-xl text-center rounded-lg flex flex-col gap-5 w-96">
+      <div className="bg-white p-5 shadow-xl text-center rounded-lg flex flex-col gap-5 w-full md:w-[500px]">
         <Heading label="Create a new account" subLabel="It's quick and easy." />
         <hr />
         <div className="flex gap-3">

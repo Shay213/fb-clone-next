@@ -30,7 +30,7 @@ const LoginModal = () => {
   }, []);
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="bg-white p-5 shadow-xl text-center rounded-lg flex flex-col gap-5 w-96">
+      <div className="bg-white p-5 shadow-xl text-center rounded-lg flex flex-col gap-5 w-full xsm:w-96">
         <h1 className="pb-2 text-lg">Log Into Coolname</h1>
         <Input
           labelText="email"

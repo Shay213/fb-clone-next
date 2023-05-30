@@ -4,9 +4,11 @@ import LoginModal from "../modals/LoginModal";
 
 const Login = () => {
   return (
-    <div className="h-[100vh] flex justify-center items-center gap-24 bg-gray-100">
-      <Logo showSubText />
-      <LoginModal />
+    <div className="h-[100vh] flex justify-center items-center bg-gray-100 ">
+      <div className="flex-1 xsm:flex-none flex flex-col gap-5 lg:gap-24 lg:flex-row">
+        <Logo showSubText />
+        <LoginModal />
+      </div>
     </div>
   );
 };
