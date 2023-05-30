@@ -10,13 +10,18 @@ export const metadata = {
 
 export default function RootLayout({
   children,
+  auth,
 }: {
   children: React.ReactNode;
+  auth: React.ReactNode;
 }) {
   const darkMode = false;
+  const isAuth = false;
   return (
     <html lang="en" className={`${darkMode ? "dark" : ""}`}>
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        {isAuth ? <div>Root layout{children}</div> : <div>{auth}</div>}
+      </body>
     </html>
   );
 }
