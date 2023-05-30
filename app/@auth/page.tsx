@@ -5,7 +5,7 @@ import Logo from "./components/Logo";
 const Auth = () => {
   return (
     <div className="h-[100vh] flex justify-center items-center gap-24 bg-gray-100">
-      <Logo />
+      <Logo showSubText />
       <LoginModal />
     </div>
   );
