@@ -5,8 +5,10 @@ import Logo from "../components/Logo";
 const Register = () => {
   return (
     <div className="h-[100vh] flex flex-col justify-center items-center gap-7 bg-gray-100">
-      <Logo />
-      <RegisterModal />
+      <div>
+        <Logo />
+        <RegisterModal />
+      </div>
     </div>
   );
 };
