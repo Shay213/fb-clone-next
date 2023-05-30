@@ -1,14 +1,16 @@
 "use client";
 
-import React, { useMemo } from "react";
+import React, { ChangeEvent, useMemo } from "react";
 
 interface YearSelectProps {
   className?: string;
+  value?: string;
+  onChange?: (e: ChangeEvent<HTMLSelectElement>) => void;
 }
 
 const START_YEAR = 1905;
 
-const YearSelect = ({ className = "" }: YearSelectProps) => {
+const YearSelect = ({ className = "", onChange, value }: YearSelectProps) => {
   const currentYear = useMemo(() => new Date().getFullYear(), []);
   const difference = useMemo(
     () => currentYear - START_YEAR,
@@ -16,7 +18,11 @@ const YearSelect = ({ className = "" }: YearSelectProps) => {
   );
 
   return (
-    <select className={`outline-none bg-white border-[1px] ${className}`}>
+    <select
+      className={`outline-none bg-white border-[1px] ${className}`}
+      onChange={onChange || undefined}
+      value={value}
+    >
       {Array(difference)
         .fill(0)
         .map((el, i) => (
