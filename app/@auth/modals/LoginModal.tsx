@@ -51,7 +51,7 @@ const LoginModal = () => {
         toast.error(err?.message);
       }
     },
-    [clearErrors, reset]
+    [clearErrors, reset, router]
   );
   return (
     <form onSubmit={handleSubmit(onSubmit)}>

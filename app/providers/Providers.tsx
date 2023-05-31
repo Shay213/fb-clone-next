@@ -2,13 +2,16 @@
 
 import ThemeProvider from "./ThemeProvider";
 import ToasterProvider from "./ToasterProvider";
+import { SessionProvider } from "next-auth/react";
 
 const Providers = ({ children }: { children: React.ReactNode }) => {
   return (
-    <ThemeProvider>
-      {children}
-      <ToasterProvider />
-    </ThemeProvider>
+    <SessionProvider>
+      <ThemeProvider>
+        {children}
+        <ToasterProvider />
+      </ThemeProvider>
+    </SessionProvider>
   );
 };
 
