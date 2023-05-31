@@ -10,6 +10,9 @@ import YearSelect from "../components/YearSelect";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { SubmitHandler, useForm } from "react-hook-form";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 enum GENDER {
   MALE = "male",
@@ -22,6 +25,11 @@ type Birthday = {
 };
 
 const DEFAULT_BIRTHDAY = new Date(1990, 0, 1);
+const DEFAULT_BIRTHDAY_OBJ = {
+  day: "1",
+  month: "0",
+  year: "1990",
+};
 
 const schema = yup
   .object({
@@ -34,9 +42,10 @@ const schema = yup
   })
   .required();
 
-type FormData = yup.InferType<typeof schema>;
+export type FormData = yup.InferType<typeof schema>;
 
 const RegisterModal = () => {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -45,16 +54,24 @@ const RegisterModal = () => {
     clearErrors,
     setValue,
   } = useForm<FormData>({ resolver: yupResolver(schema) });
-  const [birthday, setBirthday] = useState<Birthday>({
-    day: "1",
-    month: "0",
-    year: "1990",
-  });
+  const [birthday, setBirthday] = useState<Birthday>(DEFAULT_BIRTHDAY_OBJ);
 
-  const onSubmit: SubmitHandler<FormData> = useCallback((data) => {
-    console.log(data);
-    reset();
-  }, []);
+  const onSubmit: SubmitHandler<FormData> = useCallback(
+    async (data) => {
+      try {
+        await axios.post("/api/register", data);
+        toast.success("User has been registered!");
+        reset();
+        clearErrors();
+        setBirthday(DEFAULT_BIRTHDAY_OBJ);
+        router.push("/login");
+      } catch (error) {
+        const err = error as Error;
+        toast.error(err?.message);
+      }
+    },
+    [reset, router, clearErrors]
+  );
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -171,10 +188,21 @@ const RegisterModal = () => {
           )}
         </div>
 
-        <button className="bg-green-500 text-white rounded-lg py-2 text-lg font-semibold">
+        <button
+          type="submit"
+          className="bg-green-500 text-white rounded-lg py-2 text-lg font-semibold"
+        >
           Sign Up
         </button>
-        <Link href="/login" className="w-max self-center text-blue-500">
+        <Link
+          href="/login"
+          className="w-max self-center text-blue-500"
+          onClick={() => {
+            reset();
+            setBirthday(DEFAULT_BIRTHDAY_OBJ);
+            clearErrors();
+          }}
+        >
           Already have an account?
         </Link>
       </div>
