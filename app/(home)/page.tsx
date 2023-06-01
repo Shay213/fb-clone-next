@@ -10,7 +10,7 @@ const Home = () => {
   return (
     <div
       className="
-        grid grid-cols-[minmax(200px,_1fr),_minmax(400px,_2fr),_minmax(200px,_1fr)] 
+        grid grid-cols-[minmax(240px,_1fr),_minmax(400px,_2fr),_minmax(200px,_1fr)] 
         w-full bg-[#E9EEF0]
       "
     >
