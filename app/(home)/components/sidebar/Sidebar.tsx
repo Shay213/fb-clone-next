@@ -8,7 +8,7 @@ const Sidebar = () => {
     <div
       className="
         sticky top-[70px] h-[calc(100vh-70px)] 
-        px-2 overflow-auto z-10 max-w-sm w-full
+        px-2 overflow-auto z-10 min-w-[240px] w-1/4 max-w-[350px]
       "
     >
       <SidebarOptions />
