@@ -1,10 +1,10 @@
 import React from "react";
 
-import Sidebar from "./components/Sidebar";
-import Reels from "./components/Reels";
-import AddPost from "./components/AddPost";
-import Posts from "./components/Posts";
-import Messages from "./components/Messages";
+import Sidebar from "./components/sidebar/Sidebar";
+import Reels from "./components/reels/Reels";
+import AddPost from "./components/addPost/AddPost";
+import Posts from "./components/posts/Posts";
+import Contacts from "./components/contacts/Contacts";
 
 const Home = () => {
   return (
@@ -20,7 +20,7 @@ const Home = () => {
         <AddPost />
         <Posts />
       </div>
-      <Messages />
+      <Contacts />
     </div>
   );
 };
