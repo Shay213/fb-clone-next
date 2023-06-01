@@ -42,6 +42,15 @@ export const authOptions: NextAuthOptions = {
     strategy: "jwt" as SessionStrategy,
   },
   debug: process.env.NODE_ENV === "development",
+  callbacks: {
+    async jwt({ token, user, profile, trigger }) {
+      if (trigger === "signIn") {
+        token.name = `${user?.firstName} ${user?.lastName}`;
+        token.picture = "";
+      }
+      return token;
+    },
+  },
 };
 
 const handler = NextAuth(authOptions);

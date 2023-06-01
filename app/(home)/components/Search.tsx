@@ -14,7 +14,7 @@ export default React.forwardRef<any, SearchProps>(function Search(props, ref) {
     <div
       className="
         bg-gray-100 h-[35px] w-[35px] lg:w-[250px] 
-        flex items-center lg:px-3 rounded-full z-20
+        flex items-center lg:px-3 rounded-full z-[60]
       "
       onClick={() => setIsOpen(true)}
       ref={ref}

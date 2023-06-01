@@ -22,7 +22,7 @@ const UserMenu = () => {
           transition-colors
         "
       >
-        <CgMenuGridO size={25} />
+        <CgMenuGridO size={22} />
       </div>
       <div
         className="
@@ -31,7 +31,7 @@ const UserMenu = () => {
           transition-colors        
         "
       >
-        <AiFillMessage size={25} />
+        <AiFillMessage size={22} />
       </div>
       <div
         className="
@@ -40,7 +40,7 @@ const UserMenu = () => {
           transition-colors
         "
       >
-        <IoIosNotifications size={25} />
+        <IoIosNotifications size={22} />
       </div>
       <div
         className="

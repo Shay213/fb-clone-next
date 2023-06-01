@@ -31,8 +31,8 @@ const SearchPanel = () => {
     <>
       <div
         className={`
-            absolute top-0 left-0 bg-white z-10 w-[330px]
-            min-h-[100px] shadow-lg transition-all
+            absolute top-0 left-0 bg-white w-[330px]
+            min-h-[100px] shadow-lg transition-all z-50
             ${
               isOpen
                 ? "opacity-100 translate-x-0 scale-100"
