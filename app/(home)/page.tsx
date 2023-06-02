@@ -16,7 +16,7 @@ const Home = () => {
       <Sidebar />
       <div
         className="
-          overflow-auto z-10 pt-4 px-4 min-w-[450px] w-1/2 max-w-3xl
+          overflow-auto z-10 pt-4 px-4 min-w-[450px] w-1/2 max-w-2xl
         "
       >
         <ReelsAndStories />
