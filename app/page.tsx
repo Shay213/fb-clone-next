@@ -1,10 +1,9 @@
 import React from "react";
-
 import Sidebar from "./components/sidebar/Sidebar";
+import ReelsAndStories from "./components/reelsAndStories/ReelsAndStories";
 import AddPost from "./components/addPost/AddPost";
 import Posts from "./components/posts/Posts";
 import Contacts from "./components/contacts/Contacts";
-import ReelsAndStories from "./components/reelsAndStories/ReelsAndStories";
 
 const Home = () => {
   return (
