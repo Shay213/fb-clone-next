@@ -1,10 +1,20 @@
 import React from "react";
 import Sidebar from "./components/sidebar/Sidebar";
 
-const Layout = ({ children }: { children: React.ReactNode }) => {
+const Layout = ({
+  children,
+  feed,
+  contacts,
+}: {
+  children: React.ReactNode;
+  feed: React.ReactNode;
+  contacts: React.ReactNode;
+}) => {
   return (
     <div className="flex justify-between bg-[#E9EEF0]">
       <Sidebar />
+      {feed}
+      {contacts}
       {children}
     </div>
   );
