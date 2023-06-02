@@ -1,6 +1,6 @@
 import React from "react";
 import Logo from "./Logo";
-import Menu from "./Menu";
+import Menu from "./menu/Menu";
 import UserMenu from "./UserMenu";
 import SearchPanel from "./SearchPanel";
 
