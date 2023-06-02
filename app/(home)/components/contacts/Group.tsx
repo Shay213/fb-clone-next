@@ -13,7 +13,7 @@ const Group = ({ name, img }: GroupProps) => {
     hover:bg-gray-300 transition rounded-md relative"
     >
       <Image
-        src={img || ""}
+        src={img || "/avatar.jpeg"}
         alt="group"
         width={35}
         height={35}
