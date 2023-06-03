@@ -6,10 +6,9 @@ import { CgMenuGridO } from "react-icons/cg";
 
 const Menu = ({ size }: { size: number }) => {
   const homeModalsContext = useHomeModalsContext();
-  const isOpen = useMemo(
-    () => !!homeModalsContext?.isModalOpen?.menu,
-    [homeModalsContext?.isModalOpen?.menu]
-  );
+  const isOpen = useMemo(() => {
+    return !!homeModalsContext?.menu.isOpen;
+  }, [homeModalsContext?.menu.isOpen]);
 
   return (
     <>
@@ -23,12 +22,10 @@ const Menu = ({ size }: { size: number }) => {
             : "hover:bg-gray-300 bg-gray-200"
         } 
       `}
-        onClick={() =>
-          homeModalsContext?.setIsModalOpen((prev) => ({
-            ...prev,
-            menu: !prev.menu,
-          }))
-        }
+        onClick={() => {
+          homeModalsContext?.hideOthers("menu");
+          homeModalsContext?.menu.toggle();
+        }}
       >
         <CgMenuGridO
           size={size}

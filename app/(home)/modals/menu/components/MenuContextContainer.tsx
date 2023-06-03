@@ -6,9 +6,8 @@ import React from "react";
 const Container = ({ children }: { children: React.ReactNode }) => {
   const homeModalsContext = useHomeModalsContext();
   if (!homeModalsContext) return null;
-  const { isModalOpen } = homeModalsContext;
 
-  return <>{isModalOpen.menu && children}</>;
+  return <>{homeModalsContext.menu.isOpen && children}</>;
 };
 
 export default Container;

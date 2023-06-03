@@ -1,26 +1,29 @@
-import {
-  Dispatch,
-  SetStateAction,
-  createContext,
-  useContext,
-  useMemo,
-  useState,
-} from "react";
+import { createContext, useContext, useMemo, useState } from "react";
 
 interface HomeModalsContext {
-  isModalOpen: {
-    messenger: boolean;
-    noti: boolean;
-    menu: boolean;
+  messenger: {
+    isOpen: boolean;
+    show: () => void;
+    hide: () => void;
+    toggle: () => void;
   };
-  setIsModalOpen: Dispatch<
-    SetStateAction<{
-      messenger: boolean;
-      noti: boolean;
-      menu: boolean;
-    }>
-  >;
+  noti: {
+    isOpen: boolean;
+    show: () => void;
+    hide: () => void;
+    toggle: () => void;
+  };
+  menu: {
+    isOpen: boolean;
+    show: () => void;
+    hide: () => void;
+    toggle: () => void;
+  };
+  hideAll: () => void;
+  hideOthers: (modalName: ModalName) => void;
 }
+
+type ModalName = "messenger" | "noti" | "menu";
 
 const HomeModalsContext = createContext<HomeModalsContext | null>(null);
 
@@ -37,8 +40,40 @@ const HomeModalsProvider = ({ children }: { children: React.ReactNode }) => {
 
   const homeModalsContext = useMemo(() => {
     return {
-      isModalOpen,
-      setIsModalOpen,
+      messenger: {
+        isOpen: isModalOpen.messenger,
+        show: () => setIsModalOpen((prev) => ({ ...prev, messenger: true })),
+        hide: () => setIsModalOpen((prev) => ({ ...prev, messenger: false })),
+        toggle: () =>
+          setIsModalOpen((prev) => ({ ...prev, messenger: !prev.messenger })),
+      },
+      noti: {
+        isOpen: isModalOpen.noti,
+        show: () => setIsModalOpen((prev) => ({ ...prev, noti: true })),
+        hide: () => setIsModalOpen((prev) => ({ ...prev, noti: false })),
+        toggle: () => setIsModalOpen((prev) => ({ ...prev, noti: !prev.noti })),
+      },
+      menu: {
+        isOpen: isModalOpen.menu,
+        show: () => setIsModalOpen((prev) => ({ ...prev, menu: true })),
+        hide: () => setIsModalOpen((prev) => ({ ...prev, menu: false })),
+        toggle: () => setIsModalOpen((prev) => ({ ...prev, menu: !prev.menu })),
+      },
+      hideAll: () =>
+        setIsModalOpen((prev) => ({
+          ...prev,
+          messenger: false,
+          menu: false,
+          noti: false,
+        })),
+      hideOthers: (modalName: ModalName) =>
+        setIsModalOpen((prev) => ({
+          ...prev,
+          messenger: false,
+          menu: false,
+          noti: false,
+          [modalName]: prev[modalName],
+        })),
     };
   }, [isModalOpen, setIsModalOpen]);
 

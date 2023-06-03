@@ -6,10 +6,9 @@ import { useHomeModalsContext } from "@/app/providers/HomeModalsProvider";
 
 const Messenger = ({ size }: { size: number }) => {
   const homeModalsContext = useHomeModalsContext();
-  const isOpen = useMemo(
-    () => !!homeModalsContext?.isModalOpen?.messenger,
-    [homeModalsContext?.isModalOpen?.messenger]
-  );
+  const isOpen = useMemo(() => {
+    return !!homeModalsContext?.messenger.isOpen;
+  }, [homeModalsContext?.messenger.isOpen]);
 
   return (
     <>
@@ -23,12 +22,10 @@ const Messenger = ({ size }: { size: number }) => {
             : "hover:bg-gray-300 bg-gray-200"
         } 
       `}
-        onClick={() =>
-          homeModalsContext?.setIsModalOpen((prev) => ({
-            ...prev,
-            messenger: !prev.messenger,
-          }))
-        }
+        onClick={() => {
+          homeModalsContext?.hideOthers("messenger");
+          homeModalsContext?.messenger.toggle();
+        }}
       >
         <AiFillMessage
           size={size}
