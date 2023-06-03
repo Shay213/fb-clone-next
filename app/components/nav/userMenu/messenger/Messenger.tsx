@@ -2,17 +2,14 @@
 
 import React, { useMemo } from "react";
 import { AiFillMessage } from "react-icons/ai";
-import { useRouter, usePathname } from "next/navigation";
+import { useHomeModalsContext } from "@/app/providers/HomeModalsProvider";
 
 const Messenger = ({ size }: { size: number }) => {
-  const pathname = usePathname();
-  const router = useRouter();
-  const isOpen = useMemo(() => {
-    if (pathname === "/messenger") {
-      return true;
-    }
-    return false;
-  }, [pathname]);
+  const homeModalsContext = useHomeModalsContext();
+  const isOpen = useMemo(
+    () => !!homeModalsContext?.isModalOpen?.messenger,
+    [homeModalsContext?.isModalOpen?.messenger]
+  );
 
   return (
     <>
@@ -26,7 +23,12 @@ const Messenger = ({ size }: { size: number }) => {
             : "hover:bg-gray-300 bg-gray-200"
         } 
       `}
-        onClick={() => (isOpen ? router.back() : router.push("/messenger"))}
+        onClick={() =>
+          homeModalsContext?.setIsModalOpen((prev) => ({
+            ...prev,
+            messenger: !prev.messenger,
+          }))
+        }
       >
         <AiFillMessage
           size={size}
