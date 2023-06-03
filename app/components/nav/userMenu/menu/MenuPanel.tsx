@@ -10,52 +10,60 @@ interface MenuPanelProps {
 const MenuPanel = ({ isOpen }: MenuPanelProps) => {
   return (
     <div
-      className={`absolute top-[60px] right-0 bg-slate-50 
-          ${isOpen ? "visible translate-x-0" : "translate-x-full invisible"}
-          py-4 px-5 rounded-md shadow-md transition duration-100 ease-in        
-        `}
+      className="
+        absolute top-[60px] right-0 bg-transparent overflow-hidden p-2 
+      "
     >
-      <div className="mb-2">
-        <h1 className="text-xl font-semibold">Menu</h1>
-      </div>
-      <div className="flex gap-4 overflow-hidden max-h-[calc(100vh-160px)] shadow-md rounded-md">
-        <div className="p-3 bg-white max-h-full overflow-auto scrollbar">
-          <div className="flex flex-col max-w-[250px]">
-            <Search />
-            {Object.entries(MENU_PANEL_ITEMS).map(([key, val], i, arr) => (
-              <>
-                <Section label={key} items={val.items} key={key} />
-                {i < arr.length && <hr className="border-gray-300 my-3" />}
-              </>
-            ))}
-          </div>
+      <div
+        className={`bg-slate-50 py-4 px-5 rounded-md shadow-sm border-[1px] border-gray-200
+          ${isOpen ? "visible translate-x-0" : "translate-x-full invisible"}
+           transition duration-100 ease-in        
+        `}
+      >
+        <div className="mb-2">
+          <h1 className="text-xl font-semibold">Menu</h1>
         </div>
-        <div className="p-3 bg-white shadow-md rounded-md">
-          <div className="flex flex-col max-w-[140px]">
-            <h2 className="mb-4">Create</h2>
-            <div className="flex flex-col gap-3">
-              {CREATE_SECTION_ITEMS.map(({ icon: Icon, name }, i) => (
-                <div key={name}>
-                  <div
-                    className="flex items-center gap-3 rounded-md
+        <div className="flex gap-4 overflow-hidden max-h-[calc(100vh-160px)] shadow-md rounded-md">
+          <div className="p-3 bg-white max-h-full overflow-auto scrollbar">
+            <div className="flex flex-col max-w-[250px]">
+              <Search />
+              {Object.entries(MENU_PANEL_ITEMS).map(([key, val], i, arr) => (
+                <div key={key}>
+                  <Section label={key} items={val.items} />
+                  {i < arr.length - 1 && (
+                    <hr className="border-gray-300 my-3" />
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="p-3 bg-white shadow-md rounded-md">
+            <div className="flex flex-col max-w-[140px]">
+              <h2 className="mb-4">Create</h2>
+              <div className="flex flex-col gap-3">
+                {CREATE_SECTION_ITEMS.map(({ icon: Icon, name }, i) => (
+                  <div key={name}>
+                    <div
+                      className="flex items-center gap-3 rounded-md
                       hover:bg-gray-200 transition cursor-pointer p
                     "
-                  >
-                    <div
-                      className="
+                    >
+                      <div
+                        className="
                       flex items-center justify-center bg-gray-200 p-2 
                       cursor-pointer rounded-full
                     "
-                    >
-                      <Icon size={16} className="fill-gray-800" />
+                      >
+                        <Icon size={16} className="fill-gray-800" />
+                      </div>
+                      <div className="text-gray-800 text-sm first-letter:uppercase">
+                        {name}
+                      </div>
                     </div>
-                    <div className="text-gray-800 text-sm first-letter:uppercase">
-                      {name}
-                    </div>
+                    {i === 3 && <hr className="border-gray-300 mt-5 mb-2" />}
                   </div>
-                  {i === 3 && <hr className="border-gray-300 mt-5 mb-2" />}
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
         </div>
