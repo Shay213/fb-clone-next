@@ -1,23 +1,20 @@
 import React from "react";
 import Search from "./Search";
-import { CREATE_SECTION_ITEMS, MENU_PANEL_ITEMS } from "./data";
+import { CREATE_SECTION_ITEMS, MENU_PANEL_ITEMS } from "../data";
 import Section from "./Section";
 
-interface MenuPanelProps {
-  isOpen: boolean;
-}
-
-const MenuPanel = ({ isOpen }: MenuPanelProps) => {
+const MenuPanel = () => {
   return (
     <div
       className="
-        absolute top-[60px] right-0 bg-transparent overflow-hidden p-2 
+        absolute top-0 right-0 bg-transparent overflow-hidden p-2 z-50
       "
     >
       <div
-        className={`bg-slate-50 py-4 px-5 rounded-md shadow-sm border-[1px] border-gray-200
-          ${isOpen ? "visible translate-x-0" : "translate-x-full invisible"}
-           transition duration-100 ease-in        
+        className={`
+          bg-slate-50 py-4 px-5 rounded-md 
+            shadow-sm border-[1px] border-gray-200
+            animate-slideInRightToLeft
         `}
       >
         <div className="mb-2">

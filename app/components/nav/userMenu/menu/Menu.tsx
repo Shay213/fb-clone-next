@@ -1,12 +1,15 @@
 "use client";
 
-import React, { useState } from "react";
-
+import { useHomeModalsContext } from "@/app/providers/HomeModalsProvider";
+import React, { useMemo, useState } from "react";
 import { CgMenuGridO } from "react-icons/cg";
-import MenuPanel from "./MenuPanel";
 
 const Menu = ({ size }: { size: number }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const homeModalsContext = useHomeModalsContext();
+  const isOpen = useMemo(
+    () => !!homeModalsContext?.isModalOpen?.menu,
+    [homeModalsContext?.isModalOpen?.menu]
+  );
 
   return (
     <>
@@ -20,14 +23,18 @@ const Menu = ({ size }: { size: number }) => {
             : "hover:bg-gray-300 bg-gray-200"
         } 
       `}
-        onClick={() => setIsOpen((prev) => !prev)}
+        onClick={() =>
+          homeModalsContext?.setIsModalOpen((prev) => ({
+            ...prev,
+            menu: !prev.menu,
+          }))
+        }
       >
         <CgMenuGridO
           size={size}
           className={`${isOpen ? "text-blue-700" : "text-gray-900"}`}
         />
       </div>
-      <MenuPanel isOpen={isOpen} />
     </>
   );
 };

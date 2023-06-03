@@ -11,8 +11,7 @@ const MessengerPanel = () => {
       className="
         max-h-full flex flex-col
         bg-white rounded-md shadow-sm border-[1px]
-        border-gray-200 transition duration-100 ease-in
-        animate-slideInRightToLeft
+        border-gray-200 animate-slideInRightToLeft
       "
     >
       <div

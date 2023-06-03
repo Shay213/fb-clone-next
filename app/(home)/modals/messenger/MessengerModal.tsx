@@ -1,10 +1,10 @@
 import React from "react";
-import ContextContainer from "./components/ContextContainer";
+import MessengerContextContainer from "./components/MessengerContextContainer";
 import MessengerPanel from "./components/MessengerPanel";
 
 const MessengerModal = () => {
   return (
-    <ContextContainer>
+    <MessengerContextContainer>
       <div
         className="
       absolute top-0 right-0 bg-transparent p-2 z-50 
@@ -14,7 +14,7 @@ const MessengerModal = () => {
       >
         <MessengerPanel />
       </div>
-    </ContextContainer>
+    </MessengerContextContainer>
   );
 };
 
