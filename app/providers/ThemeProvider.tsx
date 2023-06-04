@@ -1,14 +1,19 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 
-createContext;
-
 enum THEME {
   DARK = "dark",
   LIGHT = "light",
   SYSTEM = "system",
 }
 
-const ThemeContext = createContext({});
+interface SetThemeObj {
+  setDarkTheme: () => void;
+  setLightTheme: () => void;
+  setSystemTheme: () => void;
+  currentTheme: string;
+}
+
+const ThemeContext = createContext<SetThemeObj | null>(null);
 
 export const useThemeContext = () => {
   return useContext(ThemeContext);
@@ -38,7 +43,7 @@ const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     addThemeClass();
-  }, []);
+  }, [theme]);
 
   const setThemeObj = useMemo(() => {
     return {
@@ -54,11 +59,12 @@ const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
         localStorage.setItem("theme", THEME.SYSTEM);
         setTheme(THEME.SYSTEM);
       },
+      currentTheme: theme,
     };
-  }, []);
+  }, [theme]);
 
   return (
-    <ThemeContext.Provider value={{ theme, setThemeObj }}>
+    <ThemeContext.Provider value={setThemeObj}>
       {children}
     </ThemeContext.Provider>
   );

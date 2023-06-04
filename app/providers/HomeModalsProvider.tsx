@@ -19,11 +19,17 @@ interface HomeModalsContext {
     hide: () => void;
     toggle: () => void;
   };
+  account: {
+    isOpen: boolean;
+    show: () => void;
+    hide: () => void;
+    toggle: () => void;
+  };
   hideAll: () => void;
   hideOthers: (modalName: ModalName) => void;
 }
 
-type ModalName = "messenger" | "noti" | "menu";
+type ModalName = "messenger" | "noti" | "menu" | "account";
 
 const HomeModalsContext = createContext<HomeModalsContext | null>(null);
 
@@ -36,6 +42,7 @@ const HomeModalsProvider = ({ children }: { children: React.ReactNode }) => {
     messenger: false,
     noti: false,
     menu: false,
+    account: false,
   });
 
   const homeModalsContext = useMemo(() => {
@@ -59,12 +66,20 @@ const HomeModalsProvider = ({ children }: { children: React.ReactNode }) => {
         hide: () => setIsModalOpen((prev) => ({ ...prev, menu: false })),
         toggle: () => setIsModalOpen((prev) => ({ ...prev, menu: !prev.menu })),
       },
+      account: {
+        isOpen: isModalOpen.account,
+        show: () => setIsModalOpen((prev) => ({ ...prev, account: true })),
+        hide: () => setIsModalOpen((prev) => ({ ...prev, account: false })),
+        toggle: () =>
+          setIsModalOpen((prev) => ({ ...prev, account: !prev.account })),
+      },
       hideAll: () =>
         setIsModalOpen((prev) => ({
           ...prev,
           messenger: false,
           menu: false,
           noti: false,
+          account: false,
         })),
       hideOthers: (modalName: ModalName) =>
         setIsModalOpen((prev) => ({
@@ -72,6 +87,7 @@ const HomeModalsProvider = ({ children }: { children: React.ReactNode }) => {
           messenger: false,
           menu: false,
           noti: false,
+          account: false,
           [modalName]: prev[modalName],
         })),
     };
