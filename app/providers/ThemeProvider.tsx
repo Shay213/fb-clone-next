@@ -1,10 +1,4 @@
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useMemo,
-  useState,
-} from "react";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
 
 createContext;
 
@@ -20,14 +14,46 @@ export const useThemeContext = () => {
   return useContext(ThemeContext);
 };
 
+const addThemeClass = () => {
+  if (
+    localStorage.getItem("theme") === THEME.DARK ||
+    (localStorage.getItem("theme") === THEME.SYSTEM &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches)
+  ) {
+    document.documentElement.classList.add("dark");
+  } else {
+    document.documentElement.classList.remove("dark");
+  }
+};
+
 const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
-  const [theme, setTheme] = useState(THEME.SYSTEM);
+  const [theme, setTheme] = useState(() => {
+    const theme = localStorage.getItem("theme");
+    if (!theme) {
+      localStorage.setItem("theme", THEME.SYSTEM);
+      return THEME.SYSTEM;
+    }
+    return theme;
+  });
+
+  useEffect(() => {
+    addThemeClass();
+  }, []);
 
   const setThemeObj = useMemo(() => {
     return {
-      setDarkTheme: setTheme(THEME.DARK),
-      setLightTheme: setTheme(THEME.LIGHT),
-      setSystemTheme: setTheme(THEME.SYSTEM),
+      setDarkTheme: () => {
+        localStorage.setItem("theme", THEME.DARK);
+        setTheme(THEME.DARK);
+      },
+      setLightTheme: () => {
+        localStorage.setItem("theme", THEME.LIGHT);
+        setTheme(THEME.LIGHT);
+      },
+      setSystemTheme: () => {
+        localStorage.setItem("theme", THEME.SYSTEM);
+        setTheme(THEME.SYSTEM);
+      },
     };
   }, []);
 
