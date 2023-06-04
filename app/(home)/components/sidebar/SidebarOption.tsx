@@ -30,6 +30,7 @@ const SidebarOption = ({
       className={`
             flex items-center gap-4 px-2 py-3 cursor-pointer 
             hover:bg-gray-300 transition rounded-md
+            dark:hover:bg-zinc-700
             ${className || ""}
           `}
       onClick={onClick}
@@ -41,15 +42,14 @@ const SidebarOption = ({
             alt="user"
             width={28}
             height={28}
+            className="rounded-full"
           />
-          <span className={labelColor || "text-gray-700"}>{userName}</span>
+          <span className={labelColor}>{userName}</span>
         </>
       ) : (
         <>
-          {Icon && (
-            <Icon size={size || 28} className={iconFill || "fill-blue-500"} />
-          )}
-          <span className={labelColor || "text-gray-700"}>{label}</span>
+          {Icon && <Icon size={size || 28} className={iconFill} />}
+          <span className={labelColor}>{label}</span>
         </>
       )}
     </div>

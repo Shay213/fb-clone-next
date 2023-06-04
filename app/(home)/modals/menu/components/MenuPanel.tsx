@@ -12,16 +12,22 @@ const MenuPanel = () => {
     >
       <div
         className={`
-          bg-slate-50 py-4 px-5 rounded-md 
-            shadow-sm border-[1px] border-gray-200
+          bg-slate-50 dark:bg-zinc-700 py-4 px-5 rounded-md 
+            shadow-sm border-[1px] border-gray-200 dark:border-none
             animate-slideInRightToLeft
         `}
       >
         <div className="mb-2">
-          <h1 className="text-xl font-semibold">Menu</h1>
+          <h1 className="text-xl font-semibold dark:text-zinc-200">Menu</h1>
         </div>
         <div className="flex gap-4 overflow-hidden max-h-[calc(100vh-160px)] shadow-md rounded-md">
-          <div className="p-3 bg-white max-h-full overflow-auto scrollbar">
+          <div
+            className="
+              p-3 bg-white dark:bg-zinc-800 max-h-full overflow-auto
+              scrollbar-thin scrollbar-thumb-slate-600 scrollbar-track-slate-100
+              dark:scrollbar-thumb-zinc-500 dark:scrollbar-track-zinc-300
+            "
+          >
             <div className="flex flex-col max-w-[250px]">
               <Search />
               {Object.entries(MENU_PANEL_ITEMS).map(([key, val], i, arr) => (
@@ -34,26 +40,29 @@ const MenuPanel = () => {
               ))}
             </div>
           </div>
-          <div className="p-3 bg-white shadow-md rounded-md">
+          <div className="p-3 bg-white dark:bg-zinc-800 shadow-md rounded-md">
             <div className="flex flex-col max-w-[140px]">
-              <h2 className="mb-4">Create</h2>
+              <h2 className="mb-4 dark:text-zinc-200">Create</h2>
               <div className="flex flex-col gap-3">
                 {CREATE_SECTION_ITEMS.map(({ icon: Icon, name }, i) => (
                   <div key={name}>
                     <div
                       className="flex items-center gap-3 rounded-md
-                      hover:bg-gray-200 transition cursor-pointer p
+                      hover:bg-gray-200 dark:hover:bg-zinc-700 transition cursor-pointer p
                     "
                     >
                       <div
                         className="
-                      flex items-center justify-center bg-gray-200 p-2 
-                      cursor-pointer rounded-full
+                      flex items-center justify-center bg-gray-200 dark:bg-zinc-700  
+                      cursor-pointer rounded-full p-2
                     "
                       >
-                        <Icon size={16} className="fill-gray-800" />
+                        <Icon
+                          size={16}
+                          className="fill-gray-800 dark:fill-zinc-200"
+                        />
                       </div>
-                      <div className="text-gray-800 text-sm first-letter:uppercase">
+                      <div className="text-gray-800 dark:text-zinc-200 text-sm first-letter:uppercase">
                         {name}
                       </div>
                     </div>

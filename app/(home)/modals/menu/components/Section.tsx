@@ -14,7 +14,9 @@ interface SectionProps {
 const Section = ({ label, items }: SectionProps) => {
   return (
     <div>
-      <h3 className="mb-3 first-letter:uppercase">{label}</h3>
+      <h3 className="mb-3 first-letter:uppercase dark:text-zinc-200">
+        {label}
+      </h3>
       <div className="flex flex-col gap-3">
         {items.map((el) => (
           <Item key={el.name} label={el.name} desc={el.desc} icon={el.icon} />

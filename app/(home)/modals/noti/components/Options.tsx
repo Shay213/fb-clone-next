@@ -11,6 +11,7 @@ const Options = () => {
           className="
               first-letter:uppercase p-2 hover:bg-gray-200 
               cursor-pointer transition rounded-full
+              dark:text-zinc-200 dark:hover:bg-zinc-600
             "
         >
           {o}

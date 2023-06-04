@@ -71,12 +71,16 @@ const Menu = () => {
               className={`
             w-full h-full flex flex-col items-center 
             justify-center rounded-md transition-colors
-            ${active !== name ? "group-hover:bg-gray-200 cursor-pointer" : ""}`}
+            ${
+              active !== name
+                ? "group-hover:bg-gray-200 cursor-pointer dark:group-hover:bg-zinc-600"
+                : ""
+            }`}
             >
               {active === name ? (
                 <Fill size={22} className={`flex-1 fill-blue-500`} />
               ) : (
-                <Outline size={22} className="flex-1" />
+                <Outline size={22} className="flex-1 dark:text-zinc-300" />
               )}
             </div>
           </div>

@@ -2,14 +2,15 @@ import React from "react";
 
 const ReelsAndStories = () => {
   return (
-    <div className="bg-white rounded-md shadow-lg">
-      <div className="border-b-[1px] border-gray-300 flex">
+    <div className="bg-white dark:bg-zinc-800 rounded-md shadow-lg">
+      <div className="border-b-[1px] border-gray-300 flex dark:border-none">
         <div className="flex-1 py-1 ml-6 border-b-2 border-blue-500">
           <div
             className="
               py-4 flex items-center justify-center 
               hover:bg-gray-200 transition cursor-pointer
-              rounded-md
+              rounded-md dark:hover:bg-zinc-700
+              dark:text-zinc-200
             "
           >
             Stories
@@ -20,7 +21,8 @@ const ReelsAndStories = () => {
             className="
               py-4 flex items-center justify-center
               hover:bg-gray-200 transition cursor-pointer
-              rounded-md
+              rounded-md dark:hover:bg-zinc-700
+              dark:text-zinc-200
             "
           >
             Reels

@@ -13,7 +13,7 @@ const Contacts = () => {
     >
       <Header />
       <Friends />
-      <hr className="border-gray-300 my-4" />
+      <hr className="border-gray-300 dark:border-zinc-600 my-4" />
       <Groups />
     </div>
   );

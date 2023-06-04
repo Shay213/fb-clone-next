@@ -14,7 +14,7 @@ const Layout = ({
   contacts: React.ReactNode;
 }) => {
   return (
-    <div className="flex justify-between bg-[#E9EEF0] relative">
+    <div className="flex justify-between bg-[#E9EEF0] dark:bg-zinc-900 relative">
       <Sidebar />
       {feed}
       {contacts}

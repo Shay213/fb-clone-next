@@ -31,7 +31,7 @@ const SearchPanel = () => {
     <>
       <div
         className={`
-            absolute top-0 left-0 bg-white w-[330px]
+            absolute top-0 left-0 bg-white dark:bg-zinc-800 w-[330px]
             min-h-[100px] shadow-lg transition-all z-50
             ${
               isOpen
@@ -45,15 +45,18 @@ const SearchPanel = () => {
           <div
             className="
                 flex items-center justify-center w-8 h-8 
-                rounded-full hover:bg-gray-200 transition-colors
-                cursor-pointer
+                rounded-full hover:bg-gray-200 dark:hover:bg-zinc-700
+                transition-colors cursor-pointer
               "
             onClick={() => setIsOpen((prev) => !prev)}
           >
-            <HiArrowNarrowLeft size={23} className="fill-gray-600" />
+            <HiArrowNarrowLeft
+              size={23}
+              className="fill-gray-600 dark:fill-zinc-300"
+            />
           </div>
         </div>
-        <div className="pt-4">Search</div>
+        <div className="pt-4 dark:text-zinc-200">Search</div>
       </div>
       <Search isOpen={isOpen} setIsOpen={setIsOpen} ref={searchRef} />
     </>

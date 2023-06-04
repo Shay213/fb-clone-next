@@ -119,19 +119,23 @@ const SidebarOptions = () => {
       <SidebarOption
         userName={session?.user?.name}
         userImageSrc={session?.user?.image}
+        labelColor="text-gray-700 dark:text-zinc-300"
       />
       {SIDEBAR_OPTIONS.map(({ name, icon: Icon }, i) => (
         <SidebarOption
           key={name}
           icon={Icon}
           label={name}
+          labelColor="text-gray-700 dark:text-zinc-300"
+          iconFill="fill-slate-600 dark:fill-zinc-300"
           className={!showMore && i >= MAX_VISIBLE_ITEMS ? "hidden" : "flex"}
         />
       ))}
       <SidebarOption
         icon={showMore ? BsArrowUpCircle : BsArrowDownCircle}
         label="See more"
-        iconFill="#333"
+        labelColor="text-gray-700 dark:text-zinc-300"
+        iconFill="fill-slate-600 dark:fill-zinc-300"
         onClick={() => {
           setShowMore((prev) => !prev);
         }}

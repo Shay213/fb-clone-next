@@ -22,7 +22,7 @@ interface PostProps {
 
 const Post = ({ post }: PostProps) => {
   return (
-    <div className="bg-white rounded-md shadow-lg py-2">
+    <div className="bg-white dark:bg-zinc-800 rounded-md shadow-lg py-2">
       <div className="px-6">
         <Heading
           name={post.name}
@@ -30,7 +30,9 @@ const Post = ({ post }: PostProps) => {
           whoCanSeeIt={post.whoCanSeeIt}
           img={post.img}
         />
-        <div className="py-3 text-sm">{post.description}</div>
+        <div className="py-3 text-sm dark:text-zinc-300">
+          {post.description}
+        </div>
       </div>
       {post.postImg && (
         <Image
@@ -42,7 +44,7 @@ const Post = ({ post }: PostProps) => {
         />
       )}
       <div className="px-6">
-        <div className="py-4 flex justify-between text-sm text-gray-600">
+        <div className="py-4 flex justify-between text-sm text-gray-600 dark:text-zinc-300">
           <div className="flex items-center gap-2">
             <AiFillLike size={20} className="fill-blue-500" />
             <span>{post.likes}</span>
@@ -55,33 +57,36 @@ const Post = ({ post }: PostProps) => {
         <div
           className="
             py-1 border-y-[1px] border-gray-300
-            flex items-center gap-2
+            flex items-center gap-2 dark:border-zinc-600
           "
         >
           <div
             className="flex items-center justify-center rounded-md flex-1
-          hover:bg-gray-200 transition cursor-pointer
+            hover:bg-gray-200 transition cursor-pointer
+              dark:hover:bg-zinc-700
             "
           >
-            <div className="flex items-center gap-2 py-4">
+            <div className="flex items-center gap-2 py-4 dark:text-zinc-300">
               <BiLike size={20} /> Like
             </div>
           </div>
           <div
             className="flex items-center justify-center rounded-md flex-1
-          hover:bg-gray-200 transition cursor-pointer
+            hover:bg-gray-200 transition cursor-pointer
+            dark:hover:bg-zinc-700
             "
           >
-            <div className="flex items-center gap-2 py-4">
+            <div className="flex items-center gap-2 py-4 dark:text-zinc-300">
               <BiComment size={20} /> Comment
             </div>
           </div>
           <div
             className="flex items-center justify-center rounded-md flex-1
-          hover:bg-gray-200 transition cursor-pointer
+            hover:bg-gray-200 transition cursor-pointer
+            dark:hover:bg-zinc-700
             "
           >
-            <div className="flex items-center gap-2 py-4">
+            <div className="flex items-center gap-2 py-4 dark:text-zinc-300">
               <BiShare size={20} /> Share
             </div>
           </div>

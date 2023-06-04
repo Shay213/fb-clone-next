@@ -7,7 +7,7 @@ import SearchPanel from "./SearchPanel";
 const Nav = () => {
   return (
     <div
-      className="sticky top-0 w-full shadow-md bg-white h-14 
+      className="sticky top-0 w-full shadow-md bg-white dark:bg-zinc-800 h-14 
         z-30
       "
     >

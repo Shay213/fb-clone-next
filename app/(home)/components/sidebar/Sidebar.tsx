@@ -9,13 +9,20 @@ const Sidebar = () => {
       className="
         sticky top-[70px] h-[calc(100vh-70px)] 
         px-2 overflow-auto z-10 min-w-[240px] w-1/4 max-w-[350px]
+        scrollbar-thin scrollbar-thumb-slate-600 scrollbar-track-slate-100
+        dark:scrollbar-thumb-zinc-700 dark:scrollbar-track-zinc-500
       "
     >
       <SidebarOptions />
-      <hr className="border-gray-300 my-3" />
-      <h2 className="text-gray-600 mb-2">Your shortcuts</h2>
+      <hr className="border-gray-300 my-3 dark:border-zinc-700" />
+      <h2 className="text-gray-600 mb-2 dark:text-zinc-300">Your shortcuts</h2>
       <div>
-        <SidebarOption icon={MdOutlineAppShortcut} label="Shortcut name" />
+        <SidebarOption
+          icon={MdOutlineAppShortcut}
+          label="Shortcut name"
+          labelColor="text-gray-700 dark:text-zinc-300"
+          iconFill="fill-slate-600 dark:fill-zinc-300"
+        />
       </div>
     </div>
   );

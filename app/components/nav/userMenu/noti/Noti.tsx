@@ -13,12 +13,12 @@ const Noti = ({ size }: { size: number }) => {
   return (
     <div
       className={`
-        bg-gray-200 h-10 w-10 flex items-center 
-        justify-center rounded-full cursor-pointer hover:bg-gray-300
+        h-10 w-10 flex items-center 
+        justify-center rounded-full cursor-pointer
         transition-colors ${
           isOpen
             ? "bg-blue-200 hover:bg-blue-300"
-            : "hover:bg-gray-300 bg-gray-200"
+            : "hover:bg-gray-300 bg-gray-200 dark:hover:bg-zinc-500 dark:bg-zinc-600"
         } 
       `}
       onClick={() => {
@@ -28,7 +28,9 @@ const Noti = ({ size }: { size: number }) => {
     >
       <IoIosNotifications
         size={size}
-        className={`${isOpen ? "text-blue-700" : "text-gray-900"}`}
+        className={`${
+          isOpen ? "text-blue-700" : "text-gray-900 dark:text-zinc-200"
+        }`}
       />
     </div>
   );

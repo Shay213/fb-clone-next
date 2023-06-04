@@ -23,7 +23,7 @@ const Chats = () => {
           key={chat.id}
           className="
               flex items-center gap-2 hover:bg-gray-200 
-              cursor-pointer p-2 rounded-md
+              cursor-pointer p-2 rounded-md dark:hover:bg-zinc-700
             "
         >
           <Image
@@ -34,9 +34,11 @@ const Chats = () => {
             className="object-cover rounded-full"
           />
           <div className="flex flex-col">
-            <h4 className="text-sm font-semibold">{chat.name}</h4>
+            <h4 className="text-sm font-semibold dark:text-zinc-200">
+              {chat.name}
+            </h4>
             <div>
-              <span className="text-xs">
+              <span className="text-xs dark:text-zinc-300">
                 {`${chat.lastMessage.name}: ${chat.lastMessage.desc.slice(
                   0,
                   30

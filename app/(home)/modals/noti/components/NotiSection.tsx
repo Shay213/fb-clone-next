@@ -18,13 +18,13 @@ const NotiSection = ({ label, items }: NotiSectionProps) => {
   return (
     <div className="flex flex-col gap-2">
       <div className="flex justify-between items-center">
-        <h3 className="font-semibold">{label}</h3>
+        <h3 className="font-semibold dark:text-zinc-200">{label}</h3>
         <div
           className="
           flex justify-center items-center p-1 
           hover:bg-gray-200 cursor-pointer 
           transition text-blue-500 text-sm
-          rounded-full
+          rounded-full dark:hover:bg-zinc-600
         "
         >
           See all
@@ -37,6 +37,7 @@ const NotiSection = ({ label, items }: NotiSectionProps) => {
             className="
                 flex gap-2 p-2 items-center rounded-md
                 hover:bg-gray-200 cursor-pointer transition
+                dark:hover:bg-zinc-600
               "
           >
             <div>
@@ -49,8 +50,8 @@ const NotiSection = ({ label, items }: NotiSectionProps) => {
               />
             </div>
             <div className="text-sm max-w-[320px]">
-              <p>{item.description}</p>
-              <span>{item.when}</span>
+              <p className="dark:text-zinc-200">{item.description}</p>
+              <span className="dark:text-zinc-300">{item.when}</span>
             </div>
             {!item.read && (
               <div className="w-4 h-4 rounded-full bg-blue-500"></div>

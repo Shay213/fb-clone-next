@@ -19,7 +19,7 @@ const Menu = ({ size }: { size: number }) => {
         ${
           isOpen
             ? "bg-blue-200 hover:bg-blue-300"
-            : "hover:bg-gray-300 bg-gray-200"
+            : "hover:bg-gray-300 bg-gray-200 dark:hover:bg-zinc-500 dark:bg-zinc-600"
         } 
       `}
         onClick={() => {
@@ -29,7 +29,9 @@ const Menu = ({ size }: { size: number }) => {
       >
         <CgMenuGridO
           size={size}
-          className={`${isOpen ? "text-blue-700" : "text-gray-900"}`}
+          className={`${
+            isOpen ? "text-blue-700" : "text-gray-900 dark:text-zinc-200"
+          }`}
         />
       </div>
     </>

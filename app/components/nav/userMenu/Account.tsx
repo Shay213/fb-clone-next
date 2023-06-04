@@ -11,7 +11,7 @@ const Account = () => {
   return (
     <div
       className="
-        h-10 w-10 flex items-center justify-center rounded-full 
+        h-10 w-10 flex items-center justify-center
         cursor-pointer
       "
     >
@@ -20,7 +20,7 @@ const Account = () => {
         alt="profile"
         width={500}
         height={500}
-        className="w-full h-full object-cover"
+        className="w-full h-full object-cover rounded-full"
       />
     </div>
   );
