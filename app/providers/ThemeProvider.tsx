@@ -10,7 +10,7 @@ interface SetThemeObj {
   setDarkTheme: () => void;
   setLightTheme: () => void;
   setSystemTheme: () => void;
-  currentTheme: string;
+  currentTheme: string | undefined;
 }
 
 const ThemeContext = createContext<SetThemeObj | null>(null);
@@ -33,12 +33,14 @@ const addThemeClass = () => {
 
 const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
   const [theme, setTheme] = useState(() => {
-    const theme = localStorage.getItem("theme");
-    if (!theme) {
-      localStorage.setItem("theme", THEME.SYSTEM);
-      return THEME.SYSTEM;
+    if (typeof localStorage !== "undefined") {
+      const theme = localStorage.getItem("theme");
+      if (!theme) {
+        localStorage.setItem("theme", THEME.SYSTEM);
+        return THEME.SYSTEM;
+      }
+      return theme;
     }
-    return theme;
   });
 
   useEffect(() => {
