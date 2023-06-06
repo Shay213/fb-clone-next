@@ -1,4 +1,4 @@
-import React, { useEffect, useImperativeHandle, useState } from "react";
+import React from "react";
 import Image from "next/image";
 
 import {
@@ -15,7 +15,7 @@ const FAKE_USER = {
   mutualFriends: ["fake user2"],
   isActive: true,
   newStory: true,
-  alreadyFriends: false,
+  alreadyFriends: true,
 };
 
 const UserBox = () => {
@@ -24,6 +24,7 @@ const UserBox = () => {
       className="
         absolute top-full left-0 flex flex-col gap-6 min-w-[250px] p-2 
         rounded-md shadow-md z-50 bg-slate-50 cursor-default  
+        dark:bg-zinc-700
       "
     >
       <div className="flex gap-4">
@@ -37,41 +38,76 @@ const UserBox = () => {
           />
         </div>
         <div>
-          <h1 className="text-gray-800 text-xl font-semibold">
+          <h1 className="text-gray-800 text-xl font-semibold dark:text-zinc-200">
             {FAKE_USER.name}
           </h1>
           {FAKE_USER.mutualFriends.map((friend) => (
-            <p key={friend}>{friend}</p>
+            <p key={friend} className="dark:text-zinc-300">
+              {friend}
+            </p>
           ))}
         </div>
       </div>
       <div className="flex justify-between gap-2">
-        <button
-          type="button"
-          className="
+        {FAKE_USER.alreadyFriends ? (
+          <>
+            <button
+              type="button"
+              className="
+              flex gap-2 justify-center items-center w-max 
+              px-6 py-2 bg-gray-200 rounded-md text-gray-800
+              hover:bg-gray-300 transition font-normal
+              dark:bg-zinc-600 dark:hover:bg-zinc-500 dark:text-zinc-200
+            "
+            >
+              <BiUserCheck size={21} />
+              Friends
+            </button>
+            <button
+              type="button"
+              className="
+              flex gap-2 justify-center items-center w-max px-6 py-2 font-normal
+              bg-blue-500 rounded-md text-white hover:bg-blue-600 transition
+              dark:bg-blue-600 dark:hover:bg-blue-500
+            "
+            >
+              <BsMessenger size={18} />
+              Message
+            </button>
+          </>
+        ) : (
+          <>
+            <button
+              type="button"
+              className="
               flex gap-2 justify-center items-center w-max 
               px-6 py-2 bg-blue-500 rounded-md text-white
               hover:bg-blue-600 transition font-normal
+              dark:bg-blue-600 dark:hover:bg-blue-500
             "
-        >
-          <BiUserPlus size={21} />
-          Add Friend
-        </button>
-        <button
-          type="button"
-          className="
+            >
+              <BiUserPlus size={21} />
+              Add Friend
+            </button>
+            <button
+              type="button"
+              className="
               flex gap-2 justify-center items-center w-max px-6 py-2 font-normal
               bg-gray-200 rounded-md text-gray-800 hover:bg-gray-300 transition
+              dark:bg-zinc-600 dark:hover:bg-zinc-500 dark:text-zinc-200
             "
-        >
-          <BsMessenger size={18} />
-          Message
-        </button>
+            >
+              <BsMessenger size={18} />
+              Message
+            </button>
+          </>
+        )}
         <button
           type="button"
           className="
               flex gap-2 justify-center items-center w-max px-2 py-2 font-normal
               bg-gray-200 rounded-md text-gray-800 hover:bg-gray-300 transition
+              dark:bg-zinc-600 dark:hover:bg-zinc-500 dark:text-zinc-200
             "
         >
           <BiDotsHorizontalRounded size={21} />
