@@ -42,8 +42,8 @@ const Author = ({ audience, setAudience }: AuthorProps) => {
             <div
               className="
                 absolute top-full left-0 flex flex-col w-max 
-                bg-slate-50 shadow-md rounded-md gap-2 p-2
-                border-[1px] border-gray-300 dark:border-zinc-500
+                bg-slate-50 shadow-md rounded-md gap-2 p-2 dark:bg-zinc-700
+                border-[1px] border-gray-300 dark:border-none
               "
             >
               {audienceIterable.map(([key, val]) => (

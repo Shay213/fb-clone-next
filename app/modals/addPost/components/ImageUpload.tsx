@@ -156,8 +156,12 @@ const ImageUpload = ({
                     />
                   </div>
                   <div className="text-center">
-                    <h2 className="text-xl font-semibold">Add Photo</h2>
-                    <span className="text-sm">or drag and drop</span>
+                    <h2 className="text-xl font-semibold dark:text-zinc-200">
+                      Add Photo
+                    </h2>
+                    <span className="text-sm dark:text-zinc-300">
+                      or drag and drop
+                    </span>
                     {error && <h2 className="text-lg text-red-500">{error}</h2>}
                   </div>
                 </>

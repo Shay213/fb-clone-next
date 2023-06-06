@@ -9,7 +9,7 @@ const Heading = () => {
         border-gray-200 dark:border-zinc-700
       "
     >
-      <div className="flex-1 text-center text-2xl font-semibold">
+      <div className="flex-1 text-center text-2xl font-semibold dark:text-zinc-200">
         Create post
       </div>
       <CloseButton />
