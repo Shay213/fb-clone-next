@@ -18,6 +18,7 @@ const uploadSingleFile = async (file: File) => {
     return data.secure_url;
   } catch (error) {
     console.log(error);
+    return null;
   }
 };
 

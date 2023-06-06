@@ -27,6 +27,7 @@ interface HomeModalsContext {
   };
   addPost: {
     isOpen: boolean;
+    disabledHide: boolean;
     show: () => void;
     hide: () => void;
     toggle: () => void;
@@ -82,10 +83,18 @@ const HomeModalsProvider = ({ children }: { children: React.ReactNode }) => {
       },
       addPost: {
         isOpen: isModalOpen.addPost,
+        disabledHide: false,
         show: () => setIsModalOpen((prev) => ({ ...prev, addPost: true })),
-        hide: () => setIsModalOpen((prev) => ({ ...prev, addPost: false })),
-        toggle: () =>
-          setIsModalOpen((prev) => ({ ...prev, addPost: !prev.addPost })),
+        hide() {
+          if (!this.disabledHide) {
+            setIsModalOpen((prev) => ({ ...prev, addPost: false }));
+          }
+        },
+        toggle() {
+          if (!this.disabledHide) {
+            setIsModalOpen((prev) => ({ ...prev, addPost: !prev.addPost }));
+          }
+        },
       },
       hideAll: () =>
         setIsModalOpen((prev) => ({
