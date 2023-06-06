@@ -1,7 +1,8 @@
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 import prisma from "@/lib/prisma";
+import { revalidateTag } from "next/cache";
 
-export async function GET(req: Request) {
+export async function GET(req: NextRequest) {
   try {
     // TODO,
     // CHECK IF AUTHOR AND CURR USER ARE FRIENDS
@@ -20,6 +21,9 @@ export async function GET(req: Request) {
         createdAt: true,
         audience: true,
         description: true,
+      },
+      orderBy: {
+        createdAt: "desc",
       },
     });
     return NextResponse.json(posts);

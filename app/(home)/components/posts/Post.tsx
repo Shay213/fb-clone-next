@@ -1,42 +1,36 @@
 import React from "react";
 import Heading from "./Heading";
 import Image from "next/image";
+import moment from "moment";
 
 import { AiFillLike } from "react-icons/ai";
 import { BiLike, BiDislike, BiComment, BiShare } from "react-icons/bi";
 
-interface PostProps {
-  post: {
-    id: number;
-    img: string;
-    name: string;
-    postedAt: string;
-    whoCanSeeIt: string;
-    description: string;
-    postImg: string;
-    likes: number;
-    comments: number;
-    shares: number;
-  };
+import { FeedPost } from "@/app/actions/posts/getFeedPosts";
+
+enum AUDIENCE {
+  PUBLIC = "public",
+  FRIENDS = "friends",
+  ONLY_ME = "only me",
 }
 
-const Post = ({ post }: PostProps) => {
+const Post = ({ post }: { post: FeedPost }) => {
   return (
     <div className="bg-white dark:bg-zinc-800 rounded-md shadow-lg py-2">
       <div className="px-6">
         <Heading
-          name={post.name}
-          postedAt={post.postedAt}
-          whoCanSeeIt={post.whoCanSeeIt}
-          img={post.img}
+          name={`${post.author.firstName} ${post.author.lastName}`}
+          postedAt={moment(post.createdAt).fromNow()}
+          whoCanSeeIt={AUDIENCE[post.audience as keyof typeof AUDIENCE]}
+          img={post.author?.img}
         />
         <div className="py-3 text-sm dark:text-zinc-300">
           {post.description}
         </div>
       </div>
-      {post.postImg && (
+      {post.img && (
         <Image
-          src={post.postImg}
+          src={post.img}
           alt="postImage"
           width={600}
           height={900}
@@ -47,11 +41,11 @@ const Post = ({ post }: PostProps) => {
         <div className="py-4 flex justify-between text-sm text-gray-600 dark:text-zinc-300">
           <div className="flex items-center gap-2">
             <AiFillLike size={20} className="fill-blue-500" />
-            <span>{post.likes}</span>
+            <span>100</span>
           </div>
           <div className="flex items-center gap-2">
-            <div>{`${post.comments} comments`}</div>
-            <div>{`${post.shares} shares`}</div>
+            <div>{`60 comments`}</div>
+            <div>{`20 shares`}</div>
           </div>
         </div>
         <div

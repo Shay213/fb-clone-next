@@ -69,14 +69,17 @@ const Form = () => {
         body: JSON.stringify(body),
       }).then((res) => {
         if (res?.ok) {
+          if (homeModalsContext?.addPost) {
+            homeModalsContext.addPost.disabledHide = false;
+          }
           onSuccess();
         } else {
+          if (homeModalsContext?.addPost) {
+            homeModalsContext.addPost.disabledHide = false;
+          }
           toast.error("Something went wrong");
         }
         setIsLoading(false);
-        if (homeModalsContext?.addPost) {
-          homeModalsContext.addPost.disabledHide = false;
-        }
       });
     },
     [
