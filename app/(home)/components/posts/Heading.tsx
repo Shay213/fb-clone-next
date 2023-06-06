@@ -1,8 +1,9 @@
-import Image from "next/image";
 import React from "react";
 
 import { BiDotsHorizontalRounded } from "react-icons/bi";
 import { AiOutlineClose } from "react-icons/ai";
+import Avatar from "./Avatar";
+import AuthorName from "./AuthorName";
 
 interface HeadingProps {
   img?: string | null;
@@ -15,19 +16,9 @@ const Heading = ({ img, name, postedAt, whoCanSeeIt }: HeadingProps) => {
   return (
     <div className="flex justify-between">
       <div className="flex items-center gap-2">
-        <Image
-          src={img || "/avatar.jpeg"}
-          alt="user"
-          width={35}
-          height={35}
-          className="object-cover rounded-full"
-        />
+        <Avatar img={img} />
         <div className="flex flex-col">
-          <div>
-            <span className="text-sm font-semibold dark:text-zinc-300">
-              {name}
-            </span>
-          </div>
+          <AuthorName name={name} />
           <div className="text-xs dark:text-zinc-400">{`${postedAt} ${whoCanSeeIt}`}</div>
         </div>
       </div>
