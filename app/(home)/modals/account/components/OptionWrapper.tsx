@@ -3,6 +3,7 @@
 import React, { useCallback, useState } from "react";
 import { OPTIONS_LABELS } from "./Options";
 import ThemeBox from "./theme/ThemeBox";
+import { signOut } from "next-auth/react";
 
 interface OptionWrapperProps {
   children: React.ReactNode;
@@ -17,6 +18,9 @@ const OptionWrapper = ({ children, name }: OptionWrapperProps) => {
   const handleClick = useCallback(() => {
     if (name === OPTIONS_LABELS.DISPLAY) {
       setIsOpen((prev) => ({ ...prev, display: !prev.display }));
+    }
+    if (name === OPTIONS_LABELS.LOGOUT) {
+      signOut();
     }
   }, [name]);
 

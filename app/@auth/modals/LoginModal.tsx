@@ -28,31 +28,17 @@ const LoginModal = () => {
     clearErrors,
   } = useForm<FormData>({ resolver: yupResolver(schema) });
 
-  const router = useRouter();
-
-  const onSubmit: SubmitHandler<FormData> = useCallback(
-    async (data) => {
-      try {
-        const callback = await signIn("credentials", {
-          ...data,
-          redirect: false,
-        });
-
-        if (callback?.error) {
-          toast.error(callback.error);
-        } else if (callback?.ok) {
-          toast.success("Logged in successfully!");
-          reset();
-          clearErrors();
-          router.refresh();
-        }
-      } catch (error) {
-        const err = error as Error;
-        toast.error(err?.message);
-      }
-    },
-    [clearErrors, reset, router]
-  );
+  const onSubmit: SubmitHandler<FormData> = useCallback(async (data) => {
+    try {
+      const callback = await signIn("credentials", {
+        ...data,
+        redirect: true,
+      });
+    } catch (error) {
+      const err = error as Error;
+      toast.error(err?.message);
+    }
+  }, []);
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="bg-white p-5 shadow-xl text-center rounded-lg flex flex-col gap-5 w-full xsm:w-96">

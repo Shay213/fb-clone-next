@@ -10,7 +10,7 @@ import { getServerSession } from "next-auth";
 const Feed = async () => {
   const session = await getServerSession(authOptions);
   if (!session?.user?.email) {
-    throw new Error();
+    throw new Error("Not authenticated");
   }
   const posts = getFeedPosts(session.user.email);
 

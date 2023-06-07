@@ -64,7 +64,7 @@ const Form = () => {
         }
         body = { ...body, img: res };
       }
-      fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/post`, {
+      fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/post?tag=feedPosts`, {
         method: "POST",
         body: JSON.stringify(body),
       }).then((res) => {

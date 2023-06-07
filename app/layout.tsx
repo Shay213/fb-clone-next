@@ -21,7 +21,6 @@ export default async function RootLayout({
   auth: React.ReactNode;
 }) {
   const session = await getServerSession(authOptions);
-
   return (
     <html lang="en">
       <body className={inter.className}>
