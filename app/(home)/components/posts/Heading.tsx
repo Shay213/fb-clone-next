@@ -4,21 +4,37 @@ import { BiDotsHorizontalRounded } from "react-icons/bi";
 import { AiOutlineClose } from "react-icons/ai";
 import Avatar from "./Avatar";
 import AuthorName from "./AuthorName";
+import UserBox from "./UserBox";
 
 interface HeadingProps {
   img?: string | null;
   name: string;
   postedAt: string;
   whoCanSeeIt: string;
+  postId: string;
+  authorId: string;
 }
 
-const Heading = ({ img, name, postedAt, whoCanSeeIt }: HeadingProps) => {
+const Heading = ({
+  img,
+  name,
+  postedAt,
+  whoCanSeeIt,
+  postId,
+  authorId,
+}: HeadingProps) => {
   return (
     <div className="flex justify-between">
       <div className="flex items-center gap-2">
-        <Avatar img={img} />
+        <Avatar img={img}>
+          {/* @ts-ignore */}
+          <UserBox postId={postId} authorId={authorId} />
+        </Avatar>
         <div className="flex flex-col">
-          <AuthorName name={name} />
+          <AuthorName name={name}>
+            {/* @ts-ignore */}
+            <UserBox postId={postId} authorId={authorId} />
+          </AuthorName>
           <div className="text-xs dark:text-zinc-400">{`${postedAt} ${whoCanSeeIt}`}</div>
         </div>
       </div>

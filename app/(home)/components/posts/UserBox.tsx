@@ -1,5 +1,7 @@
 import React from "react";
 import Image from "next/image";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 import {
   BiUserPlus,
@@ -7,18 +9,34 @@ import {
   BiDotsHorizontalRounded,
 } from "react-icons/bi";
 import { BsMessenger } from "react-icons/bs";
+import getAuthor from "@/app/actions/post/getAuthor";
+import getMutualFriends from "@/app/actions/friend/getMutualFriends";
+import isFriend from "@/app/actions/friend/isFriend";
 
-const FAKE_USER = {
-  id: 1,
-  img: null,
-  name: "fake user",
-  mutualFriends: ["fake user2"],
-  isActive: true,
-  newStory: true,
-  alreadyFriends: true,
-};
+interface UserBoxProps {
+  postId: string;
+  authorId: string;
+}
 
-const UserBox = () => {
+const UserBox = async ({ postId, authorId }: UserBoxProps) => {
+  const session = await getServerSession(authOptions);
+
+  if (!session?.user?.email) {
+    throw new Error("Not authenticated");
+  }
+
+  const authorData = getAuthor(postId);
+  const mutualFriendsData = getMutualFriends(authorId, session.user.email);
+  const alreadyFriendsData = isFriend(authorId, session.user.email);
+
+  const [author, mutualFriends, alreadyFriends] = await Promise.all([
+    authorData,
+    mutualFriendsData,
+    alreadyFriendsData,
+  ]);
+
+  console.log(author, mutualFriends, alreadyFriends);
+
   return (
     <div
       className="
@@ -30,7 +48,7 @@ const UserBox = () => {
       <div className="flex gap-4">
         <div>
           <Image
-            src={FAKE_USER.img || "/avatar.jpeg"}
+            src={"/avatar.jpeg"}
             alt="user-img"
             width={70}
             height={70}
@@ -39,17 +57,17 @@ const UserBox = () => {
         </div>
         <div>
           <h1 className="text-gray-800 text-xl font-semibold dark:text-zinc-200">
-            {FAKE_USER.name}
+            {`${author.firstName} ${author.lastName}`}
           </h1>
-          {FAKE_USER.mutualFriends.map((friend) => (
-            <p key={friend} className="dark:text-zinc-300">
-              {friend}
+          {mutualFriends.map((friend) => (
+            <p key={friend.id} className="dark:text-zinc-300">
+              {`${friend.firstName} ${friend.lastName}`}
             </p>
           ))}
         </div>
       </div>
       <div className="flex justify-between gap-2">
-        {FAKE_USER.alreadyFriends ? (
+        {alreadyFriends ? (
           <>
             <button
               type="button"
@@ -117,4 +135,4 @@ const UserBox = () => {
   );
 };
 
-export default React.forwardRef(UserBox);
+export default UserBox;

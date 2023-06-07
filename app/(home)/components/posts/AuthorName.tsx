@@ -1,13 +1,13 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
-import UserBox from "./UserBox";
+import React, { useState } from "react";
 
 interface AuthorNameProps {
   name: string;
+  children: React.ReactNode;
 }
 
-const AuthorName = ({ name }: AuthorNameProps) => {
+const AuthorName = ({ name, children }: AuthorNameProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -24,7 +24,7 @@ const AuthorName = ({ name }: AuthorNameProps) => {
       >
         {name}
       </span>
-      {isOpen && <UserBox />}
+      {isOpen && children}
     </div>
   );
 };

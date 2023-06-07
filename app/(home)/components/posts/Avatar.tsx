@@ -1,14 +1,15 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import UserBox from "./UserBox";
 
 interface AvatarProps {
   img?: string | null;
+  children: React.ReactNode;
 }
 
-const Avatar = ({ img }: AvatarProps) => {
+const Avatar = ({ img, children }: AvatarProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -24,7 +25,7 @@ const Avatar = ({ img }: AvatarProps) => {
         height={35}
         className="object-cover rounded-full"
       />
-      {isOpen && <UserBox />}
+      {isOpen && children}
     </div>
   );
 };

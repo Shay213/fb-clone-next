@@ -2,6 +2,8 @@ import React from "react";
 import Heading from "./Heading";
 import Image from "next/image";
 import moment from "moment";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 import { AiFillLike } from "react-icons/ai";
 import { BiLike, BiDislike, BiComment, BiShare } from "react-icons/bi";
@@ -14,7 +16,13 @@ enum AUDIENCE {
   ONLY_ME = "only me",
 }
 
-const Post = ({ post }: { post: FeedPost }) => {
+const Post = async ({ post }: { post: FeedPost }) => {
+  const session = await getServerSession(authOptions);
+
+  if (!session?.user?.email) {
+    throw new Error("Not authenticated");
+  }
+
   return (
     <div className="bg-white dark:bg-zinc-800 rounded-md shadow-lg py-2">
       <div className="px-6">
@@ -23,6 +31,8 @@ const Post = ({ post }: { post: FeedPost }) => {
           postedAt={moment(post.createdAt).fromNow()}
           whoCanSeeIt={AUDIENCE[post.audience as keyof typeof AUDIENCE]}
           img={post.author?.img}
+          postId={post.id}
+          authorId={post.author.id}
         />
         <div className="py-3 text-sm dark:text-zinc-300">
           {post.description}
