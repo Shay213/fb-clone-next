@@ -2,46 +2,21 @@ import React from "react";
 import Heading from "./Heading";
 import Options from "./Options";
 import NotiSection from "./NotiSection";
+import getNotifications from "@/app/actions/notifications/getNotifications";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
-const NEWNOTI = [
-  {
-    id: 1,
-    description:
-      "lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum",
-    when: "9h",
-    read: false,
-  },
-  {
-    id: 2,
-    description: "lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem",
-    when: "9h",
-    read: false,
-  },
-];
+const NotiPanel = async () => {
+  const session = await getServerSession(authOptions);
 
-const EARLIERNOTI = [
-  {
-    id: 1,
-    description:
-      "lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem",
-    when: "9h",
-    read: false,
-  },
-  {
-    id: 2,
-    description: "lorem ipsum lorem ipsum lorem ipsum",
-    when: "9h",
-    read: true,
-  },
-  {
-    id: 3,
-    description: "lorem ipsum lorem ipsum lorem ipsum lorem ipsum",
-    when: "9h",
-    read: true,
-  },
-];
+  if (!session?.user?.email) {
+    return <h1>Please login to see notifications</h1>;
+  }
 
-const NotiPanel = () => {
+  const notifications = await getNotifications(session.user.email);
+  const newNotifications = notifications.filter((n) => n.new);
+  const earlierNotifications = notifications.filter((n) => !n.new);
+
   return (
     <div
       className="
@@ -52,8 +27,8 @@ const NotiPanel = () => {
     >
       <Heading />
       <Options />
-      <NotiSection label="New" items={NEWNOTI} />
-      <NotiSection label="Earlier" items={EARLIERNOTI} />
+      <NotiSection label="New" items={newNotifications} />
+      <NotiSection label="Earlier" items={earlierNotifications} />
     </div>
   );
 };

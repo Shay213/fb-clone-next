@@ -12,6 +12,7 @@ const NotiModal = () => {
           overflow-hidden
         "
       >
+        {/* @ts-ignore */}
         <NotiPanel />
       </div>
     </NotiContextContainer>

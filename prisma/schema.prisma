@@ -21,8 +21,10 @@ model User {
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 
-  posts   Post[]
-  friends Friend[]
+  posts                 Post[]
+  friends               Friend[]
+  sendedNotifications   Notification[] @relation(name: "sender")
+  receivedNotifications Notification[] @relation(name: "receiver")
 }
 
 model Post {
@@ -42,6 +44,23 @@ model Friend {
   friendId  String   @db.ObjectId
   friend    User     @relation(fields: [friendId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
+}
+
+model Notification {
+  id         String           @id @default(auto()) @map("_id") @db.ObjectId
+  message    String
+  senderId   String           @db.ObjectId
+  sender     User             @relation(name: "sender", fields: [senderId], references: [id], onDelete: Cascade)
+  receiverId String           @db.ObjectId
+  receiver   User             @relation(name: "receiver", fields: [receiverId], references: [id], onDelete: Cascade)
+  new        Boolean          @default(true)
+  read       Boolean          @default(false)
+  type       NotificationType
+  createdAt  DateTime         @default(now())
+}
+
+enum NotificationType {
+  FRIEND_REQUEST
 }
 
 enum Gender {

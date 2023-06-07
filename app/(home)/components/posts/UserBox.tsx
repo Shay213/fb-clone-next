@@ -3,15 +3,12 @@ import Image from "next/image";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
-import {
-  BiUserPlus,
-  BiUserCheck,
-  BiDotsHorizontalRounded,
-} from "react-icons/bi";
+import { BiUserCheck, BiDotsHorizontalRounded } from "react-icons/bi";
 import { BsMessenger } from "react-icons/bs";
 import getAuthor from "@/app/actions/post/getAuthor";
 import getMutualFriends from "@/app/actions/friend/getMutualFriends";
 import isFriend from "@/app/actions/friend/isFriend";
+import AddFriend from "./buttons/AddFriend";
 
 interface UserBoxProps {
   postId: string;
@@ -34,8 +31,6 @@ const UserBox = async ({ postId, authorId }: UserBoxProps) => {
     mutualFriendsData,
     alreadyFriendsData,
   ]);
-
-  console.log(author, mutualFriends, alreadyFriends);
 
   return (
     <div
@@ -95,18 +90,7 @@ const UserBox = async ({ postId, authorId }: UserBoxProps) => {
           </>
         ) : (
           <>
-            <button
-              type="button"
-              className="
-              flex gap-2 justify-center items-center w-max 
-              px-6 py-2 bg-blue-500 rounded-md text-white
-              hover:bg-blue-600 transition font-normal
-              dark:bg-blue-600 dark:hover:bg-blue-500
-            "
-            >
-              <BiUserPlus size={21} />
-              Add Friend
-            </button>
+            <AddFriend friendId={authorId} />
             <button
               type="button"
               className="

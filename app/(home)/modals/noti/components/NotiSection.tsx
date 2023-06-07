@@ -1,17 +1,11 @@
 import Image from "next/image";
 import React from "react";
-
-interface Item {
-  id: number;
-  img?: string;
-  description: string;
-  when: string;
-  read: boolean;
-}
+import { ExtendedNotification } from "@/app/actions/notifications/getNotifications";
+import moment from "moment";
 
 interface NotiSectionProps {
   label: string;
-  items: Item[];
+  items: ExtendedNotification[];
 }
 
 const NotiSection = ({ label, items }: NotiSectionProps) => {
@@ -42,7 +36,7 @@ const NotiSection = ({ label, items }: NotiSectionProps) => {
           >
             <div>
               <Image
-                src={item.img || "/avatar.jpeg"}
+                src={"/avatar.jpeg"}
                 alt="img"
                 width={50}
                 height={50}
@@ -50,8 +44,10 @@ const NotiSection = ({ label, items }: NotiSectionProps) => {
               />
             </div>
             <div className="text-sm max-w-[320px]">
-              <p className="dark:text-zinc-200">{item.description}</p>
-              <span className="dark:text-zinc-300">{item.when}</span>
+              <p className="dark:text-zinc-200">{item.message}</p>
+              <span className="dark:text-zinc-300">
+                {moment(item.createdAt).fromNow()}
+              </span>
             </div>
             {!item.read && (
               <div className="w-4 h-4 rounded-full bg-blue-500"></div>
