@@ -1,4 +1,4 @@
-import { NextResponse, NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 
 export async function GET(
@@ -10,7 +10,10 @@ export async function GET(
   try {
     const notifications = await prisma.notification.findMany({
       where: {
-        receiver: { email: { equals: userEmail } },
+        AND: [
+          { receiver: { email: { equals: userEmail } } },
+          { new: { equals: false } },
+        ],
       },
       include: {
         sender: {

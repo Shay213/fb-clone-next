@@ -1,16 +1,16 @@
 import Image from "next/image";
-import React from "react";
-import { ExtendedNotification } from "@/app/actions/notifications/getNotifications";
 import moment from "moment";
 import Message from "./notiType/friendRequest/Message";
 import Buttons from "./notiType/friendRequest/Buttons";
+import { ExtendedNotification } from "@/app/actions/notifications/getNewNotifications";
 
 interface NotiSectionProps {
   label: string;
-  items: ExtendedNotification[];
+  promise: Promise<ExtendedNotification[]>;
 }
 
-const NotiSection = ({ label, items }: NotiSectionProps) => {
+const NotiSection = async ({ label, promise }: NotiSectionProps) => {
+  const items = await promise;
   return (
     <div className="flex flex-col gap-2">
       <div className="flex justify-between items-center">

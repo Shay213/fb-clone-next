@@ -1,22 +1,11 @@
 import React from "react";
 import Heading from "./Heading";
-import Options from "./Options";
-import NotiSection from "./NotiSection";
-import getNotifications from "@/app/actions/notifications/getNotifications";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import Content from "./Content";
+import AllNoti from "./AllNoti";
+import UnreadNoti from "./UnreadNoti";
+import Wrapper from "./Wrapper";
 
-const NotiPanel = async () => {
-  const session = await getServerSession(authOptions);
-
-  if (!session?.user?.email) {
-    return <h1>Please login to see notifications</h1>;
-  }
-
-  const notifications = await getNotifications(session.user.email);
-  const newNotifications = notifications.filter((n) => n.new);
-  const earlierNotifications = notifications.filter((n) => !n.new);
-
+const NotiPanel = () => {
   return (
     <div
       className="
@@ -26,9 +15,16 @@ const NotiPanel = async () => {
         "
     >
       <Heading />
-      <Options />
-      <NotiSection label="New" items={newNotifications} />
-      <NotiSection label="Earlier" items={earlierNotifications} />
+      <Wrapper>
+        <Content match="all">
+          {/* @ts-ignore */}
+          <AllNoti />
+        </Content>
+        <Content match="unread">
+          {/* @ts-ignore */}
+          <UnreadNoti />
+        </Content>
+      </Wrapper>
     </div>
   );
 };
