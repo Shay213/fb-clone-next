@@ -50,6 +50,7 @@ model Notification {
   receiver   User             @relation(name: "receiver", fields: [receiverId], references: [id], onDelete: Cascade)
   new        Boolean          @default(true)
   read       Boolean          @default(false)
+  seen       Boolean          @default(false)
   type       NotificationType
   createdAt  DateTime         @default(now())
 }
