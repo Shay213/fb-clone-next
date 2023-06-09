@@ -1,4 +1,5 @@
 import { Notification } from "@prisma/client";
+import updateNewNotifications from "./updateNewNotifications";
 
 export interface ExtendedNotification extends Notification {
   sender: {
@@ -11,6 +12,7 @@ export interface ExtendedNotification extends Notification {
 export default async function getNotifications(
   userEmail: string
 ): Promise<ExtendedNotification[]> {
+  await updateNewNotifications();
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/notifications/${userEmail}`
   );

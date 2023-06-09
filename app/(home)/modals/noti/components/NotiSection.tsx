@@ -54,7 +54,7 @@ const NotiSection = ({ label, items }: NotiSectionProps) => {
                 <span className="dark:text-zinc-300">
                   {moment(item.createdAt).fromNow()}
                 </span>
-                {item.type === "FRIEND_REQUEST" && (
+                {item.type === "FRIEND_REQUEST" && item.new && (
                   <Buttons
                     id={item.id}
                     currUserId={item.receiverId}
