@@ -1,19 +1,22 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 
-export async function DELETE(req: Request) {
+export async function PATCH(req: Request) {
   const body = await req.json();
 
   try {
-    const friendship = await prisma.user.findFirst({
-      where: { email: body.email },
-      select: {
-        friends: { where: { friendId: body.friendId }, select: { id: true } },
+    await prisma.user.update({
+      where: { email: body.currUserEmail },
+      data: {
+        friends: { disconnect: { id: body.friendId } },
+        friendOf: { disconnect: { id: body.friendId } },
       },
     });
-    await prisma.friend.delete({
-      where: {
-        id: friendship?.friends[0].id,
+    await prisma.user.update({
+      where: { id: body.friendId },
+      data: {
+        friends: { disconnect: { email: body.currUserEmail } },
+        friendOf: { disconnect: { email: body.currUserEmail } },
       },
     });
     return NextResponse.json("Friend deleted successfully");

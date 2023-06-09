@@ -3,7 +3,7 @@ import Image from "next/image";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
-import { BiUserCheck, BiDotsHorizontalRounded } from "react-icons/bi";
+import { BiDotsHorizontalRounded } from "react-icons/bi";
 import { BsMessenger } from "react-icons/bs";
 import getAuthor from "@/app/actions/post/getAuthor";
 import getMutualFriends from "@/app/actions/friend/getMutualFriends";
@@ -11,6 +11,7 @@ import isFriend from "@/app/actions/friend/isFriend";
 import AddFriend from "./buttons/AddFriend";
 import AddToStory from "./buttons/AddToStory";
 import EditProfile from "./buttons/EditProfile";
+import RemoveFriend from "./buttons/RemoveFriend";
 
 interface UserBoxProps {
   postId: string;
@@ -71,18 +72,7 @@ const UserBox = async ({ postId, authorId }: UserBoxProps) => {
           </>
         ) : alreadyFriends ? (
           <>
-            <button
-              type="button"
-              className="
-              flex gap-2 justify-center items-center w-max 
-              px-6 py-2 bg-gray-200 rounded-md text-gray-800
-              hover:bg-gray-300 transition font-normal
-              dark:bg-zinc-600 dark:hover:bg-zinc-500 dark:text-zinc-200
-            "
-            >
-              <BiUserCheck size={21} />
-              Friends
-            </button>
+            <RemoveFriend friendId={authorId} />
             <button
               type="button"
               className="
