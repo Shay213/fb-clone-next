@@ -8,7 +8,7 @@ export async function PATCH(req: Request) {
     await prisma.notification.updateMany({
       where: {
         createdAt: {
-          gt: oneDayAgo,
+          lt: oneDayAgo,
         },
       },
       data: {

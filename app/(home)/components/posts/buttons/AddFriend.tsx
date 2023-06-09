@@ -5,6 +5,8 @@ import { useSession } from "next-auth/react";
 
 import { BiUserPlus } from "react-icons/bi";
 import { toast } from "react-hot-toast";
+import sendNotification from "@/app/actions/notification/sendNotification";
+import { NotificationType } from "@prisma/client";
 
 interface AddFriendProps {
   friendId: string;
@@ -14,21 +16,20 @@ const AddFriend = ({ friendId }: AddFriendProps) => {
   const { data: session } = useSession();
 
   const handleClick = useCallback(() => {
-    const body = {
-      senderEmail: session?.user?.email,
-      receiverId: friendId,
-      type: "FRIEND_REQUEST",
-    };
-    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/notification/send`, {
-      method: "POST",
-      body: JSON.stringify(body),
-    }).then((res) => {
-      if (res?.ok) {
-        toast.success("Friends request sended successfully");
-      } else {
-        toast.error("Something went wrong");
-      }
-    });
+    if (session?.user?.email) {
+      const body = {
+        senderEmail: session?.user?.email,
+        receiverId: friendId,
+        type: NotificationType.FRIEND_REQUEST,
+      };
+      sendNotification(body)
+        .then(() => {
+          toast.success("Friends request sended successfully");
+        })
+        .catch(() => {
+          toast.error("Something went wrong");
+        });
+    }
   }, [friendId, session?.user?.email]);
 
   return (

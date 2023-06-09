@@ -18,5 +18,10 @@ export const getFeedPosts = async (email: string): Promise<FeedPost[]> => {
       next: { tags: ["feedPosts"] },
     }
   );
+
+  if (!res.ok) {
+    throw new Error("Something went wrong");
+  }
+
   return res.json();
 };

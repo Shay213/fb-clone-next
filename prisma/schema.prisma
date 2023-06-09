@@ -57,6 +57,7 @@ model Notification {
 
 enum NotificationType {
   FRIEND_REQUEST
+  REMOVED_FRIEND
 }
 
 enum Gender {

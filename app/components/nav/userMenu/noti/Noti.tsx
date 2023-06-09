@@ -40,6 +40,7 @@ const Noti = ({ size }: { size: number }) => {
         homeModalsContext?.noti.toggle();
         if (session?.user?.email)
           await updateSeenNotifications(session?.user?.email);
+        setUnseenNotiCount(0);
       }}
     >
       <IoIosNotifications
