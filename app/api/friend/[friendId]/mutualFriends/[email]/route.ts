@@ -8,51 +8,18 @@ export async function GET(
   const { email, friendId } = params;
 
   try {
-    const userFriends = await prisma.user.findUnique({
+    const user = await prisma.user.findUnique({
       where: {
         email,
       },
       select: {
         friends: {
-          select: {
-            id: true,
-          },
+          where: { friendOf: { some: { id: friendId } } },
         },
       },
     });
 
-    if (!userFriends?.friends) {
-      return NextResponse.json([]);
-    }
-
-    const userFriendsIds = userFriends.friends.map((friend) => friend.id);
-
-    const mutualFriends = await prisma.user.findUnique({
-      where: {
-        id: friendId,
-      },
-      select: {
-        friends: {
-          where: {
-            friend: {
-              id: {
-                in: userFriendsIds,
-              },
-            },
-          },
-          select: {
-            friend: {
-              select: {
-                id: true,
-                firstName: true,
-                lastName: true,
-              },
-            },
-          },
-        },
-      },
-    });
-    return NextResponse.json(mutualFriends?.friends);
+    return NextResponse.json(user?.friends);
   } catch (error) {
     return NextResponse.error();
   }

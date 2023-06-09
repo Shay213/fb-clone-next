@@ -22,9 +22,12 @@ model User {
   updatedAt      DateTime @updatedAt
 
   posts                 Post[]
-  friends               Friend[]
   sendedNotifications   Notification[] @relation(name: "sender")
   receivedNotifications Notification[] @relation(name: "receiver")
+  friendOf              User[]         @relation("UserFollows", fields: [friendOfIDs], references: [id])
+  friendOfIDs           String[]       @db.ObjectId
+  friends               User[]         @relation("UserFollows", fields: [friendsIDs], references: [id])
+  friendsIDs            String[]       @db.ObjectId
 }
 
 model Post {
@@ -39,16 +42,8 @@ model Post {
   author User @relation(fields: [authorId], references: [id], onDelete: Cascade)
 }
 
-model Friend {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  friendId  String   @db.ObjectId
-  friend    User     @relation(fields: [friendId], references: [id], onDelete: Cascade)
-  createdAt DateTime @default(now())
-}
-
 model Notification {
   id         String           @id @default(auto()) @map("_id") @db.ObjectId
-  message    String
   senderId   String           @db.ObjectId
   sender     User             @relation(name: "sender", fields: [senderId], references: [id], onDelete: Cascade)
   receiverId String           @db.ObjectId

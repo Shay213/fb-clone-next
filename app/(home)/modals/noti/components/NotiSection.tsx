@@ -2,6 +2,8 @@ import Image from "next/image";
 import React from "react";
 import { ExtendedNotification } from "@/app/actions/notifications/getNotifications";
 import moment from "moment";
+import Message from "./notiType/friendRequest/Message";
+import Buttons from "./notiType/friendRequest/Buttons";
 
 interface NotiSectionProps {
   label: string;
@@ -44,10 +46,23 @@ const NotiSection = ({ label, items }: NotiSectionProps) => {
               />
             </div>
             <div className="text-sm max-w-[320px]">
-              <p className="dark:text-zinc-200">{item.message}</p>
-              <span className="dark:text-zinc-300">
-                {moment(item.createdAt).fromNow()}
-              </span>
+              <div className="flex flex-col">
+                <Message
+                  type={item.type}
+                  name={`${item.sender.firstName} ${item.sender.lastName}`}
+                />
+                <span className="dark:text-zinc-300">
+                  {moment(item.createdAt).fromNow()}
+                </span>
+                {item.type === "FRIEND_REQUEST" && (
+                  <Buttons
+                    id={item.id}
+                    currUserId={item.receiverId}
+                    senderId={item.senderId}
+                    senderName={`${item.sender.firstName} ${item.sender.lastName}`}
+                  />
+                )}
+              </div>
             </div>
             {!item.read && (
               <div className="w-4 h-4 rounded-full bg-blue-500"></div>

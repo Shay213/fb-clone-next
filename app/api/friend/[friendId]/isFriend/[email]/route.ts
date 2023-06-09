@@ -10,7 +10,7 @@ export async function GET(
   try {
     const isFriend = await prisma.user.findFirst({
       where: {
-        AND: [{ email }, { friends: { some: { friend: { id: friendId } } } }],
+        AND: [{ email }, { friends: { some: { id: friendId } } }],
       },
     });
     if (isFriend) {

@@ -5,18 +5,18 @@ export async function POST(req: Request) {
   const body = await req.json();
 
   try {
-    const friend = await prisma.friend.create({
+    await prisma.user.update({
+      where: { id: body.currUserId },
       data: {
-        friend: { connect: { id: body.friendId } },
-      },
-      select: {
-        id: true,
+        friends: { connect: { id: body.friendId } },
+        friendOf: { connect: { id: body.friendId } },
       },
     });
     await prisma.user.update({
-      where: { email: body.email },
+      where: { id: body.friendId },
       data: {
-        friends: { connect: { id: friend.id } },
+        friends: { connect: { id: body.currUserId } },
+        friendOf: { connect: { id: body.currUserId } },
       },
     });
     return NextResponse.json("Friend added successfully");

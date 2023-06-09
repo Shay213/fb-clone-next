@@ -7,7 +7,6 @@ export async function POST(req: Request) {
   try {
     await prisma.notification.create({
       data: {
-        message: body.message,
         sender: { connect: { email: body.senderEmail } },
         receiver: { connect: { id: body.receiverId } },
         type: body.type,

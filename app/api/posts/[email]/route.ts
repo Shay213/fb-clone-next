@@ -7,18 +7,15 @@ export async function GET(
 ) {
   const { email } = params;
   try {
-    // TODO,
-    // CHECK IF AUTHOR AND CURR USER ARE FRIENDS
-    // SELECT PUBLIC POSTS
-    // SELECT IMG FOR USER
     const posts = await prisma.post.findMany({
       where: {
         OR: [
           { author: { email } },
           {
-            author: {
-              friends: { some: { friend: { email: { equals: email } } } },
-            },
+            AND: [
+              { audience: "FRIENDS" },
+              { author: { friendOf: { some: { email } } } },
+            ],
           },
           { audience: "PUBLIC" },
         ],

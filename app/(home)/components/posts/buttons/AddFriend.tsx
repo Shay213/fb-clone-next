@@ -15,7 +15,6 @@ const AddFriend = ({ friendId }: AddFriendProps) => {
 
   const handleClick = useCallback(() => {
     const body = {
-      message: `${session?.user?.name} sended you friend request.`,
       senderEmail: session?.user?.email,
       receiverId: friendId,
       type: "FRIEND_REQUEST",
@@ -30,7 +29,7 @@ const AddFriend = ({ friendId }: AddFriendProps) => {
         toast.error("Something went wrong");
       }
     });
-  }, [friendId, session?.user?.email, session?.user?.name]);
+  }, [friendId, session?.user?.email]);
 
   return (
     <button
