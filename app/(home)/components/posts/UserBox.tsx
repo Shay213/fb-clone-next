@@ -9,6 +9,8 @@ import getAuthor from "@/app/actions/post/getAuthor";
 import getMutualFriends from "@/app/actions/friend/getMutualFriends";
 import isFriend from "@/app/actions/friend/isFriend";
 import AddFriend from "./buttons/AddFriend";
+import AddToStory from "./buttons/AddToStory";
+import EditProfile from "./buttons/EditProfile";
 
 interface UserBoxProps {
   postId: string;
@@ -54,15 +56,20 @@ const UserBox = async ({ postId, authorId }: UserBoxProps) => {
           <h1 className="text-gray-800 text-xl font-semibold dark:text-zinc-200">
             {`${author.firstName} ${author.lastName}`}
           </h1>
-          {mutualFriends.map((friend) => (
-            <p key={friend.id} className="dark:text-zinc-300">
-              {`${friend.firstName} ${friend.lastName}`}
-            </p>
-          ))}
+          {author.email !== session.user.email &&
+            mutualFriends.map((friend) => (
+              <p key={friend.id} className="dark:text-zinc-300">
+                {`${friend.firstName} ${friend.lastName}`}
+              </p>
+            ))}
         </div>
       </div>
       <div className="flex justify-between gap-2">
-        {alreadyFriends ? (
+        {author.email === session.user.email ? (
+          <>
+            <AddToStory /> <EditProfile />
+          </>
+        ) : alreadyFriends ? (
           <>
             <button
               type="button"
