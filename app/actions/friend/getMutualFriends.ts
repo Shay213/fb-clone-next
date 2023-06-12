@@ -11,5 +11,10 @@ export default async function getMutualFriends(
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/friend/${friendId}/mutualFriends/${email}`
   );
+
+  if (!res.ok) {
+    return [];
+  }
+
   return res.json();
 }

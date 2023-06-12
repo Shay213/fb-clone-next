@@ -29,6 +29,7 @@ const Textarea = ({ description, setDescription }: TextareaProps) => {
       onChange={(e) => {
         setDescription(e.target.value);
         if (textareaRef.current) {
+          textareaRef.current.style.height = "auto";
           textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
         }
       }}

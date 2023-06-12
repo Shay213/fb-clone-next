@@ -10,13 +10,30 @@ import { BiComment, BiShare } from "react-icons/bi";
 
 import { FeedPost } from "@/app/actions/posts/getFeedPosts";
 import getLikesCount from "@/app/actions/likes/getLikesCount";
-import LikePost from "./buttons/likePost";
+import LikePost from "./buttons/LikePost";
+import AddComment from "./AddComment";
+import Comment from "./Comment";
 
 enum AUDIENCE {
   PUBLIC = "public",
   FRIENDS = "friends",
   ONLY_ME = "only me",
 }
+
+const COMMENTS = [
+  {
+    id: "i5juifsui",
+    postedBy: {
+      userImg: null,
+      firstName: "John",
+      lastName: "Doe",
+      email: "test@gmail.com",
+    },
+    description: "desc desc desc desc",
+    likes: 13,
+    createdAt: "9h",
+  },
+];
 
 const Post = async ({ post }: { post: FeedPost }) => {
   const session = await getServerSession(authOptions);
@@ -90,6 +107,11 @@ const Post = async ({ post }: { post: FeedPost }) => {
             </div>
           </div>
         </div>
+        {/* COMMENTS */}
+        <AddComment />
+        {COMMENTS.map((c) => (
+          <Comment key={c.id} comment={c} />
+        ))}
       </div>
     </div>
   );

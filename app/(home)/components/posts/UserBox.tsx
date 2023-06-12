@@ -14,23 +14,26 @@ import EditProfile from "./buttons/EditProfile";
 import RemoveFriend from "./buttons/RemoveFriend";
 
 interface UserBoxProps {
-  postId: string;
-  authorId: string;
+  user: {
+    id: string;
+    email: string;
+    firstName: string;
+    lastName: string;
+  };
 }
 
-const UserBox = async ({ postId, authorId }: UserBoxProps) => {
+const UserBox = async ({ user }: UserBoxProps) => {
   const session = await getServerSession(authOptions);
 
   if (!session?.user?.email) {
     throw new Error("Not authenticated");
   }
 
-  const authorData = getAuthor(postId);
-  const mutualFriendsData = getMutualFriends(authorId, session.user.email);
-  const alreadyFriendsData = isFriend(authorId, session.user.email);
+  const { id, firstName, lastName, email } = user;
+  const mutualFriendsData = getMutualFriends(id, session.user.email);
+  const alreadyFriendsData = isFriend(id, session.user.email);
 
-  const [author, mutualFriends, alreadyFriends] = await Promise.all([
-    authorData,
+  const [mutualFriends, alreadyFriends] = await Promise.all([
     mutualFriendsData,
     alreadyFriendsData,
   ]);
@@ -55,9 +58,9 @@ const UserBox = async ({ postId, authorId }: UserBoxProps) => {
         </div>
         <div>
           <h1 className="text-gray-800 text-xl font-semibold dark:text-zinc-200">
-            {`${author.firstName} ${author.lastName}`}
+            {`${firstName} ${lastName}`}
           </h1>
-          {author.email !== session.user.email &&
+          {email !== session.user.email &&
             mutualFriends.map((friend) => (
               <p key={friend.id} className="dark:text-zinc-300">
                 {`${friend.firstName} ${friend.lastName}`}
@@ -66,13 +69,13 @@ const UserBox = async ({ postId, authorId }: UserBoxProps) => {
         </div>
       </div>
       <div className="flex justify-between gap-2">
-        {author.email === session.user.email ? (
+        {email === session.user.email ? (
           <>
             <AddToStory /> <EditProfile />
           </>
         ) : alreadyFriends ? (
           <>
-            <RemoveFriend friendId={authorId} />
+            <RemoveFriend friendId={id} />
             <button
               type="button"
               className="
@@ -87,7 +90,7 @@ const UserBox = async ({ postId, authorId }: UserBoxProps) => {
           </>
         ) : (
           <>
-            <AddFriend friendId={authorId} />
+            <AddFriend friendId={id} />
             <button
               type="button"
               className="

@@ -14,7 +14,7 @@ const AuthorName = ({ name, children }: AuthorNameProps) => {
     <div
       onMouseEnter={() => setIsOpen(true)}
       onMouseLeave={() => setIsOpen(false)}
-      className="relative cursor-pointer"
+      className="relative cursor-pointer w-max"
     >
       <span
         className="
