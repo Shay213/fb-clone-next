@@ -17,7 +17,7 @@ const Buttons = ({
   senderName: string;
 }) => {
   const handleAccept = useCallback(() => {
-    updateNotification(id, false, true);
+    updateNotification(id, true, true);
     addFriend(currUserId, senderId)
       .then(() => {
         toast.success(`You and ${senderName} are now friends!`);
@@ -27,7 +27,7 @@ const Buttons = ({
       });
   }, [id, currUserId, senderId, senderName]);
   const handleDecline = useCallback(() => {
-    updateNotification(id, false, true);
+    updateNotification(id, true, true);
   }, [id]);
   return (
     <div className="flex gap-2">

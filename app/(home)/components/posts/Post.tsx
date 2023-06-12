@@ -6,9 +6,11 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 import { AiFillLike } from "react-icons/ai";
-import { BiLike, BiDislike, BiComment, BiShare } from "react-icons/bi";
+import { BiComment, BiShare } from "react-icons/bi";
 
 import { FeedPost } from "@/app/actions/posts/getFeedPosts";
+import getLikesCount from "@/app/actions/likes/getLikesCount";
+import LikePost from "./buttons/likePost";
 
 enum AUDIENCE {
   PUBLIC = "public",
@@ -22,6 +24,8 @@ const Post = async ({ post }: { post: FeedPost }) => {
   if (!session?.user?.email) {
     throw new Error("Not authenticated");
   }
+
+  const numOfLikes = await getLikesCount(post.id);
 
   return (
     <div className="bg-white dark:bg-zinc-800 rounded-md shadow-lg py-2">
@@ -51,7 +55,7 @@ const Post = async ({ post }: { post: FeedPost }) => {
         <div className="py-4 flex justify-between text-sm text-gray-600 dark:text-zinc-300">
           <div className="flex items-center gap-2">
             <AiFillLike size={20} className="fill-blue-500" />
-            <span>100</span>
+            <span>{numOfLikes}</span>
           </div>
           <div className="flex items-center gap-2">
             <div>{`60 comments`}</div>
@@ -64,16 +68,7 @@ const Post = async ({ post }: { post: FeedPost }) => {
             flex items-center gap-2 dark:border-zinc-600
           "
         >
-          <div
-            className="flex items-center justify-center rounded-md flex-1
-            hover:bg-gray-200 transition cursor-pointer
-              dark:hover:bg-zinc-700
-            "
-          >
-            <div className="flex items-center gap-2 py-4 dark:text-zinc-300">
-              <BiLike size={20} /> Like
-            </div>
-          </div>
+          <LikePost userEmail={session.user.email} postId={post.id} />
           <div
             className="flex items-center justify-center rounded-md flex-1
             hover:bg-gray-200 transition cursor-pointer
