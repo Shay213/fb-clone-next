@@ -1,7 +1,7 @@
 "use client";
 
 import { useHomeModalsContext } from "@/app/providers/HomeModalsProvider";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 
 const AddPostContextContainer = ({
   children,

@@ -32,11 +32,23 @@ interface HomeModalsContext {
     hide: () => void;
     toggle: () => void;
   };
+  conversation: {
+    isOpen: boolean;
+    show: () => void;
+    hide: () => void;
+    toggle: () => void;
+  };
   hideAll: () => void;
   hideOthers: (modalName: ModalName) => void;
 }
 
-type ModalName = "messenger" | "noti" | "menu" | "account" | "addPost";
+type ModalName =
+  | "messenger"
+  | "noti"
+  | "menu"
+  | "account"
+  | "addPost"
+  | "conversation";
 
 const HomeModalsContext = createContext<HomeModalsContext | null>(null);
 
@@ -51,6 +63,7 @@ const HomeModalsProvider = ({ children }: { children: React.ReactNode }) => {
     menu: false,
     account: false,
     addPost: false,
+    conversation: true,
   });
 
   const homeModalsContext = useMemo(() => {
@@ -95,6 +108,17 @@ const HomeModalsProvider = ({ children }: { children: React.ReactNode }) => {
             setIsModalOpen((prev) => ({ ...prev, addPost: !prev.addPost }));
           }
         },
+      },
+      conversation: {
+        isOpen: isModalOpen.conversation,
+        show: () => setIsModalOpen((prev) => ({ ...prev, conversation: true })),
+        hide: () =>
+          setIsModalOpen((prev) => ({ ...prev, conversation: false })),
+        toggle: () =>
+          setIsModalOpen((prev) => ({
+            ...prev,
+            conversation: !prev.conversation,
+          })),
       },
       hideAll: () =>
         setIsModalOpen((prev) => ({

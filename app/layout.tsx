@@ -5,6 +5,7 @@ import { authOptions } from "./api/auth/[...nextauth]/route";
 import Providers from "./providers/Providers";
 import Nav from "./components/nav/Nav";
 import AddPostModal from "./modals/addPost/AddPostModal";
+import ConversationModal from "./modals/conversation/ConversationModal";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -30,6 +31,7 @@ export default async function RootLayout({
               <Nav />
               {children}
               <AddPostModal />
+              <ConversationModal />
             </>
           ) : (
             auth

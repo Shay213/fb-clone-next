@@ -31,7 +31,7 @@ const LikePost = ({ postId, userEmail }: LikePostProps) => {
             `}
       onClick={handleClick}
     >
-      <div className="flex items-center gap-2 py-4 dark:text-zinc-300">
+      <div className="flex items-center gap-2 py-2 dark:text-zinc-300">
         <BiLike size={20} className={`${isLiked ? "fill-blue-500" : ""}`} />
         <span className={`${isLiked ? "text-blue-500" : ""}`}>
           {isLiked ? "Liked" : "Like"}

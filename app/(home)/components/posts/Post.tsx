@@ -6,34 +6,21 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 import { AiFillLike } from "react-icons/ai";
-import { BiComment, BiShare } from "react-icons/bi";
 
 import { FeedPost } from "@/app/actions/posts/getFeedPosts";
 import getLikesCount from "@/app/actions/likes/getLikesCount";
 import LikePost from "./buttons/LikePost";
+import ShowAddComment from "./buttons/ShowAddComment";
+import SharePost from "./buttons/SharePost";
+import Comments from "./Comments";
+import AddCommentContextProvider from "./AddCommentContextProvider";
 import AddComment from "./AddComment";
-import Comment from "./Comment";
 
 enum AUDIENCE {
   PUBLIC = "public",
   FRIENDS = "friends",
   ONLY_ME = "only me",
 }
-
-const COMMENTS = [
-  {
-    id: "i5juifsui",
-    postedBy: {
-      userImg: null,
-      firstName: "John",
-      lastName: "Doe",
-      email: "test@gmail.com",
-    },
-    description: "desc desc desc desc",
-    likes: 13,
-    createdAt: "9h",
-  },
-];
 
 const Post = async ({ post }: { post: FeedPost }) => {
   const session = await getServerSession(authOptions);
@@ -68,7 +55,7 @@ const Post = async ({ post }: { post: FeedPost }) => {
           className="w-full object-cover max-h-[450px]"
         />
       )}
-      <div className="px-6">
+      <div className="px-6 flex flex-col gap-2">
         <div className="py-4 flex justify-between text-sm text-gray-600 dark:text-zinc-300">
           <div className="flex items-center gap-2">
             <AiFillLike size={20} className="fill-blue-500" />
@@ -79,39 +66,20 @@ const Post = async ({ post }: { post: FeedPost }) => {
             <div>{`20 shares`}</div>
           </div>
         </div>
-        <div
-          className="
+        <AddCommentContextProvider>
+          <div
+            className="
             py-1 border-y-[1px] border-gray-300
             flex items-center gap-2 dark:border-zinc-600
           "
-        >
-          <LikePost userEmail={session.user.email} postId={post.id} />
-          <div
-            className="flex items-center justify-center rounded-md flex-1
-            hover:bg-gray-200 transition cursor-pointer
-            dark:hover:bg-zinc-700
-            "
           >
-            <div className="flex items-center gap-2 py-4 dark:text-zinc-300">
-              <BiComment size={20} /> Comment
-            </div>
+            <LikePost userEmail={session.user.email} postId={post.id} />
+            <ShowAddComment />
+            <SharePost />
           </div>
-          <div
-            className="flex items-center justify-center rounded-md flex-1
-            hover:bg-gray-200 transition cursor-pointer
-            dark:hover:bg-zinc-700
-            "
-          >
-            <div className="flex items-center gap-2 py-4 dark:text-zinc-300">
-              <BiShare size={20} /> Share
-            </div>
-          </div>
-        </div>
-        {/* COMMENTS */}
-        <AddComment />
-        {COMMENTS.map((c) => (
-          <Comment key={c.id} comment={c} />
-        ))}
+          <AddComment />
+        </AddCommentContextProvider>
+        <Comments />
       </div>
     </div>
   );
