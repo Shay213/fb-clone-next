@@ -1,30 +1,24 @@
 import React from "react";
 import Friend from "./Friend";
+import getFriends from "@/app/actions/friends/getFriends";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
-const DATA = [
-  {
-    id: 1,
-    name: "Test name",
-  },
-  {
-    id: 2,
-    name: "Test name",
-  },
-  {
-    id: 3,
-    name: "Test name",
-  },
-  {
-    id: 4,
-    name: "Test name",
-  },
-];
+const Friends = async () => {
+  const session = await getServerSession(authOptions);
 
-const Friends = () => {
+  if (!session?.user?.email) {
+    throw new Error("Not authenticated");
+  }
+
+  const friends = await getFriends(session.user.email);
+
   return (
     <div>
-      {DATA.map((friend) => (
-        <Friend key={friend.id} name={friend.name} />
+      {friends.map((friend) => (
+        <div key={friend.id}>
+          <Friend name={`${friend.firstName} ${friend.lastName}`} />
+        </div>
       ))}
     </div>
   );

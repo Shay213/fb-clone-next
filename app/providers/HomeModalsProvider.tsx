@@ -63,7 +63,7 @@ const HomeModalsProvider = ({ children }: { children: React.ReactNode }) => {
     menu: false,
     account: false,
     addPost: false,
-    conversation: true,
+    conversation: false,
   });
 
   const homeModalsContext = useMemo(() => {
