@@ -1,14 +1,12 @@
 "use client";
 
 import React, { useRef, useState } from "react";
+import { useIsActiveContext } from "./isActiveContextProvider";
 
-interface TextareaProps {
-  setIsActive: React.Dispatch<React.SetStateAction<boolean>> | undefined;
-}
-
-const Textarea = ({ setIsActive }: TextareaProps) => {
+const Textarea = () => {
   const [message, setMessage] = useState("");
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+  const isActiveContext = useIsActiveContext();
 
   return (
     <textarea
@@ -30,8 +28,8 @@ const Textarea = ({ setIsActive }: TextareaProps) => {
       ref={textareaRef}
       style={{ overflowWrap: "break-word" }}
       rows={1}
-      onFocus={() => setIsActive?.(true)}
-      onBlur={() => setIsActive?.(false)}
+      onFocus={() => isActiveContext?.setIsInputFocused?.(true)}
+      onBlur={() => isActiveContext?.setIsInputFocused?.(false)}
     />
   );
 };

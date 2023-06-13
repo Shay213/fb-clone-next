@@ -16,6 +16,10 @@ const Bottom = () => {
     return !!IsActiveContext?.isActive;
   }, [IsActiveContext?.isActive]);
 
+  const isInputFocused = useMemo(() => {
+    return !!IsActiveContext?.isInputFocused;
+  }, [IsActiveContext?.isInputFocused]);
+
   return (
     <div className="p-2 flex items-center gap-1">
       <div className="flex items-center gap-1">
@@ -30,7 +34,7 @@ const Bottom = () => {
             className={`${isActive ? "fill-blue-500" : "fill-gray-500"}`}
           />
         </div>
-        {!isActive && (
+        {!isInputFocused && (
           <>
             <div
               className="
@@ -38,7 +42,10 @@ const Bottom = () => {
           hover:bg-gray-200 transition 
         "
             >
-              <BsImages size={17} className="fill-gray-500" />
+              <BsImages
+                size={17}
+                className={`${isActive ? "fill-blue-500" : "fill-gray-500"}`}
+              />
             </div>
             <div
               className="
@@ -46,7 +53,10 @@ const Bottom = () => {
           hover:bg-gray-200 transition 
         "
             >
-              <BsStickyFill size={17} className="fill-gray-500" />
+              <BsStickyFill
+                size={17}
+                className={`${isActive ? "fill-blue-500" : "fill-gray-500"}`}
+              />
             </div>
             <div
               className="
@@ -54,12 +64,15 @@ const Bottom = () => {
           hover:bg-gray-200 transition 
         "
             >
-              <AiOutlineGif size={17} className="fill-gray-500" />
+              <AiOutlineGif
+                size={17}
+                className={`${isActive ? "fill-blue-500" : "fill-gray-500"}`}
+              />
             </div>
           </>
         )}
       </div>
-      <Textarea setIsActive={IsActiveContext?.setIsActive} />
+      <Textarea />
       <div
         className="
           flex justify-center items-center p-1 rounded-full cursor-pointer

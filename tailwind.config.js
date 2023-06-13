@@ -16,9 +16,14 @@ module.exports = {
           "0%": { transform: "translateX(100%)" },
           "100%": { transform: "translateX(0)" },
         },
+        slideInBottomToTop: {
+          "0%": { transform: "translateY(100%)" },
+          "100%": { transform: "translateX(0)" },
+        },
       },
       animation: {
         slideInRightToLeft: "slideInRightToLeft 0.2s ease-in",
+        slideInBottomToTop: "slideInBottomToTop 0.2s ease-in",
       },
     },
   },

@@ -7,8 +7,8 @@ const ConversationPanel = () => {
   return (
     <div
       className="
-        fixed h-96 w-72 bottom-0 right-10 bg-white z-[100]
-        rounded-md shadow-lg flex flex-col
+        h-full w-full right-10 bg-white z-[100] rounded-md shadow-lg 
+        animate-slideInBottomToTop flex flex-col conversation
       "
     >
       <IsActiveContextProvider>
