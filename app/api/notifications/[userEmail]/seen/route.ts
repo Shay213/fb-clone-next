@@ -33,7 +33,10 @@ export async function PATCH(
         seen: true,
       },
     });
-    return new NextResponse("Updated successfully", { status: 200 });
+    return new NextResponse(
+      JSON.stringify({ message: "Updated successfully" }),
+      { status: 200 }
+    );
   } catch (error: any) {
     return new NextResponse(error.message, { status: 500 });
   }

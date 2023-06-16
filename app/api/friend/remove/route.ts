@@ -19,7 +19,10 @@ export async function PATCH(req: Request) {
         friendOf: { disconnect: { email: body.currUserEmail } },
       },
     });
-    return new NextResponse("Friend deleted successfully", { status: 200 });
+    return new NextResponse(
+      JSON.stringify({ message: "Friend deleted successfully" }),
+      { status: 200 }
+    );
   } catch (error: any) {
     return new NextResponse(error.message, { status: 500 });
   }

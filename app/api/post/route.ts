@@ -35,7 +35,10 @@ export async function POST(request: NextRequest) {
         img,
       },
     });
-    return new NextResponse("Post added successfully", { status: 200 });
+    return new NextResponse(
+      JSON.stringify({ message: "Post added successfully" }),
+      { status: 200 }
+    );
   } catch (error: any) {
     return new NextResponse(error.message, { status: 500 });
   }

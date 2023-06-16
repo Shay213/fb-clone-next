@@ -17,7 +17,9 @@ export async function GET(
     });
 
     if (!post) {
-      return new NextResponse("Not found", { status: 400 });
+      return new NextResponse(JSON.stringify({ message: "Not found" }), {
+        status: 400,
+      });
     }
 
     return new NextResponse(JSON.stringify(post._count.likedBy), {

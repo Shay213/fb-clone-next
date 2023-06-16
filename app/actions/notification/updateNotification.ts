@@ -11,5 +11,10 @@ export default async function updateNotification(
       body: JSON.stringify({ id, new: isNew, read }),
     }
   );
+
+  if (!res.ok) {
+    throw new Error("Something went wrong");
+  }
+
   return res.json();
 }

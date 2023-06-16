@@ -17,5 +17,9 @@ export default async function getEalierNotifications(
     `${process.env.NEXT_PUBLIC_BASE_URL}/notifications/${userEmail}/earlier`
   );
 
+  if (!res.ok) {
+    throw new Error("Something went wrong");
+  }
+
   return res.json();
 }

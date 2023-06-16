@@ -26,7 +26,10 @@ export async function POST(req: Request) {
     revalidateTag(body.userId + body.friendId);
     revalidateTag(body.friendId + body.userId);
 
-    return new NextResponse("Message sended successfully", { status: 200 });
+    return new NextResponse(
+      JSON.stringify({ message: "Message sended successfully" }),
+      { status: 200 }
+    );
   } catch (error: any) {
     return new NextResponse(error.message, { status: 500 });
   }

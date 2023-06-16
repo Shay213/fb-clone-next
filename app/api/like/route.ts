@@ -24,7 +24,9 @@ export async function POST(req: Request) {
           likedBy: { disconnect: { email: body.userEmail } },
         },
       });
-      return new NextResponse("Disliked", { status: 200 });
+      return new NextResponse(JSON.stringify({ message: "Disliked" }), {
+        status: 200,
+      });
     } else {
       await prisma.user.update({
         where: { email: body.userEmail },
@@ -39,7 +41,9 @@ export async function POST(req: Request) {
         },
       });
 
-      return new NextResponse("Liked", { status: 200 });
+      return new NextResponse(JSON.stringify({ message: "Liked" }), {
+        status: 200,
+      });
     }
   } catch (error: any) {
     return new NextResponse(error.message, { status: 500 });

@@ -15,5 +15,9 @@ export default async function getUnreadNotifications(
     `${process.env.NEXT_PUBLIC_BASE_URL}/notifications/${userEmail}/unread`
   );
 
+  if (!res.ok) {
+    throw new Error("Something went wrong");
+  }
+
   return res.json();
 }

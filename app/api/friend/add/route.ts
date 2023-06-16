@@ -19,7 +19,10 @@ export async function POST(req: Request) {
         friendOf: { connect: { id: body.currUserId } },
       },
     });
-    return new NextResponse("Friend added successfully", { status: 200 });
+    return new NextResponse(
+      JSON.stringify({ message: "Friend added successfully" }),
+      { status: 200 }
+    );
   } catch (error: any) {
     return new NextResponse(error.message, { status: 500 });
   }

@@ -12,9 +12,12 @@ export async function POST(req: Request) {
         type: body.type,
       },
     });
-    return new NextResponse("Notification sended successfully", {
-      status: 200,
-    });
+    return new NextResponse(
+      JSON.stringify({ message: "Notification sended successfully" }),
+      {
+        status: 200,
+      }
+    );
   } catch (error: any) {
     return new NextResponse(error.message, { status: 500 });
   }

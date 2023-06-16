@@ -14,7 +14,9 @@ export async function GET(
       },
     });
     if (!user) {
-      return new NextResponse("User not found", { status: 400 });
+      return new NextResponse(JSON.stringify({ message: "User not found" }), {
+        status: 400,
+      });
     }
     return new NextResponse(JSON.stringify(user.id), { status: 200 });
   } catch (error: any) {

@@ -5,5 +5,9 @@ export default async function getCountUnseenNotifications(
     `${process.env.NEXT_PUBLIC_BASE_URL}/notifications/${userEmail}/seen`
   );
 
+  if (!res.ok) {
+    throw new Error("Something went wrong");
+  }
+
   return res.json();
 }
