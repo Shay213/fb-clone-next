@@ -23,8 +23,8 @@ export async function GET(
         },
       },
     });
-    return NextResponse.json(post?.author);
-  } catch (error) {
-    return NextResponse.error();
+    return new NextResponse(JSON.stringify(post?.author), { status: 200 });
+  } catch (error: any) {
+    return new NextResponse(error.message, { status: 500 });
   }
 }

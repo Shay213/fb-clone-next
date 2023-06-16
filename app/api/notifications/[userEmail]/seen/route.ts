@@ -12,9 +12,9 @@ export async function GET(
         AND: [{ receiver: { email: userEmail } }, { seen: false }],
       },
     });
-    return NextResponse.json(count);
-  } catch (error) {
-    return NextResponse.error();
+    return new NextResponse(JSON.stringify(count), { status: 200 });
+  } catch (error: any) {
+    return new NextResponse(error.message, { status: 500 });
   }
 }
 
@@ -33,8 +33,8 @@ export async function PATCH(
         seen: true,
       },
     });
-    return NextResponse.json("Updated successfully");
-  } catch (error) {
-    return NextResponse.error();
+    return new NextResponse("Updated successfully", { status: 200 });
+  } catch (error: any) {
+    return new NextResponse(error.message, { status: 500 });
   }
 }

@@ -14,10 +14,10 @@ export async function GET(
       },
     });
     if (!user) {
-      return NextResponse.error();
+      return new NextResponse("User not found", { status: 400 });
     }
-    return NextResponse.json(user.id);
-  } catch (error) {
-    return NextResponse.error();
+    return new NextResponse(JSON.stringify(user.id), { status: 200 });
+  } catch (error: any) {
+    return new NextResponse(error.message, { status: 500 });
   }
 }

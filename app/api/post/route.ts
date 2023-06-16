@@ -13,7 +13,7 @@ export async function POST(request: NextRequest) {
   }
 
   if (!description || !audience || !email) {
-    return NextResponse.error();
+    return new NextResponse("Missing fields", { status: 500 });
   }
 
   let audienceEnum;
@@ -35,9 +35,8 @@ export async function POST(request: NextRequest) {
         img,
       },
     });
-    return NextResponse.json("Post added successfully");
-  } catch (error) {
-    console.log(error);
-    return NextResponse.error();
+    return new NextResponse("Post added successfully", { status: 200 });
+  } catch (error: any) {
+    return new NextResponse(error.message, { status: 500 });
   }
 }

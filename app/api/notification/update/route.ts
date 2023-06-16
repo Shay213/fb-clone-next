@@ -14,8 +14,10 @@ export async function PATCH(req: Request) {
         read: body.read,
       },
     });
-    return NextResponse.json("Notification updated successfully");
-  } catch (error) {
-    return NextResponse.error();
+    return new NextResponse("Notification updated successfully", {
+      status: 200,
+    });
+  } catch (error: any) {
+    return new NextResponse(error.message, { status: 500 });
   }
 }

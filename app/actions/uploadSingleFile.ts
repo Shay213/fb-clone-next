@@ -11,6 +11,7 @@ const uploadSingleFile = async (file: File) => {
       `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUD_NAME}/image/upload`,
       {
         body: formData,
+        headers: { "Content-Type": "multipart/form-data" },
         method: "POST",
       }
     );

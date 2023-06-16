@@ -14,11 +14,11 @@ export async function GET(
       },
     });
     if (isFriend) {
-      return NextResponse.json(true);
+      return new NextResponse(JSON.stringify(true), { status: 200 });
     } else {
-      return NextResponse.json(false);
+      return new NextResponse(JSON.stringify(false), { status: 200 });
     }
-  } catch (error) {
-    return NextResponse.error();
+  } catch (error: any) {
+    return new NextResponse(error.message, { status: 500 });
   }
 }

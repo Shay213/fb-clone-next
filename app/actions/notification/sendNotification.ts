@@ -11,6 +11,7 @@ export default async function sendNotification(body: sendNotificationArgs) {
     `${process.env.NEXT_PUBLIC_BASE_URL}/notification/send`,
     {
       method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
     }
   );

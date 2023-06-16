@@ -17,11 +17,13 @@ export async function GET(
     });
 
     if (!post) {
-      return NextResponse.error();
+      return new NextResponse("Not found", { status: 400 });
     }
 
-    return NextResponse.json(post._count.likedBy);
-  } catch (error) {
-    return NextResponse.error();
+    return new NextResponse(JSON.stringify(post._count.likedBy), {
+      status: 200,
+    });
+  } catch (error: any) {
+    return new NextResponse(error.message, { status: 500 });
   }
 }

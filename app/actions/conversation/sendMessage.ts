@@ -8,6 +8,7 @@ export default async function sendMessage(
     `${process.env.NEXT_PUBLIC_BASE_URL}/conversation/message`,
     {
       method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
     }
   );

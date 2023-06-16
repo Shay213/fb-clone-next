@@ -29,10 +29,9 @@ export async function GET(
         },
       },
     });
-    return NextResponse.json(conversation);
-  } catch (error) {
-    console.log(error);
-    return NextResponse.error();
+    return new NextResponse(JSON.stringify(conversation), { status: 200 });
+  } catch (error: any) {
+    return new NextResponse(error.message, { status: 500 });
   }
 }
 
@@ -73,8 +72,8 @@ export async function POST(
         user: { connect: { id: friendId } },
       },
     });
-    return NextResponse.json(conversationUser);
-  } catch (error) {
-    return NextResponse.error();
+    return new NextResponse(JSON.stringify(conversationUser), { status: 200 });
+  } catch (error: any) {
+    return new NextResponse(error.message, { status: 500 });
   }
 }

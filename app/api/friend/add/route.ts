@@ -19,8 +19,8 @@ export async function POST(req: Request) {
         friendOf: { connect: { id: body.currUserId } },
       },
     });
-    return NextResponse.json("Friend added successfully");
-  } catch (error) {
-    return NextResponse.error();
+    return new NextResponse("Friend added successfully", { status: 200 });
+  } catch (error: any) {
+    return new NextResponse(error.message, { status: 500 });
   }
 }

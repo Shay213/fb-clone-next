@@ -16,8 +16,8 @@ export async function GET(
         lastName: true,
       },
     });
-    return NextResponse.json(friend);
-  } catch (error) {
-    return NextResponse.error();
+    return new NextResponse(JSON.stringify(friend), { status: 200 });
+  } catch (error: any) {
+    return new NextResponse(error.message, { status: 500 });
   }
 }

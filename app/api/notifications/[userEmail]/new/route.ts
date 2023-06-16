@@ -28,9 +28,8 @@ export async function GET(
         createdAt: "desc",
       },
     });
-    return NextResponse.json(notifications);
-  } catch (error) {
-    console.log(error);
-    return NextResponse.error();
+    return new NextResponse(JSON.stringify(notifications), { status: 200 });
+  } catch (error: any) {
+    return new NextResponse(error.message, { status: 500 });
   }
 }
