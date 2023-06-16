@@ -1,12 +1,19 @@
 "use client";
 
-import React, { useRef, useState } from "react";
-import { useIsActiveContext } from "./isActiveContextProvider";
+import React, { forwardRef, useImperativeHandle, useRef } from "react";
+import { useIsActiveContext } from "./IsActiveContextProvider";
 
-const Textarea = () => {
-  const [message, setMessage] = useState("");
+interface TextareaProps {
+  message: string;
+  setMessage: React.Dispatch<React.SetStateAction<string>>;
+  handleSend: () => void;
+}
+
+const Textarea = ({ message, setMessage, handleSend }: TextareaProps, ref) => {
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const isActiveContext = useIsActiveContext();
+
+  useImperativeHandle(ref, () => textareaRef.current, [textareaRef]);
 
   return (
     <textarea
@@ -30,8 +37,14 @@ const Textarea = () => {
       rows={1}
       onFocus={() => isActiveContext?.setIsInputFocused?.(true)}
       onBlur={() => isActiveContext?.setIsInputFocused?.(false)}
+      onKeyDown={(e) => {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          handleSend();
+        }
+      }}
     />
   );
 };
 
-export default Textarea;
+export default forwardRef(Textarea);

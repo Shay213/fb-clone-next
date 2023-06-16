@@ -4,6 +4,7 @@ import getFriends from "@/app/actions/friends/getFriends";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import FriendWrapper from "./FriendWrapper";
+import getUserId from "@/app/actions/user/getUserId";
 
 const Friends = async () => {
   const session = await getServerSession(authOptions);
@@ -13,14 +14,17 @@ const Friends = async () => {
   }
 
   const friends = await getFriends(session.user.email);
+  const userId = await getUserId(session.user.email);
 
   return (
     <div>
-      {friends.map((friend) => (
-        <FriendWrapper key={friend.id}>
-          <Friend name={`${friend.firstName} ${friend.lastName}`} />
-        </FriendWrapper>
-      ))}
+      {friends.map((f) => {
+        return (
+          <FriendWrapper key={f.id} userId={userId} friendId={f.id}>
+            <Friend name={`${f.firstName} ${f.lastName}`} />
+          </FriendWrapper>
+        );
+      })}
     </div>
   );
 };

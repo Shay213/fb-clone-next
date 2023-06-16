@@ -33,6 +33,8 @@ model User {
   comments              Comment[]      @relation("postedBy")
   likedCommentsIDs      String[]       @db.ObjectId
   likedComments         Comment[]      @relation("commentsLikes", fields: [likedCommentsIDs], references: [id])
+  conversations         Conversation[]
+  messages              Message[]
 }
 
 model Post {
@@ -76,6 +78,25 @@ model Comment {
   rootComment   Comment?  @relation("replies", fields: [rootCommentID], references: [id], onDelete: NoAction, onUpdate: NoAction)
   replies       Comment[] @relation("replies")
   createdAt     DateTime  @default(now())
+}
+
+model Conversation {
+  id             String    @id @default(auto()) @map("_id") @db.ObjectId
+  userID         String    @db.ObjectId
+  user           User      @relation(fields: [userID], references: [id])
+  messagesIDs    String[]  @db.ObjectId
+  messages       Message[] @relation(fields: [messagesIDs], references: [id])
+  conversationID String    @unique
+}
+
+model Message {
+  id              String         @id @default(auto()) @map("_id") @db.ObjectId
+  description     String
+  sendedByID      String         @db.ObjectId
+  sendedBy        User           @relation(fields: [sendedByID], references: [id])
+  conversationIDs String[]       @db.ObjectId
+  conversation    Conversation[] @relation(fields: [conversationIDs], references: [id])
+  createdAt       DateTime       @default(now())
 }
 
 enum NotificationType {

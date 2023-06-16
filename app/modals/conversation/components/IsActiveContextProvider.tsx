@@ -41,7 +41,12 @@ const IsActiveContextProvider = ({
 
   return (
     <IsActiveContext.Provider
-      value={{ isActive, setIsActive, isInputFocused, setIsInputFocused }}
+      value={{
+        isActive,
+        setIsActive,
+        isInputFocused,
+        setIsInputFocused,
+      }}
     >
       {children}
     </IsActiveContext.Provider>

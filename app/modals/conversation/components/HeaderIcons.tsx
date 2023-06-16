@@ -5,7 +5,7 @@ import React, { useMemo } from "react";
 import { BsFillTelephoneFill, BsCameraVideoFill } from "react-icons/bs";
 import { AiOutlineMinus } from "react-icons/ai";
 import { IoMdClose } from "react-icons/io";
-import { useIsActiveContext } from "./isActiveContextProvider";
+import { useIsActiveContext } from "./IsActiveContextProvider";
 
 const HeaderIcons = () => {
   const IsActiveContext = useIsActiveContext();
@@ -58,6 +58,10 @@ const HeaderIcons = () => {
             cursor-pointer hover:bg-gray-200 
             transition p-1
           "
+        onClick={() => {
+          const visibleModal = document.querySelector(".visibleConversation");
+          visibleModal?.classList.remove("visibleConversation");
+        }}
       >
         <IoMdClose
           size={17}

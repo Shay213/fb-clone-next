@@ -2,14 +2,7 @@ import React from "react";
 import Image from "next/image";
 import HeaderIcons from "./HeaderIcons";
 
-const USER = {
-  id: 1,
-  img: null,
-  name: "John Doe",
-  active: "3h ago",
-};
-
-const Header = () => {
+const Header = ({ name }: { name: string }) => {
   return (
     <div
       className="
@@ -18,15 +11,10 @@ const Header = () => {
       "
     >
       <div className="flex items-center gap-1">
-        <Image
-          src={USER.img || "/avatar.jpeg"}
-          alt="user-img"
-          width={35}
-          height={35}
-        />
+        <Image src={"/avatar.jpeg"} alt="user-img" width={35} height={35} />
         <div className="flex flex-col">
-          <h3 className="text-sm font-semibold">{USER.name}</h3>
-          <span className="text-xs">Active {USER.active}</span>
+          <h3 className="text-sm font-semibold">{name}</h3>
+          <span className="text-xs">Active 9h ago</span>
         </div>
       </div>
       <HeaderIcons />
