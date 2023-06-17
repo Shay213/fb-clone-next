@@ -32,11 +32,11 @@ const SearchPanel = () => {
       <div
         className={`
             absolute top-0 left-0 bg-white dark:bg-zinc-800 w-[330px]
-            min-h-[100px] shadow-lg transition-all z-50
+            shadow-lg transition-all z-50
             ${
               isOpen
-                ? "opacity-100 translate-x-0 scale-100"
-                : "opacity-0 translate-x-12 scale-75"
+                ? "opacity-100 translate-x-0 scale-100 min-h-[100px]"
+                : "opacity-0 translate-x-12 scale-75 h-14"
             }
           `}
         ref={searchPanelRef}
