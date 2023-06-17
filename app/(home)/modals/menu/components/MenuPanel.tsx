@@ -7,7 +7,7 @@ const MenuPanel = () => {
   return (
     <div
       className="
-        absolute top-0 right-0 bg-transparent overflow-hidden p-2 z-50
+        fixed top-[62px] right-0 bg-transparent overflow-hidden p-2 z-50
       "
     >
       <div

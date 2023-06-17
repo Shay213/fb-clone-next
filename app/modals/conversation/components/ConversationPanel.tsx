@@ -25,9 +25,8 @@ const ConversationPanel = async () => {
       {friends.map((f) => (
         <div
           className="
-            h-full w-full bg-white z-[100] rounded-md shadow-lg 
-            animate-slideInBottomToTop conversation flex-col
-            hidden
+            h-full w-full bg-white rounded-md shadow-lg 
+            animate-slideInBottomToTop flex-col hidden
           "
           key={f.id}
           id={userId + f.id}

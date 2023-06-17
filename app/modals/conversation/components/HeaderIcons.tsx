@@ -60,7 +60,12 @@ const HeaderIcons = () => {
           "
         onClick={() => {
           const visibleModal = document.querySelector(".visibleConversation");
+          const conversationModalWrapper = document.getElementById(
+            "conversationModalWrapper"
+          );
           visibleModal?.classList.remove("visibleConversation");
+          if (conversationModalWrapper)
+            conversationModalWrapper.style.zIndex = "0";
         }}
       >
         <IoMdClose

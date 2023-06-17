@@ -4,7 +4,7 @@ import Options from "./Options";
 
 const AccountPanel = () => {
   return (
-    <div className="absolute top-0 right-0 bg-transparent overflow-hidden p-2 z-50">
+    <div className="fixed top-[62px] right-0 bg-transparent overflow-hidden p-2 z-50">
       <div
         className={`
           bg-slate-50 dark:bg-zinc-800 py-4 px-5 rounded-md 
