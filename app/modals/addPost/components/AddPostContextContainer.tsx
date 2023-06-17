@@ -1,7 +1,7 @@
 "use client";
 
 import { useHomeModalsContext } from "@/app/providers/HomeModalsProvider";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 
 const AddPostContextContainer = ({
   children,
@@ -11,13 +11,17 @@ const AddPostContextContainer = ({
   const homeModalsContext = useHomeModalsContext();
 
   useEffect(() => {
+    const body = document.querySelector("body");
+    const preventScrollClass = "prevent-scroll";
+
     if (homeModalsContext?.addPost.isOpen) {
-      document.body.style.overflow = "hidden";
+      body?.classList.add(preventScrollClass);
     } else {
-      document.body.style.overflow = "auto";
+      body?.classList.remove(preventScrollClass);
     }
+
     return () => {
-      document.body.style.overflow = "auto";
+      body?.classList.remove(preventScrollClass);
     };
   }, [homeModalsContext?.addPost.isOpen]);
 
@@ -27,10 +31,10 @@ const AddPostContextContainer = ({
     <>
       {homeModalsContext.addPost.isOpen && (
         <div
-          className="
-            absolute top-0 left-0 h-full w-full 
+          className={`
+            fixed left-0 top-0 h-full w-full
             bg-black bg-opacity-70 z-[100]
-          "
+          `}
           onClick={(e) => {
             e.stopPropagation();
             homeModalsContext.addPost.hide();

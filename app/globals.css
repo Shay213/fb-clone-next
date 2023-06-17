@@ -5,3 +5,7 @@
 .visibleConversation {
   display: flex;
 }
+
+.prevent-scroll {
+  overflow: hidden;
+}
