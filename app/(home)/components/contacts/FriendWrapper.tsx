@@ -19,6 +19,9 @@ const FriendWrapper = ({
         "conversationModalWrapper"
       );
       const visibleModal = document.querySelector(".visibleConversation");
+      const visibleMessagesWrapper = document.getElementById(
+        `messages${userId}${friendId}`
+      );
 
       if (visibleModal === modal) {
         visibleModal?.classList.remove("visibleConversation");
@@ -29,10 +32,16 @@ const FriendWrapper = ({
         modal?.classList.add("visibleConversation");
         if (conversationModalWrapper)
           conversationModalWrapper.style.zIndex = "100";
+        if (visibleMessagesWrapper)
+          visibleMessagesWrapper.scrollTop =
+            visibleMessagesWrapper.scrollHeight;
       } else {
         modal?.classList.add("visibleConversation");
         if (conversationModalWrapper)
           conversationModalWrapper.style.zIndex = "100";
+        if (visibleMessagesWrapper)
+          visibleMessagesWrapper.scrollTop =
+            visibleMessagesWrapper.scrollHeight;
       }
     },
     [userId, friendId]

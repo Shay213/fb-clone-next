@@ -26,7 +26,6 @@ const IsActiveContextProvider = ({
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
-      console.log(target);
       const div = document.querySelector(".visibleConversation");
 
       if (target === div || div?.contains(target)) {
