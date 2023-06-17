@@ -6,12 +6,24 @@ export async function GET(
   { params }: { params: { userEmail: string } }
 ) {
   const { userEmail } = params;
+  const { searchParams } = new URL(req.url);
+  const search = searchParams.get("search");
 
   try {
     const user = await prisma.user.findUnique({
       where: { email: userEmail },
       select: {
-        friends: { select: { id: true, firstName: true, lastName: true } },
+        friends: {
+          where: {
+            ...(search && {
+              OR: [
+                { firstName: { startsWith: search, mode: "insensitive" } },
+                { lastName: { startsWith: search, mode: "insensitive" } },
+              ],
+            }),
+          },
+          select: { id: true, firstName: true, lastName: true },
+        },
       },
     });
     return new NextResponse(JSON.stringify(user?.friends ?? []), {

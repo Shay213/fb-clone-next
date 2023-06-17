@@ -1,12 +1,17 @@
-interface Friend {
+export interface Friend {
   id: string;
   firstName: string;
   lastName: string;
 }
 
-export default async function getFriends(userEmail: string): Promise<Friend[]> {
+export default async function getFriends(
+  userEmail: string,
+  searchPhrase?: string
+): Promise<Friend[]> {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/friends/${userEmail}`
+    `${process.env.NEXT_PUBLIC_BASE_URL}/friends/${userEmail}${
+      searchPhrase ? "?search=" + searchPhrase : ""
+    }`
   );
 
   if (!res.ok) {

@@ -2,12 +2,18 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { HiArrowNarrowLeft } from "react-icons/hi";
+import { SlMagnifier } from "react-icons/sl";
 import Search from "./Search";
+import { Friend } from "@/app/actions/friends/getFriends";
+import Image from "next/image";
 
 const SearchPanel = () => {
   const [isOpen, setIsOpen] = useState(false);
   const searchPanelRef = useRef<null | HTMLDivElement>(null);
   const searchRef = useRef<null | HTMLDivElement>(null);
+  const [searchPhrase, setSearchPhrase] = useState("");
+  const [results, setResults] = useState<Friend[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -18,6 +24,7 @@ const SearchPanel = () => {
         !searchPanelRef.current?.contains(e.target as Node)
       ) {
         setIsOpen(false);
+        setSearchPhrase("");
       }
     };
     document.addEventListener("click", handleClickOutside);
@@ -26,7 +33,6 @@ const SearchPanel = () => {
       document.removeEventListener("click", handleClickOutside);
     };
   }, [setIsOpen]);
-
   return (
     <>
       <div
@@ -48,7 +54,10 @@ const SearchPanel = () => {
                 rounded-full hover:bg-gray-200 dark:hover:bg-zinc-700
                 transition-colors cursor-pointer
               "
-            onClick={() => setIsOpen((prev) => !prev)}
+            onClick={() => {
+              setSearchPhrase("");
+              setIsOpen((prev) => !prev);
+            }}
           >
             <HiArrowNarrowLeft
               size={23}
@@ -56,9 +65,60 @@ const SearchPanel = () => {
             />
           </div>
         </div>
-        <div className="pt-4 dark:text-zinc-200">Search</div>
+        <div className="p-4 flex flex-col gap-1">
+          {isLoading ? (
+            <div className=" dark:text-zinc-200 text-center">Loading...</div>
+          ) : searchPhrase.length > 0 ? (
+            <>
+              {results.map((r) => (
+                <div
+                  key={r.id}
+                  className="flex gap-2 p-1 items-start rounded-md hover:bg-gray-200 transition cursor-pointer"
+                >
+                  <Image
+                    src={"/avatar.jpeg"}
+                    alt="user-img"
+                    width={40}
+                    height={40}
+                    className="rounded-full object-cover"
+                  />
+                  <div>
+                    <h5 className="text-base font-semibold">{`${r.firstName} ${r.lastName}`}</h5>
+                    <span className="text-sm font-light">Friend</span>
+                  </div>
+                </div>
+              ))}
+              <div className="flex gap-2 p-1 items-center rounded-md hover:bg-gray-200 transition cursor-pointer">
+                <div
+                  className="
+                    flex justify-center items-center rounded-full bg-blue-500 
+                    hover:bg-blue-400 transition w-[40px] h-[40px]
+                  "
+                >
+                  <SlMagnifier size={20} className="fill-white font-bold" />
+                </div>
+                <div className="text-blue-500">
+                  Search for{" "}
+                  <span className="text-blue-600">{searchPhrase}</span>
+                </div>
+              </div>
+            </>
+          ) : (
+            <div className=" dark:text-zinc-200 text-center">
+              No recent searches
+            </div>
+          )}
+        </div>
       </div>
-      <Search isOpen={isOpen} setIsOpen={setIsOpen} ref={searchRef} />
+      <Search
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        ref={searchRef}
+        searchPhrase={searchPhrase}
+        setSearchPhrase={setSearchPhrase}
+        setResults={setResults}
+        setIsLoading={setIsLoading}
+      />
     </>
   );
 };
