@@ -6,6 +6,7 @@ import getFriends from "@/app/actions/friends/getFriends";
 import getUserId from "@/app/actions/user/getUserId";
 import getConversation from "@/app/actions/conversation/getConversation";
 import moment from "moment";
+import ChatWrapper from "./ChatWrapper";
 
 const Chats = async () => {
   const session = await getServerSession(authOptions);
@@ -31,13 +32,7 @@ const Chats = async () => {
         const lastMessage =
           conversation.messages[conversation.messages.length - 1];
         return (
-          <div
-            key={conversation.id}
-            className="
-              flex items-center gap-2 hover:bg-gray-200 
-              cursor-pointer p-2 rounded-md dark:hover:bg-zinc-700
-            "
-          >
+          <ChatWrapper key={conversation.id} userId={userId} friendId={item.id}>
             <Image
               src={"/avatar.jpeg"}
               alt="chat-image"
@@ -66,7 +61,7 @@ const Chats = async () => {
                 </span>
               </div>
             </div>
-          </div>
+          </ChatWrapper>
         );
       })}
     </div>
