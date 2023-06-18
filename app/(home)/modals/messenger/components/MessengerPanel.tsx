@@ -1,9 +1,9 @@
 import React from "react";
 import Heading from "./Heading";
-import Search from "./Search";
 import Categories from "./Categories";
 import Chats from "./Chats";
 import Footer from "./Footer";
+import SearchWrapper from "./SearchWrapper";
 
 const MessengerPanel = () => {
   return (
@@ -16,15 +16,17 @@ const MessengerPanel = () => {
     >
       <div
         className={`
-            flex flex-col gap-3 flex-1 py-4 px-5 overflow-auto
+            flex flex-col gap-3 flex-1 py-4 px-5 overflow-auto w-[420px]
             scrollbar-thin scrollbar-thumb-slate-600 scrollbar-track-slate-100
             dark:scrollbar-thumb-zinc-500 dark:scrollbar-track-zinc-300
           `}
       >
         <Heading />
-        <Search />
-        <Categories />
-        <Chats />
+        <SearchWrapper>
+          <Categories />
+          {/* @ts-ignore */}
+          <Chats />
+        </SearchWrapper>
       </div>
       <Footer />
     </div>

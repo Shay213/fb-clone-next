@@ -32,6 +32,7 @@ interface HomeModalsContext {
     hide: () => void;
     toggle: () => void;
   };
+  toggleConversationModal: (userId: string, friendId: string) => void;
   hideAll: () => void;
   hideOthers: (modalName: ModalName) => void;
 }
@@ -95,6 +96,37 @@ const HomeModalsProvider = ({ children }: { children: React.ReactNode }) => {
             setIsModalOpen((prev) => ({ ...prev, addPost: !prev.addPost }));
           }
         },
+      },
+      toggleConversationModal: (userId, friendId) => {
+        const modal = document.getElementById(userId + friendId);
+        const conversationModalWrapper = document.getElementById(
+          "conversationModalWrapper"
+        );
+        const visibleModal = document.querySelector(".visibleConversation");
+        const visibleMessagesWrapper = document.getElementById(
+          `messages${userId}${friendId}`
+        );
+
+        if (visibleModal === modal) {
+          visibleModal?.classList.remove("visibleConversation");
+          if (conversationModalWrapper)
+            conversationModalWrapper.style.zIndex = "0";
+        } else if (visibleModal !== modal) {
+          visibleModal?.classList.remove("visibleConversation");
+          modal?.classList.add("visibleConversation");
+          if (conversationModalWrapper)
+            conversationModalWrapper.style.zIndex = "100";
+          if (visibleMessagesWrapper)
+            visibleMessagesWrapper.scrollTop =
+              visibleMessagesWrapper.scrollHeight;
+        } else {
+          modal?.classList.add("visibleConversation");
+          if (conversationModalWrapper)
+            conversationModalWrapper.style.zIndex = "100";
+          if (visibleMessagesWrapper)
+            visibleMessagesWrapper.scrollTop =
+              visibleMessagesWrapper.scrollHeight;
+        }
       },
       hideAll: () =>
         setIsModalOpen((prev) => ({

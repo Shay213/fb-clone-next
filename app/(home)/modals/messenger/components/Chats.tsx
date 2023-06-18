@@ -7,20 +7,6 @@ import getUserId from "@/app/actions/user/getUserId";
 import getConversation from "@/app/actions/conversation/getConversation";
 import moment from "moment";
 
-const CHATS_ITEMS = [
-  {
-    id: 1,
-    img: "",
-    name: "John Doe",
-    lastMessage: {
-      name: "Mark Salt",
-      desc: "lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum",
-      date: "2023-03-23 12:00:00",
-      read: false,
-    },
-  },
-];
-
 const Chats = async () => {
   const session = await getServerSession(authOptions);
 
@@ -48,7 +34,7 @@ const Chats = async () => {
           <div
             key={conversation.id}
             className="
-              flex items-center gap-2 hover:bg-gray-200 w-[380px]
+              flex items-center gap-2 hover:bg-gray-200 
               cursor-pointer p-2 rounded-md dark:hover:bg-zinc-700
             "
           >

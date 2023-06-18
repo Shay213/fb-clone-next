@@ -1,5 +1,6 @@
 "use client";
 
+import { useHomeModalsContext } from "@/app/providers/HomeModalsProvider";
 import React, { MouseEventHandler, useCallback } from "react";
 
 const FriendWrapper = ({
@@ -11,40 +12,12 @@ const FriendWrapper = ({
   userId: string;
   friendId: string;
 }) => {
+  const homeModalsContext = useHomeModalsContext();
   const handleClick = useCallback<MouseEventHandler<HTMLDivElement>>(
     (e) => {
-      const modalId = userId + friendId;
-      const modal = document.getElementById(modalId);
-      const conversationModalWrapper = document.getElementById(
-        "conversationModalWrapper"
-      );
-      const visibleModal = document.querySelector(".visibleConversation");
-      const visibleMessagesWrapper = document.getElementById(
-        `messages${userId}${friendId}`
-      );
-
-      if (visibleModal === modal) {
-        visibleModal?.classList.remove("visibleConversation");
-        if (conversationModalWrapper)
-          conversationModalWrapper.style.zIndex = "0";
-      } else if (visibleModal !== modal) {
-        visibleModal?.classList.remove("visibleConversation");
-        modal?.classList.add("visibleConversation");
-        if (conversationModalWrapper)
-          conversationModalWrapper.style.zIndex = "100";
-        if (visibleMessagesWrapper)
-          visibleMessagesWrapper.scrollTop =
-            visibleMessagesWrapper.scrollHeight;
-      } else {
-        modal?.classList.add("visibleConversation");
-        if (conversationModalWrapper)
-          conversationModalWrapper.style.zIndex = "100";
-        if (visibleMessagesWrapper)
-          visibleMessagesWrapper.scrollTop =
-            visibleMessagesWrapper.scrollHeight;
-      }
+      homeModalsContext?.toggleConversationModal(userId, friendId);
     },
-    [userId, friendId]
+    [userId, friendId, homeModalsContext]
   );
   return <div onClick={handleClick}>{children}</div>;
 };
