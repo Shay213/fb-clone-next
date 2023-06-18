@@ -97,6 +97,7 @@ model Message {
   conversationIDs String[]       @db.ObjectId
   conversation    Conversation[] @relation(fields: [conversationIDs], references: [id])
   createdAt       DateTime       @default(now())
+  read            Boolean        @default(false)
 }
 
 enum NotificationType {

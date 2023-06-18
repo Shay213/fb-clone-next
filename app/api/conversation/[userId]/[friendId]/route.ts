@@ -17,6 +17,7 @@ export async function GET(
             id: true,
             description: true,
             createdAt: true,
+            read: true,
             sendedBy: {
               select: {
                 id: true,

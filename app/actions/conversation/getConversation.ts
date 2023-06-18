@@ -4,6 +4,7 @@ export interface Conversation {
     id: string;
     description: string;
     createdAt: Date;
+    read: boolean;
     sendedBy: {
       id: string;
       email: string;
