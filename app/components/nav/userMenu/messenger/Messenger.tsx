@@ -4,7 +4,13 @@ import React, { useMemo } from "react";
 import { AiFillMessage } from "react-icons/ai";
 import { useHomeModalsContext } from "@/app/providers/HomeModalsProvider";
 
-const Messenger = ({ size }: { size: number }) => {
+const Messenger = ({
+  children,
+  size,
+}: {
+  children: React.ReactNode;
+  size: number;
+}) => {
   const homeModalsContext = useHomeModalsContext();
   const isOpen = useMemo(() => {
     return !!homeModalsContext?.messenger.isOpen;
@@ -15,7 +21,7 @@ const Messenger = ({ size }: { size: number }) => {
       <div
         className={`
          h-10 w-10 flex items-center transition-colors
-        justify-center rounded-full cursor-pointer 
+        justify-center rounded-full cursor-pointer relative
         ${
           isOpen
             ? "bg-blue-200 hover:bg-blue-300"
@@ -33,6 +39,7 @@ const Messenger = ({ size }: { size: number }) => {
             isOpen ? "text-blue-700" : "text-gray-900 dark:text-zinc-200"
           }`}
         />
+        {children}
       </div>
     </>
   );

@@ -31,6 +31,28 @@ const Chats = async () => {
         const conversation = await item.conversation;
         const lastMessage =
           conversation.messages[conversation.messages.length - 1];
+        if (!lastMessage) {
+          return (
+            <ChatWrapper
+              key={conversation.id}
+              userId={userId}
+              friendId={item.id}
+            >
+              <div className="flex items-center gap-2">
+                <Image
+                  src={"/avatar.jpeg"}
+                  alt="chat-image"
+                  width={45}
+                  height={45}
+                  className="object-cover rounded-full"
+                />
+                <h4 className="text-sm font-semibold dark:text-zinc-200">
+                  {`${item.firstName} ${item.lastName}`}
+                </h4>
+              </div>
+            </ChatWrapper>
+          );
+        }
         const isLastMessageUsers =
           lastMessage.sendedBy.email === session.user?.email;
         return (
