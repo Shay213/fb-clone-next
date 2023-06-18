@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
+import { revalidateTag } from "next/cache";
 
 export async function GET(
   req: Request,
@@ -73,6 +74,7 @@ export async function POST(
         user: { connect: { id: friendId } },
       },
     });
+    revalidateTag(userId + friendId);
     return new NextResponse(JSON.stringify(conversationUser), { status: 200 });
   } catch (error: any) {
     return new NextResponse(error.message, { status: 500 });

@@ -31,7 +31,7 @@ const ConversationPanel = async () => {
           key={f.id}
           id={userId + f.id}
         >
-          <IsActiveContextProvider>
+          <IsActiveContextProvider friendId={f.id} userId={userId}>
             <Header name={`${f.firstName} ${f.lastName}`} />
             {/* @ts-ignore */}
             <Messages friendId={f.id} userId={userId} />

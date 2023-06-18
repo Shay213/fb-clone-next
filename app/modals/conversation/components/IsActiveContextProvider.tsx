@@ -1,5 +1,6 @@
 "use client";
 
+import updateConversation from "@/app/actions/conversation/updateConversation";
 import React, { createContext, useContext, useEffect, useState } from "react";
 
 interface IIsActiveContext {
@@ -17,8 +18,12 @@ export const useIsActiveContext = () => {
 
 const IsActiveContextProvider = ({
   children,
+  friendId,
+  userId,
 }: {
   children: React.ReactNode;
+  userId: string;
+  friendId: string;
 }) => {
   const [isActive, setIsActive] = useState(false);
   const [isInputFocused, setIsInputFocused] = useState(false);
@@ -30,6 +35,7 @@ const IsActiveContextProvider = ({
 
       if (target === div || div?.contains(target)) {
         setIsActive(true);
+        updateConversation(userId, friendId).catch(() => {});
       } else {
         setIsActive(false);
       }
@@ -37,7 +43,7 @@ const IsActiveContextProvider = ({
     document.addEventListener("click", handleClick);
 
     return () => document.removeEventListener("click", handleClick);
-  }, []);
+  }, [friendId, userId]);
 
   return (
     <IsActiveContext.Provider

@@ -12,4 +12,6 @@ export default async function updateConversation(
   if (!res.ok) {
     throw new Error("Something went wrong");
   }
+
+  return res.json();
 }
