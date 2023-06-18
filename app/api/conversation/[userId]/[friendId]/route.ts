@@ -78,3 +78,30 @@ export async function POST(
     return new NextResponse(error.message, { status: 500 });
   }
 }
+
+export async function PATCH(
+  req: Request,
+  { params }: { params: { userId: string; friendId: string } }
+) {
+  const { friendId, userId } = params;
+
+  try {
+    await prisma.conversation.update({
+      where: { conversationID: userId + friendId },
+      data: {
+        messages: {
+          updateMany: {
+            where: { read: { equals: false } },
+            data: { read: true },
+          },
+        },
+      },
+    });
+    return new NextResponse(
+      JSON.stringify({ message: "Updated successfully" }),
+      { status: 200 }
+    );
+  } catch (error: any) {
+    return new NextResponse(error.message, { status: 500 });
+  }
+}

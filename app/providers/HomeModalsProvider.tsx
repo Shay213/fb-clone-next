@@ -1,4 +1,5 @@
 import { createContext, useContext, useMemo, useState } from "react";
+import updateConversation from "../actions/conversation/updateConversation";
 
 interface HomeModalsContext {
   messenger: {
@@ -97,7 +98,7 @@ const HomeModalsProvider = ({ children }: { children: React.ReactNode }) => {
           }
         },
       },
-      toggleConversationModal: (userId, friendId) => {
+      toggleConversationModal: async (userId, friendId) => {
         const modal = document.getElementById(userId + friendId);
         const conversationModalWrapper = document.getElementById(
           "conversationModalWrapper"
@@ -112,6 +113,12 @@ const HomeModalsProvider = ({ children }: { children: React.ReactNode }) => {
           if (conversationModalWrapper)
             conversationModalWrapper.style.zIndex = "0";
         } else if (visibleModal !== modal) {
+          try {
+            await updateConversation(userId, friendId);
+            console.log("Works");
+          } catch (error) {
+            console.log(error);
+          }
           visibleModal?.classList.remove("visibleConversation");
           modal?.classList.add("visibleConversation");
           if (conversationModalWrapper)
@@ -120,6 +127,12 @@ const HomeModalsProvider = ({ children }: { children: React.ReactNode }) => {
             visibleMessagesWrapper.scrollTop =
               visibleMessagesWrapper.scrollHeight;
         } else {
+          try {
+            await updateConversation(userId, friendId);
+            console.log("Works");
+          } catch (error) {
+            console.log(error);
+          }
           modal?.classList.add("visibleConversation");
           if (conversationModalWrapper)
             conversationModalWrapper.style.zIndex = "100";
