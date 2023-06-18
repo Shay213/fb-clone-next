@@ -99,6 +99,11 @@ export async function PATCH(
         },
       },
     });
+    const userEmail = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { email: true },
+    });
+    revalidateTag(`conversation${userEmail}unread`);
     return new NextResponse(
       JSON.stringify({ message: "Updated successfully" }),
       { status: 200 }

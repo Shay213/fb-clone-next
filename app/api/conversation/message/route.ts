@@ -22,9 +22,13 @@ export async function POST(req: Request) {
         },
       },
     });
-
+    const userEmail = await prisma.user.findUnique({
+      where: { id: body.userId },
+      select: { email: true },
+    });
     revalidateTag(body.userId + body.friendId);
     revalidateTag(body.friendId + body.userId);
+    revalidateTag(`conversation${userEmail}unread`);
 
     return new NextResponse(
       JSON.stringify({ message: "Message sended successfully" }),

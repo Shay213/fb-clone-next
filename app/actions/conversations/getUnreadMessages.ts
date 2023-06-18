@@ -6,7 +6,10 @@ export default async function getUnreadMessages(
   userEmail: string
 ): Promise<Response> {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/conversations/${userEmail}/messages/unread`
+    `${process.env.NEXT_PUBLIC_BASE_URL}/conversations/${userEmail}/messages/unread`,
+    {
+      next: { tags: [`conversation${userEmail}unread`] },
+    }
   );
 
   if (!res.ok) {
