@@ -92,14 +92,14 @@ const SearchPanel = () => {
                 <div
                   className="
                     flex justify-center items-center rounded-full bg-blue-500 
-                    hover:bg-blue-400 transition w-[40px] h-[40px]
+                    transition w-[40px] h-[40px]
                   "
                 >
                   <SlMagnifier size={20} className="fill-white font-bold" />
                 </div>
                 <div className="text-blue-500">
                   Search for{" "}
-                  <span className="text-blue-600">{searchPhrase}</span>
+                  <span className="text-blue-700">{searchPhrase}</span>
                 </div>
               </div>
             </>
