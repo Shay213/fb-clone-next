@@ -12,7 +12,7 @@ export default async function getUnreadNotifications(
   userEmail: string
 ): Promise<ExtendedNotification[]> {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/notifications/${userEmail}/unread`
+    `http://localhost:3000/api/notifications/${userEmail}/unread`
   );
 
   if (!res.ok) {

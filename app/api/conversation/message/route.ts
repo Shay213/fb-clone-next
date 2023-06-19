@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
-import { revalidateTag } from "next/cache";
 
 export async function POST(req: Request) {
   const body = await req.json();
@@ -26,9 +25,6 @@ export async function POST(req: Request) {
       where: { id: body.userId },
       select: { email: true },
     });
-    revalidateTag(body.userId + body.friendId);
-    revalidateTag(body.friendId + body.userId);
-    revalidateTag(`conversation${userEmail}unread`);
 
     return new NextResponse(
       JSON.stringify({ message: "Message sended successfully" }),

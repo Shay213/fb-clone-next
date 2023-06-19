@@ -23,7 +23,7 @@ const Feed = async () => {
       <ReelsAndStories />
       <AddPost />
       <Suspense fallback={<Loader />}>
-        {/* @ts-ignore*/}
+        {/* @ts-ignore */}
         <Posts promise={posts} />
       </Suspense>
     </div>

@@ -5,9 +5,7 @@ interface Friend {
 }
 
 export default async function getFriend(friendId: string): Promise<Friend> {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/friend/${friendId}`
-  );
+  const res = await fetch(`http://localhost:3000/api/friend/${friendId}`);
 
   if (!res.ok) {
     throw new Error("Something went wrong");

@@ -9,7 +9,7 @@ export default async function getMutualFriends(
   email: string
 ): Promise<MutualFriend[]> {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/friend/${friendId}/mutualFriends/${email}`
+    `http://localhost:3000/api/friend/${friendId}/mutualFriends/${email}`
   );
 
   if (!res.ok) {

@@ -1,13 +1,16 @@
 import { getServerSession } from "next-auth";
 import "./globals.css";
-import { Inter } from "next/font/google";
+import { Roboto } from "next/font/google";
 import { authOptions } from "./api/auth/[...nextauth]/route";
 import Providers from "./providers/Providers";
 import Nav from "./components/nav/Nav";
 import AddPostModal from "./modals/addPost/AddPostModal";
 import ConversationModal from "./modals/conversation/ConversationModal";
 
-const inter = Inter({ subsets: ["latin"] });
+const roboto = Roboto({
+  weight: ["300", "400", "500", "700"],
+  subsets: ["latin"],
+});
 
 export const metadata = {
   title: "Create Next App",
@@ -24,7 +27,7 @@ export default async function RootLayout({
   const session = await getServerSession(authOptions);
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={roboto.className}>
         <Providers>
           {session ? (
             <>

@@ -12,12 +12,9 @@ export interface FeedPost {
 }
 
 export const getFeedPosts = async (email: string): Promise<FeedPost[]> => {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/posts/${email}`,
-    {
-      next: { tags: ["feedPosts"] },
-    }
-  );
+  const res = await fetch(`http://localhost:3000/api/posts/${email}`, {
+    next: { tags: ["feedPosts"] },
+  });
 
   if (!res.ok) {
     throw new Error("Something went wrong");

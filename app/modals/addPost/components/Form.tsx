@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 import Author from "./Author";
 import Textarea from "./Textarea";
 import AddToPost from "./AddToPost";
@@ -11,6 +11,8 @@ import { useSession } from "next-auth/react";
 import { toast } from "react-hot-toast";
 import { useHomeModalsContext } from "@/app/providers/HomeModalsProvider";
 import Loader from "@/app/components/Loader";
+import addPost from "@/app/actions/post/addPost";
+import { useRouter } from "next/navigation";
 
 export enum AUDIENCE {
   PUBLIC = "public",
@@ -26,15 +28,19 @@ const Form = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { data: session } = useSession();
   const homeModalsContext = useHomeModalsContext();
+  const router = useRouter();
 
   const onSuccess = useCallback(() => {
+    if (homeModalsContext?.addPost)
+      homeModalsContext.addPost.disabledHide = false;
     setDescription("");
     setAudience(AUDIENCE.FRIENDS);
     setIsImageUploadOpen(false);
     setUploadFile(null);
     homeModalsContext?.addPost.hide();
+    router.refresh();
     toast.success("Post added successfully.");
-  }, [homeModalsContext?.addPost]);
+  }, [homeModalsContext?.addPost, router]);
 
   const handleSubmit = useCallback<React.FormEventHandler>(
     async (e) => {
@@ -46,6 +52,8 @@ const Form = () => {
 
       if (!session?.user?.email) {
         toast.error("Please login to add new post.");
+        if (homeModalsContext?.addPost)
+          homeModalsContext.addPost.disabledHide = false;
         return;
       }
 
@@ -64,23 +72,17 @@ const Form = () => {
         }
         body = { ...body, img: res };
       }
-      fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/post?tag=feedPosts`, {
-        method: "POST",
-        body: JSON.stringify(body),
-      }).then((res) => {
-        if (res?.ok) {
-          if (homeModalsContext?.addPost) {
-            homeModalsContext.addPost.disabledHide = false;
-          }
-          onSuccess();
-        } else {
-          if (homeModalsContext?.addPost) {
-            homeModalsContext.addPost.disabledHide = false;
-          }
-          toast.error("Something went wrong");
-        }
+
+      try {
+        await addPost(body);
+        onSuccess();
+      } catch (error) {
+        if (homeModalsContext?.addPost)
+          homeModalsContext.addPost.disabledHide = false;
+        console.log(error);
+      } finally {
         setIsLoading(false);
-      });
+      }
     },
     [
       uploadFile,

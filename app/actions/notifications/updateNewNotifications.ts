@@ -1,8 +1,7 @@
 export default async function updateNewNotifications() {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/notifications/updateNew`,
-    { method: "PATCH" }
-  );
+  const res = await fetch(`http://localhost:3000/api/notifications/updateNew`, {
+    method: "PATCH",
+  });
   if (!res.ok) {
     throw new Error("Something went wrong");
   }

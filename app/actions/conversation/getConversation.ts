@@ -19,7 +19,7 @@ export default async function getConversation(
   friendId: string
 ): Promise<Conversation> {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/conversation/${userId}/${friendId}`,
+    `http://localhost:3000/api/conversation/${userId}/${friendId}`,
     { next: { tags: [userId + friendId] } }
   );
 
@@ -30,7 +30,7 @@ export default async function getConversation(
   if (!conversation) {
     // conversation does not exist
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/conversation/${userId}/${friendId}`,
+      `http://localhost:3000/api/conversation/${userId}/${friendId}`,
       { method: "POST" }
     );
 

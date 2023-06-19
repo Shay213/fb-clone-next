@@ -34,11 +34,12 @@ const Post = async ({ post }: { post: FeedPost }) => {
   return (
     <div className="bg-white dark:bg-zinc-800 rounded-md shadow-lg py-2">
       <div className="px-6">
+        {/* @ts-ignore */}
         <Heading
           name={`${post.author.firstName} ${post.author.lastName}`}
           postedAt={moment(post.createdAt).fromNow()}
           whoCanSeeIt={AUDIENCE[post.audience as keyof typeof AUDIENCE]}
-          img={post.author?.img}
+          img="/avatar.jpeg"
           postId={post.id}
           authorId={post.author.id}
         />

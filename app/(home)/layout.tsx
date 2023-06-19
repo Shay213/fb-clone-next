@@ -4,7 +4,6 @@ import MenuModal from "./modals/menu/MenuModal";
 import MessengerModal from "./modals/messenger/MessengerModal";
 import NotiModal from "./modals/noti/NotiModal";
 import AccountModal from "./modals/account/AccountModal";
-import AddPostModal from "./modals/addPost/AddPostModal";
 
 const Layout = ({
   children,

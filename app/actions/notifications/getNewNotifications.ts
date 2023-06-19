@@ -14,7 +14,7 @@ export default async function getNewNotifications(
 ): Promise<ExtendedNotification[]> {
   await updateNewNotifications();
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/notifications/${userEmail}/new`
+    `http://localhost:3000/api/notifications/${userEmail}/new`
   );
 
   if (!res.ok) {

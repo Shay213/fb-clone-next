@@ -3,7 +3,7 @@ export default async function updateConversation(
   friendId: string
 ) {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/conversation/${userId}/${friendId}`,
+    `http://localhost:3000/api/conversation/${userId}/${friendId}`,
     {
       method: "PATCH",
     }

@@ -45,6 +45,7 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async jwt({ token, user, profile, trigger }) {
       if (trigger === "signIn") {
+        /*@ts-ignore */
         token.name = `${user?.firstName} ${user?.lastName}`;
         token.picture = "";
       }

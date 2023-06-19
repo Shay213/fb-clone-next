@@ -12,10 +12,7 @@ const START_YEAR = 1905;
 
 const YearSelect = ({ className = "", onChange, value }: YearSelectProps) => {
   const currentYear = useMemo(() => new Date().getFullYear(), []);
-  const difference = useMemo(
-    () => currentYear - START_YEAR,
-    [currentYear, START_YEAR]
-  );
+  const difference = useMemo(() => currentYear - START_YEAR, [currentYear]);
 
   return (
     <select

@@ -9,7 +9,10 @@ interface TextareaProps {
   handleSend: () => void;
 }
 
-const Textarea = ({ message, setMessage, handleSend }: TextareaProps, ref) => {
+const Textarea = (
+  { message, setMessage, handleSend }: TextareaProps,
+  ref: React.Ref<HTMLTextAreaElement | null>
+) => {
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const isActiveContext = useIsActiveContext();
 

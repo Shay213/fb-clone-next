@@ -3,7 +3,7 @@ export default async function isFriend(
   email: string
 ): Promise<boolean | null> {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/friend/${friendId}/isFriend/${email}`
+    `http://localhost:3000/api/friend/${friendId}/isFriend/${email}`
   );
 
   if (!res.ok) {

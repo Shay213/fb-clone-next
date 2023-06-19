@@ -9,7 +9,7 @@ export default async function getFriends(
   searchPhrase?: string
 ): Promise<Friend[]> {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/friends/${userEmail}${
+    `http://localhost:3000/api/friends/${userEmail}${
       searchPhrase ? "?search=" + searchPhrase : ""
     }`
   );

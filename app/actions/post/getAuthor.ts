@@ -6,8 +6,6 @@ export interface Author {
 }
 
 export default async function getAuthor(postId: string): Promise<Author> {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/post/${postId}/author`
-  );
+  const res = await fetch(`http://localhost:3000/api/post/${postId}/author`);
   return res.json();
 }
