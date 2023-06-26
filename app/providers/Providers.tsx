@@ -1,6 +1,6 @@
 "use client";
 
-import HomeModalsProvider from "./HomeModalsProvider";
+import ModalsProvider from "./ModalsProvider";
 import ReactQueryProvider from "./ReactQueryProvider";
 import ThemeProvider from "./ThemeProvider";
 import ToasterProvider from "./ToasterProvider";
@@ -11,7 +11,7 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
     <SessionProvider>
       <ReactQueryProvider>
         <ThemeProvider>
-          <HomeModalsProvider>{children}</HomeModalsProvider>
+          <ModalsProvider>{children}</ModalsProvider>
           <ToasterProvider />
         </ThemeProvider>
       </ReactQueryProvider>

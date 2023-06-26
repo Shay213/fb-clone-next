@@ -1,20 +1,12 @@
 "use client";
 
-import React, { useMemo } from "react";
+import React from "react";
 import { AiFillMessage } from "react-icons/ai";
-import { useHomeModalsContext } from "@/app/providers/HomeModalsProvider";
+import { useModalsContext } from "@/app/providers/ModalsProvider";
 
-const Messenger = ({
-  children,
-  size,
-}: {
-  children: React.ReactNode;
-  size: number;
-}) => {
-  const homeModalsContext = useHomeModalsContext();
-  const isOpen = useMemo(() => {
-    return !!homeModalsContext?.messenger.isOpen;
-  }, [homeModalsContext?.messenger.isOpen]);
+const Messenger = ({ size }: { size: number }) => {
+  const homeModalsContext = useModalsContext();
+  const isOpen = !!homeModalsContext?.messenger.isOpen;
 
   return (
     <>
@@ -39,7 +31,14 @@ const Messenger = ({
             isOpen ? "text-blue-700" : "text-gray-900 dark:text-zinc-200"
           }`}
         />
-        {children}
+        <div
+          className="
+          h-[18px] w-[18px] rounded-full flex items-center 
+          justify-center absolute top-0 right-0 bg-red-500 
+          text-white text-sm"
+        >
+          2
+        </div>
       </div>
     </>
   );

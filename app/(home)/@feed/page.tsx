@@ -3,17 +3,8 @@ import ReelsAndStories from "../components/reelsAndStories/ReelsAndStories";
 import AddPost from "../components/addPost/AddPost";
 import Posts from "../components/posts/Posts";
 import Loader from "@/app/components/Loader";
-import { getFeedPosts } from "@/app/actions/posts/getFeedPosts";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import { getServerSession } from "next-auth";
 
-const Feed = async () => {
-  const session = await getServerSession(authOptions);
-  if (!session?.user?.email) {
-    throw new Error("Not authenticated");
-  }
-  const posts = getFeedPosts(session.user.email);
-
+const Feed = () => {
   return (
     <div
       className="
@@ -22,9 +13,14 @@ const Feed = async () => {
     >
       <ReelsAndStories />
       <AddPost />
-      <Suspense fallback={<Loader />}>
-        {/* @ts-ignore */}
-        <Posts promise={posts} />
+      <Suspense
+        fallback={
+          <div className="my-4">
+            <Loader />
+          </div>
+        }
+      >
+        <Posts />
       </Suspense>
     </div>
   );

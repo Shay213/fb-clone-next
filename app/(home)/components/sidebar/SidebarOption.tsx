@@ -11,7 +11,6 @@ interface SidebarOptionProps {
   className?: string;
   userImageSrc?: string | null;
   userName?: string | null;
-  onClick?: () => void;
 }
 
 const SidebarOption = ({
@@ -23,7 +22,6 @@ const SidebarOption = ({
   className,
   userImageSrc,
   userName,
-  onClick,
 }: SidebarOptionProps) => {
   return (
     <div
@@ -33,7 +31,6 @@ const SidebarOption = ({
             dark:hover:bg-zinc-700
             ${className || ""}
           `}
-      onClick={onClick}
     >
       {userName ? (
         <>

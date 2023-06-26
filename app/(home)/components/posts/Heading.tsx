@@ -5,7 +5,6 @@ import { AiOutlineClose } from "react-icons/ai";
 import Avatar from "./Avatar";
 import AuthorName from "./AuthorName";
 import UserBox from "./UserBox";
-import getAuthor from "@/app/actions/post/getAuthor";
 
 interface HeadingProps {
   img?: string | null;
@@ -24,7 +23,6 @@ const Heading = async ({
   postId,
   authorId,
 }: HeadingProps) => {
-  const author = await getAuthor(postId);
   return (
     <div className="flex justify-between">
       <div className="flex items-center gap-2">

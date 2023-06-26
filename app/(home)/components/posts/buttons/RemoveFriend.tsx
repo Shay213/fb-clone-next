@@ -1,41 +1,14 @@
 "use client";
 
-import React, { useCallback } from "react";
-import { useSession } from "next-auth/react";
+import React from "react";
 
 import { BiUserCheck } from "react-icons/bi";
-import toast from "react-hot-toast";
-import removeFriend from "@/app/actions/friend/removeFriend";
-import sendNotification from "@/app/actions/notification/sendNotification";
-import { NotificationType } from "@prisma/client";
 
 interface RemoveFriendProps {
   friendId: string;
 }
 
 const RemoveFriend = ({ friendId }: RemoveFriendProps) => {
-  const { data: session } = useSession();
-
-  const handleClick = useCallback(() => {
-    if (session?.user?.email) {
-      removeFriend(session.user.email, friendId)
-        .then((res) => {
-          toast.success("Removed friend successfully");
-          if (session.user?.email) {
-            const body = {
-              senderEmail: session.user.email,
-              receiverId: friendId,
-              type: NotificationType.REMOVED_FRIEND,
-            };
-            sendNotification(body);
-          }
-        })
-        .catch(() => {
-          toast.error("Something went wrong");
-        });
-    }
-  }, [friendId, session?.user?.email]);
-
   return (
     <button
       type="button"
@@ -45,7 +18,7 @@ const RemoveFriend = ({ friendId }: RemoveFriendProps) => {
       hover:bg-gray-300 transition font-normal
       dark:bg-zinc-600 dark:hover:bg-zinc-500 dark:text-zinc-200
     "
-      onClick={handleClick}
+      onClick={() => {}}
     >
       <BiUserCheck size={21} />
       Friends

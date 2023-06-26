@@ -1,23 +1,12 @@
 "use client";
 
-import { useHomeModalsContext } from "@/app/providers/HomeModalsProvider";
-import React, { useMemo } from "react";
+import { useModalsContext } from "@/app/providers/ModalsProvider";
+import React from "react";
 import { IoIosNotifications } from "react-icons/io";
-import { useSession } from "next-auth/react";
-import updateSeenNotifications from "@/app/actions/notifications/updateSeenNotifications";
 
-const Noti = ({
-  size,
-  children,
-}: {
-  size: number;
-  children: React.ReactNode;
-}) => {
-  const homeModalsContext = useHomeModalsContext();
-  const isOpen = useMemo(() => {
-    return !!homeModalsContext?.noti.isOpen;
-  }, [homeModalsContext?.noti.isOpen]);
-  const { data: session } = useSession();
+const Noti = ({ size }: { size: number }) => {
+  const homeModalsContext = useModalsContext();
+  const isOpen = !!homeModalsContext?.noti.isOpen;
 
   return (
     <div
@@ -33,8 +22,6 @@ const Noti = ({
       onClick={async () => {
         homeModalsContext?.hideOthers("noti");
         homeModalsContext?.noti.toggle();
-        if (session?.user?.email)
-          await updateSeenNotifications(session?.user?.email);
       }}
     >
       <IoIosNotifications
@@ -43,7 +30,14 @@ const Noti = ({
           isOpen ? "text-blue-700" : "text-gray-900 dark:text-zinc-200"
         }`}
       />
-      {children}
+      <div
+        className="
+        h-[18px] w-[18px] rounded-full flex items-center 
+        justify-center absolute top-0 right-0 bg-red-500 
+        text-white text-sm"
+      >
+        1
+      </div>
     </div>
   );
 };

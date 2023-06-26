@@ -2,12 +2,12 @@
 
 import React from "react";
 import { useSession } from "next-auth/react";
-import { useHomeModalsContext } from "@/app/providers/HomeModalsProvider";
+import { useModalsContext } from "@/app/providers/ModalsProvider";
 
 const Button = () => {
   const { data: session } = useSession();
   const name = session?.user?.name?.split(" ")[0];
-  const homeModalsContext = useHomeModalsContext();
+  const modalsContext = useModalsContext();
 
   return (
     <button
@@ -19,8 +19,8 @@ const Button = () => {
         dark:hover:bg-zinc-600
       "
       onClick={() => {
-        homeModalsContext?.hideOthers("addPost");
-        homeModalsContext?.addPost.toggle();
+        modalsContext?.hideOthers("addPost");
+        modalsContext?.addPost.toggle();
       }}
     >{`What's on your mind, ${name}`}</button>
   );

@@ -1,14 +1,12 @@
 "use client";
 
-import { useHomeModalsContext } from "@/app/providers/HomeModalsProvider";
-import React, { useMemo, useState } from "react";
+import { useModalsContext } from "@/app/providers/ModalsProvider";
+import React from "react";
 import { CgMenuGridO } from "react-icons/cg";
 
 const Menu = ({ size }: { size: number }) => {
-  const homeModalsContext = useHomeModalsContext();
-  const isOpen = useMemo(() => {
-    return !!homeModalsContext?.menu.isOpen;
-  }, [homeModalsContext?.menu.isOpen]);
+  const homeModalsContext = useModalsContext();
+  const isOpen = !!homeModalsContext?.menu.isOpen;
 
   return (
     <>

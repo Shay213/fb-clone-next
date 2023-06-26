@@ -1,9 +1,5 @@
 import React from "react";
 import Sidebar from "./components/sidebar/Sidebar";
-import MenuModal from "./modals/menu/MenuModal";
-import MessengerModal from "./modals/messenger/MessengerModal";
-import NotiModal from "./modals/noti/NotiModal";
-import AccountModal from "./modals/account/AccountModal";
 
 const Layout = ({
   children,
@@ -20,10 +16,6 @@ const Layout = ({
       {feed}
       {contacts}
       {children}
-      <MessengerModal />
-      <MenuModal />
-      <NotiModal />
-      <AccountModal />
     </div>
   );
 };

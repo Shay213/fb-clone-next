@@ -1,17 +1,15 @@
 "use client";
 
-import React, { useMemo } from "react";
+import React from "react";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
-import { useHomeModalsContext } from "@/app/providers/HomeModalsProvider";
+import { useModalsContext } from "@/app/providers/ModalsProvider";
 
 const Account = () => {
   const { data: session } = useSession();
-  const homeModalsContext = useHomeModalsContext();
-  const isOpen = useMemo(() => {
-    return !!homeModalsContext?.account.isOpen;
-  }, [homeModalsContext?.account.isOpen]);
-  const img = useMemo(() => session?.user?.image, [session?.user?.image]);
+  const homeModalsContext = useModalsContext();
+  const isOpen = !!homeModalsContext?.account.isOpen;
+  const img = session?.user?.image;
 
   return (
     <div

@@ -2,13 +2,9 @@ import React from "react";
 import Heading from "./Heading";
 import Image from "next/image";
 import moment from "moment";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 import { AiFillLike } from "react-icons/ai";
 
-import { FeedPost } from "@/app/actions/posts/getFeedPosts";
-import getLikesCount from "@/app/actions/likes/getLikesCount";
 import LikePost from "./buttons/LikePost";
 import ShowAddComment from "./buttons/ShowAddComment";
 import SharePost from "./buttons/SharePost";
@@ -22,34 +18,23 @@ enum AUDIENCE {
   ONLY_ME = "only me",
 }
 
-const Post = async ({ post }: { post: FeedPost }) => {
-  const session = await getServerSession(authOptions);
-
-  if (!session?.user?.email) {
-    throw new Error("Not authenticated");
-  }
-
-  const numOfLikes = await getLikesCount(post.id);
-
+const Post = () => {
   return (
     <div className="bg-white dark:bg-zinc-800 rounded-md shadow-lg py-2">
       <div className="px-6">
-        {/* @ts-ignore */}
         <Heading
-          name={`${post.author.firstName} ${post.author.lastName}`}
-          postedAt={moment(post.createdAt).fromNow()}
-          whoCanSeeIt={AUDIENCE[post.audience as keyof typeof AUDIENCE]}
+          name={`test`}
+          postedAt={moment(Date.now()).fromNow()}
+          whoCanSeeIt={AUDIENCE["FRIENDS" as keyof typeof AUDIENCE]}
           img="/avatar.jpeg"
-          postId={post.id}
-          authorId={post.author.id}
+          postId={"test"}
+          authorId={"test"}
         />
-        <div className="py-3 text-sm dark:text-zinc-300">
-          {post.description}
-        </div>
+        <div className="py-3 text-sm dark:text-zinc-300">{"test"}</div>
       </div>
-      {post.img && (
+      {false && (
         <Image
-          src={post.img}
+          src={""}
           alt="postImage"
           width={600}
           height={900}
@@ -60,7 +45,7 @@ const Post = async ({ post }: { post: FeedPost }) => {
         <div className="py-4 flex justify-between text-sm text-gray-600 dark:text-zinc-300">
           <div className="flex items-center gap-2">
             <AiFillLike size={20} className="fill-blue-500" />
-            <span>{numOfLikes}</span>
+            <span>2</span>
           </div>
           <div className="flex items-center gap-2">
             <div>{`60 comments`}</div>
@@ -74,7 +59,7 @@ const Post = async ({ post }: { post: FeedPost }) => {
             flex items-center gap-2 dark:border-zinc-600
           "
           >
-            <LikePost userEmail={session.user.email} postId={post.id} />
+            <LikePost userEmail={""} postId={""} />
             <ShowAddComment />
             <SharePost />
           </div>

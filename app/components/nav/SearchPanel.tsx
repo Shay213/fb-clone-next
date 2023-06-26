@@ -4,7 +4,6 @@ import React, { useEffect, useRef, useState } from "react";
 import { HiArrowNarrowLeft } from "react-icons/hi";
 import { SlMagnifier } from "react-icons/sl";
 import Search from "./Search";
-import { Friend } from "@/app/actions/friends/getFriends";
 import Image from "next/image";
 
 const SearchPanel = () => {
@@ -12,7 +11,7 @@ const SearchPanel = () => {
   const searchPanelRef = useRef<null | HTMLDivElement>(null);
   const searchRef = useRef<null | HTMLDivElement>(null);
   const [searchPhrase, setSearchPhrase] = useState("");
-  const [results, setResults] = useState<Friend[]>([]);
+  const [results, setResults] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {

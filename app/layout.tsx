@@ -4,8 +4,6 @@ import { Roboto } from "next/font/google";
 import { authOptions } from "./api/auth/[...nextauth]/route";
 import Providers from "./providers/Providers";
 import Nav from "./components/nav/Nav";
-import AddPostModal from "./modals/addPost/AddPostModal";
-import ConversationModal from "./modals/conversation/ConversationModal";
 
 const roboto = Roboto({
   weight: ["300", "400", "500", "700"],
@@ -20,9 +18,11 @@ export const metadata = {
 export default async function RootLayout({
   children,
   auth,
+  modals,
 }: {
   children: React.ReactNode;
   auth: React.ReactNode;
+  modals: React.ReactNode;
 }) {
   const session = await getServerSession(authOptions);
   return (
@@ -33,8 +33,7 @@ export default async function RootLayout({
             <>
               <Nav />
               {children}
-              <AddPostModal />
-              <ConversationModal />
+              {modals}
             </>
           ) : (
             auth

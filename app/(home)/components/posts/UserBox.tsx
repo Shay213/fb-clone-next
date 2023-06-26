@@ -5,9 +5,6 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 import { BiDotsHorizontalRounded } from "react-icons/bi";
 import { BsMessenger } from "react-icons/bs";
-import getAuthor from "@/app/actions/post/getAuthor";
-import getMutualFriends from "@/app/actions/friend/getMutualFriends";
-import isFriend from "@/app/actions/friend/isFriend";
 import AddFriend from "./buttons/AddFriend";
 import AddToStory from "./buttons/AddToStory";
 import EditProfile from "./buttons/EditProfile";
@@ -30,13 +27,9 @@ const UserBox = async ({ user }: UserBoxProps) => {
   }
 
   const { id, firstName, lastName, email } = user;
-  const mutualFriendsData = getMutualFriends(id, session.user.email);
-  const alreadyFriendsData = isFriend(id, session.user.email);
 
-  const [mutualFriends, alreadyFriends] = await Promise.all([
-    mutualFriendsData,
-    alreadyFriendsData,
-  ]);
+  const mutualFriends = [];
+  const alreadyFriends = false;
 
   return (
     <div

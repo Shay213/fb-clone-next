@@ -3,16 +3,14 @@
 import { useMutation } from "@tanstack/react-query";
 import React, { useCallback, useState } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
-import getFriends from "@/app/actions/friends/getFriends";
 import { useSession } from "next-auth/react";
-import { Friend } from "@/app/actions/friends/getFriends";
 
 interface SearchProps {
   isOpen: boolean;
   searchPhrase: string;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setSearchPhrase: React.Dispatch<React.SetStateAction<string>>;
-  setResults: React.Dispatch<React.SetStateAction<Friend[]>>;
+  setResults: React.Dispatch<React.SetStateAction<any[]>>;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
@@ -27,7 +25,7 @@ export default React.forwardRef<any, SearchProps>(function Search(props, ref) {
   } = props;
   const { data: session } = useSession();
 
-  const mutation = useMutation({
+  /*const mutation = useMutation({
     mutationFn: ({ email, search }: { email: string; search: string }) =>
       getFriends(email, search),
     onSuccess: (data) => {
@@ -46,7 +44,7 @@ export default React.forwardRef<any, SearchProps>(function Search(props, ref) {
       }
     },
     [setSearchPhrase, session?.user?.email, mutation, setIsLoading]
-  );
+  );*/
 
   return (
     <div
@@ -73,7 +71,7 @@ export default React.forwardRef<any, SearchProps>(function Search(props, ref) {
               outline-none border-none hidden lg:block
               ${isOpen ? "-translate-x-5" : ""}
             `}
-          onChange={handleChange}
+          onChange={() => {}}
           value={searchPhrase}
         />
       </div>

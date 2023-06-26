@@ -1,6 +1,5 @@
 "use client";
 
-import toggleLike from "@/app/actions/likes/toggleLike";
 import React, { useCallback, useState } from "react";
 
 import { BiLike } from "react-icons/bi";
@@ -11,17 +10,7 @@ interface LikePostProps {
 }
 
 const LikePost = ({ postId, userEmail }: LikePostProps) => {
-  const [isLiked, setIsLiked] = useState(false);
-
-  const handleClick = useCallback(() => {
-    toggleLike(userEmail, postId)
-      .then(() => {
-        setIsLiked((prev) => !prev);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [userEmail, postId]);
+  const isLiked = false;
 
   return (
     <div
@@ -29,7 +18,7 @@ const LikePost = ({ postId, userEmail }: LikePostProps) => {
             hover:bg-gray-200 transition cursor-pointer
               dark:hover:bg-zinc-700
             `}
-      onClick={handleClick}
+      onClick={() => {}}
     >
       <div className="flex items-center gap-2 py-2 dark:text-zinc-300">
         <BiLike size={20} className={`${isLiked ? "fill-blue-500" : ""}`} />
