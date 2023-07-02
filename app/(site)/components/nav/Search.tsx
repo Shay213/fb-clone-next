@@ -1,10 +1,9 @@
 "use client";
 
-import getUserFriends from "@/app/actions/getUserFriends";
 import { useMutation } from "@tanstack/react-query";
 import React, { ChangeEventHandler } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
-import { useSession } from "next-auth/react";
+import getUsers from "@/app/actions/getUsers";
 
 interface SearchProps {
   isOpen: boolean;
@@ -26,18 +25,11 @@ export default React.forwardRef<any, SearchProps>(function Search(props, ref) {
     setIsLoading,
     setError,
   } = props;
-  const { data: session } = useSession();
 
   const mutation = useMutation({
-    mutationFn: ({
-      userId,
-      searchPhrase,
-    }: {
-      userId: string;
-      searchPhrase?: string;
-    }) => {
+    mutationFn: (searchPhrase: string) => {
       setIsLoading(true);
-      return getUserFriends(userId, searchPhrase);
+      return getUsers(searchPhrase);
     },
     onSuccess: (data) => {
       setResults(data);
@@ -50,11 +42,8 @@ export default React.forwardRef<any, SearchProps>(function Search(props, ref) {
   });
 
   const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
-    if (!session) {
-      return;
-    }
     setSearchPhrase(e.target.value);
-    mutation.mutate({ userId: session.user.id, searchPhrase });
+    mutation.mutate(e.target.value);
   };
 
   return (

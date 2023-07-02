@@ -1,16 +1,13 @@
-interface Friend {
+interface User {
   picture: string | null;
   id: string;
   lastName: string;
   firstName: string;
 }
 
-export default async function getUserFriends(
-  userId: string,
-  searchPhrase?: string
-): Promise<Friend[]> {
+export default async function getUsers(searchPhrase?: string): Promise<User[]> {
   const res = await fetch(
-    `http://localhost:3000/api/friends/${userId}${
+    `http://localhost:3000/api/users${
       searchPhrase ? "?search=" + searchPhrase : ""
     }`
   );

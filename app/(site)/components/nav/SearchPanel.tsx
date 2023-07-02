@@ -5,6 +5,7 @@ import { HiArrowNarrowLeft } from "react-icons/hi";
 import { SlMagnifier } from "react-icons/sl";
 import Search from "./Search";
 import Image from "next/image";
+import Link from "next/link";
 
 const SearchPanel = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -71,9 +72,14 @@ const SearchPanel = () => {
           ) : searchPhrase.length > 0 ? (
             <>
               {results.map((r) => (
-                <div
+                <Link
                   key={r.id}
                   className="flex gap-2 p-1 items-start rounded-md hover:bg-gray-200 transition cursor-pointer"
+                  href={`/profile/${r.id}`}
+                  onClick={() => {
+                    setSearchPhrase("");
+                    setIsOpen(false);
+                  }}
                 >
                   <Image
                     src={"/avatar.jpeg"}
@@ -86,7 +92,7 @@ const SearchPanel = () => {
                     <h5 className="text-base font-semibold">{`${r.firstName} ${r.lastName}`}</h5>
                     <span className="text-sm font-light">Friend</span>
                   </div>
-                </div>
+                </Link>
               ))}
               <div className="flex gap-2 p-1 items-center rounded-md hover:bg-gray-200 transition cursor-pointer">
                 <div
