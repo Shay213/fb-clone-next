@@ -1,13 +1,7 @@
 import React from "react";
 import { notFound } from "next/navigation";
 import Image from "next/image";
-export async function generateStaticParams() {
-  const users = await prisma.user.findMany();
-
-  return users.map((user) => ({
-    userId: user.id,
-  }));
-}
+import prisma from "@/lib/prisma";
 
 const Profile = async ({ params }: { params: { userId: string } }) => {
   const { userId } = params;

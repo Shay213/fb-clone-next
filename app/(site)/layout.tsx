@@ -1,8 +1,6 @@
-import { getServerSession } from "next-auth";
-import "./globals.css";
+import "../globals.css";
 import { Roboto } from "next/font/google";
-import { authOptions } from "./api/auth/[...nextauth]/route";
-import Providers from "./providers/Providers";
+import Providers from "../providers/Providers";
 import Nav from "./components/nav/Nav";
 
 const roboto = Roboto({
@@ -17,27 +15,18 @@ export const metadata = {
 
 export default async function RootLayout({
   children,
-  auth,
   modals,
 }: {
   children: React.ReactNode;
-  auth: React.ReactNode;
   modals: React.ReactNode;
 }) {
-  const session = await getServerSession(authOptions);
   return (
     <html lang="en">
       <body className={roboto.className}>
         <Providers>
-          {session ? (
-            <>
-              <Nav />
-              {children}
-              {modals}
-            </>
-          ) : (
-            auth
-          )}
+          <Nav />
+          {children}
+          {modals}
         </Providers>
       </body>
     </html>

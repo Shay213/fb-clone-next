@@ -10,7 +10,7 @@ import ImageUpload from "./ImageUpload";
 import { useSession } from "next-auth/react";
 import { toast } from "react-hot-toast";
 import { useModalsContext } from "@/app/providers/ModalsProvider";
-import Loader from "@/app/components/Loader";
+import Loader from "@/app/(site)/components/Loader";
 import { useRouter } from "next/navigation";
 
 export enum AUDIENCE {

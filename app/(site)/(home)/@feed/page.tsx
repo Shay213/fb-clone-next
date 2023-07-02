@@ -2,7 +2,7 @@ import React, { Suspense } from "react";
 import ReelsAndStories from "../components/reelsAndStories/ReelsAndStories";
 import AddPost from "../components/addPost/AddPost";
 import Posts from "../components/posts/Posts";
-import Loader from "@/app/components/Loader";
+import Loader from "../../components/Loader";
 
 const Feed = () => {
   return (
