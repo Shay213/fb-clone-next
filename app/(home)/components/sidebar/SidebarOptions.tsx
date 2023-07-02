@@ -1,6 +1,4 @@
-"use client";
-
-import React, { useState } from "react";
+import React from "react";
 import SidebarOption from "./SidebarOption";
 import { useSession } from "next-auth/react";
 import { FaUserFriends, FaGlobeAmericas } from "react-icons/fa";
@@ -28,6 +26,9 @@ import {
 } from "react-icons/bs";
 import { RiGamepadFill } from "react-icons/ri";
 import { SiMessenger, SiNintendogamecube } from "react-icons/si";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { getServerSession } from "next-auth";
+import UserOption from "./UserOption";
 
 const SIDEBAR_OPTIONS = [
   {
@@ -110,16 +111,16 @@ const SIDEBAR_OPTIONS = [
 
 const MAX_VISIBLE_ITEMS = 10;
 
-const SidebarOptions = () => {
-  const { data: session } = useSession();
-  const [showMore, setShowMore] = useState(false);
+const SidebarOptions = async () => {
+  const showMore = false;
+  const session = await getServerSession(authOptions);
 
   return (
     <div>
-      <SidebarOption
-        userName={session?.user?.name}
-        userImageSrc={session?.user?.image}
-        labelColor="text-gray-700 dark:text-zinc-300"
+      <UserOption
+        id={session?.user.id}
+        name={session?.user.name}
+        image={session?.user.image}
       />
       {SIDEBAR_OPTIONS.map(({ name, icon: Icon }, i) => (
         <SidebarOption
@@ -136,9 +137,6 @@ const SidebarOptions = () => {
         label="See more"
         labelColor="text-gray-700 dark:text-zinc-300"
         iconFill="fill-slate-600 dark:fill-zinc-300"
-        onClick={() => {
-          setShowMore((prev) => !prev);
-        }}
       />
     </div>
   );

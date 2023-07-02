@@ -7,6 +7,7 @@ const Posts = () => {
       {[].map((post) => (
         <Post key={post.id} post={post} />
       ))}
+      <div className="h-[1000px]">test</div>
     </div>
   );
 };

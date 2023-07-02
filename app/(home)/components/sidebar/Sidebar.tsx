@@ -7,8 +7,7 @@ const Sidebar = () => {
   return (
     <div
       className="
-        sticky top-[70px] h-[calc(100vh-70px)] 
-        px-2 overflow-auto z-10 min-w-[240px] w-1/4 max-w-[350px]
+        sticky top-[70px] px-2 overflow-auto z-10 min-w-[240px] w-1/4 max-w-[350px] h-[calc(100vh-56px)]
         scrollbar-thin scrollbar-thumb-slate-600 scrollbar-track-slate-100
         dark:scrollbar-thumb-zinc-700 dark:scrollbar-track-zinc-500
       "
