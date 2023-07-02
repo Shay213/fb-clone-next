@@ -6,9 +6,15 @@ import { CiFaceSmile } from "react-icons/ci";
 import Avatar from "./Avatar";
 import Button from "./Button";
 
-const AddPost = () => {
+interface AddPostProps {
+  className?: string;
+}
+
+const AddPost = ({ className }: AddPostProps) => {
   return (
-    <div className="mt-4 bg-white dark:bg-zinc-800 rounded-md shadow-lg py-2 px-6">
+    <div
+      className={`mt-4 bg-white dark:bg-zinc-800 rounded-md shadow-lg py-2 px-6 ${className}`}
+    >
       <div className="flex items-center gap-3">
         <Avatar />
         <Button />
