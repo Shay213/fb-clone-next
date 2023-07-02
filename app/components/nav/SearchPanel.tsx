@@ -13,6 +13,7 @@ const SearchPanel = () => {
   const [searchPhrase, setSearchPhrase] = useState("");
   const [results, setResults] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<null | string>(null);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -117,6 +118,7 @@ const SearchPanel = () => {
         setSearchPhrase={setSearchPhrase}
         setResults={setResults}
         setIsLoading={setIsLoading}
+        setError={setError}
       />
     </>
   );

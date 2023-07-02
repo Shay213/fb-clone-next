@@ -1,7 +1,8 @@
 "use client";
 
+import getUserFriends from "@/app/actions/getUserFriends";
 import { useMutation } from "@tanstack/react-query";
-import React, { useCallback, useState } from "react";
+import React, { ChangeEventHandler } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import { useSession } from "next-auth/react";
 
@@ -12,6 +13,7 @@ interface SearchProps {
   setSearchPhrase: React.Dispatch<React.SetStateAction<string>>;
   setResults: React.Dispatch<React.SetStateAction<any[]>>;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  setError: React.Dispatch<React.SetStateAction<null | string>>;
 }
 
 export default React.forwardRef<any, SearchProps>(function Search(props, ref) {
@@ -22,29 +24,38 @@ export default React.forwardRef<any, SearchProps>(function Search(props, ref) {
     searchPhrase,
     setResults,
     setIsLoading,
+    setError,
   } = props;
   const { data: session } = useSession();
 
-  /*const mutation = useMutation({
-    mutationFn: ({ email, search }: { email: string; search: string }) =>
-      getFriends(email, search),
-    onSuccess: (data) => {
-      setIsLoading(false);
-      setResults(data);
+  const mutation = useMutation({
+    mutationFn: ({
+      userId,
+      searchPhrase,
+    }: {
+      userId: string;
+      searchPhrase?: string;
+    }) => {
+      setIsLoading(true);
+      return getUserFriends(userId, searchPhrase);
     },
-    onError: (err) => console.log(err),
+    onSuccess: (data) => {
+      setResults(data);
+      setError(null);
+    },
+    onError: () => {
+      setError("Something went wrong");
+    },
+    onSettled: () => setIsLoading(false),
   });
 
-  const handleChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setSearchPhrase(e.target.value);
-      if (session?.user?.email && e.target.value?.length > 0) {
-        setIsLoading(true);
-        mutation.mutate({ email: session.user.email, search: e.target.value });
-      }
-    },
-    [setSearchPhrase, session?.user?.email, mutation, setIsLoading]
-  );*/
+  const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
+    if (!session) {
+      return;
+    }
+    setSearchPhrase(e.target.value);
+    mutation.mutate({ userId: session.user.id, searchPhrase });
+  };
 
   return (
     <div
@@ -71,7 +82,7 @@ export default React.forwardRef<any, SearchProps>(function Search(props, ref) {
               outline-none border-none hidden lg:block
               ${isOpen ? "-translate-x-5" : ""}
             `}
-          onChange={() => {}}
+          onChange={handleChange}
           value={searchPhrase}
         />
       </div>
