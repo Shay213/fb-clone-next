@@ -15,17 +15,17 @@ const OptionWrapper = ({ children, name }: OptionWrapperProps) => {
     display: false,
   });
 
-  const handleClick = useCallback(() => {
+  const handleClick = () => {
     if (name === OPTIONS_LABELS.DISPLAY) {
       setIsOpen((prev) => ({ ...prev, display: !prev.display }));
     }
     if (name === OPTIONS_LABELS.LOGOUT) {
       signOut();
     }
-  }, [name]);
+  };
 
   return (
-    <div className="relative">
+    <div className="relative" onClick={handleClick}>
       {children}
       {isOpen.display && <ThemeBox />}
     </div>
