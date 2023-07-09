@@ -1,7 +1,5 @@
 import React from "react";
 import Image from "next/image";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 import { BiDotsHorizontalRounded } from "react-icons/bi";
 import { BsMessenger } from "react-icons/bs";
@@ -9,27 +7,29 @@ import AddFriend from "./buttons/AddFriend";
 import AddToStory from "./buttons/AddToStory";
 import EditProfile from "./buttons/EditProfile";
 import RemoveFriend from "./buttons/RemoveFriend";
+import alreadyFriends from "@/app/actions/alreadyFriends";
+import getMutualFriends from "@/app/actions/getMutualFriends";
 
 interface UserBoxProps {
-  user: {
-    id: string;
-    email: string;
-    firstName: string;
-    lastName: string;
-  };
+  authorId: string;
+  name: string;
+  img?: string | null;
+  currUserId: string;
 }
 
-const UserBox = async ({ user }: UserBoxProps) => {
-  const session = await getServerSession(authOptions);
+export const preload = (userId: string, friendId: string) => {
+  void alreadyFriends(userId, friendId);
+  void getMutualFriends(userId, friendId);
+};
 
-  if (!session?.user?.email) {
-    throw new Error("Not authenticated");
-  }
+const UserBox = async ({ authorId, name, img, currUserId }: UserBoxProps) => {
+  const alreadyFriendsData = alreadyFriends(currUserId, authorId);
+  const mutualFriendsData = getMutualFriends(currUserId, authorId);
 
-  const { id, firstName, lastName, email } = user;
-
-  const mutualFriends = [];
-  const alreadyFriends = false;
+  const [alreadyFriendsRes, mutualFriendsRes] = await Promise.all([
+    alreadyFriendsData,
+    mutualFriendsData,
+  ]);
 
   return (
     <div
@@ -42,7 +42,7 @@ const UserBox = async ({ user }: UserBoxProps) => {
       <div className="flex gap-4">
         <div>
           <Image
-            src={"/avatar.jpeg"}
+            src={img || "/avatar.jpeg"}
             alt="user-img"
             width={70}
             height={70}
@@ -51,10 +51,10 @@ const UserBox = async ({ user }: UserBoxProps) => {
         </div>
         <div>
           <h1 className="text-gray-800 text-xl font-semibold dark:text-zinc-200">
-            {`${firstName} ${lastName}`}
+            {name}
           </h1>
-          {email !== session.user.email &&
-            mutualFriends.map((friend) => (
+          {authorId !== currUserId &&
+            mutualFriendsRes.map((friend) => (
               <p key={friend.id} className="dark:text-zinc-300">
                 {`${friend.firstName} ${friend.lastName}`}
               </p>
@@ -62,13 +62,13 @@ const UserBox = async ({ user }: UserBoxProps) => {
         </div>
       </div>
       <div className="flex justify-between gap-2">
-        {email === session.user.email ? (
+        {authorId === currUserId ? (
           <>
             <AddToStory /> <EditProfile />
           </>
-        ) : alreadyFriends ? (
+        ) : alreadyFriendsRes.alreadyFriends ? (
           <>
-            <RemoveFriend friendId={id} />
+            <RemoveFriend friendId={authorId} />
             <button
               type="button"
               className="
@@ -83,7 +83,7 @@ const UserBox = async ({ user }: UserBoxProps) => {
           </>
         ) : (
           <>
-            <AddFriend friendId={id} />
+            <AddFriend friendId={authorId} />
             <button
               type="button"
               className="

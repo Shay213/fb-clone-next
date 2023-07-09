@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useState } from "react";
+import React, { FormEventHandler, useState } from "react";
 import Author from "./Author";
 import Textarea from "./Textarea";
 import AddToPost from "./AddToPost";
@@ -12,6 +12,7 @@ import { toast } from "react-hot-toast";
 import { useModalsContext } from "@/app/providers/ModalsProvider";
 import Loader from "@/app/(site)/components/Loader";
 import { useRouter } from "next/navigation";
+import addPost from "@/app/actions/addPost";
 
 export enum AUDIENCE {
   PUBLIC = "public",
@@ -29,7 +30,7 @@ const Form = () => {
   const modalsContext = useModalsContext();
   const router = useRouter();
 
-  const onSuccess = useCallback(() => {
+  const onSuccess = () => {
     if (modalsContext?.addPost) modalsContext.addPost.disabledHide = false;
     setDescription("");
     setAudience(AUDIENCE.FRIENDS);
@@ -38,57 +39,47 @@ const Form = () => {
     modalsContext?.addPost.hide();
     router.refresh();
     toast.success("Post added successfully.");
-  }, [modalsContext?.addPost, router]);
+  };
 
-  const handleSubmit = useCallback<React.FormEventHandler>(
-    async (e) => {
-      e.preventDefault();
-      if (modalsContext?.addPost) {
-        modalsContext.addPost.disabledHide = true;
-      }
-      setIsLoading(true);
+  const handleSubmit: FormEventHandler = async (e) => {
+    e.preventDefault();
+    if (modalsContext?.addPost) {
+      modalsContext.addPost.disabledHide = true;
+    }
+    setIsLoading(true);
 
-      if (!session?.user?.email) {
-        toast.error("Please login to add new post.");
-        if (modalsContext?.addPost) modalsContext.addPost.disabledHide = false;
+    if (!session?.user?.email) {
+      toast.error("Please login to add new post.");
+      if (modalsContext?.addPost) modalsContext.addPost.disabledHide = false;
+      return;
+    }
+
+    let body = {
+      description,
+      audience,
+      authorId: session.user.id,
+    } as any;
+
+    if (uploadFile) {
+      const res = await uploadSingleFile(uploadFile);
+      // null or url
+      if (!res) {
+        toast.error("There was a problem while uploading your file.");
         return;
       }
+      body = { ...body, img: res };
+    }
 
-      let body = {
-        description,
-        audience,
-        email: session.user.email,
-      } as any;
-
-      if (uploadFile) {
-        const res = await uploadSingleFile(uploadFile);
-        // null or url
-        if (!res) {
-          toast.error("There was a problem while uploading your file.");
-          return;
-        }
-        body = { ...body, img: res };
-      }
-
-      try {
-        //await addPost(body);
-        onSuccess();
-      } catch (error) {
-        if (modalsContext?.addPost) modalsContext.addPost.disabledHide = false;
-        console.log(error);
-      } finally {
-        setIsLoading(false);
-      }
-    },
-    [
-      uploadFile,
-      audience,
-      description,
-      session?.user?.email,
-      onSuccess,
-      modalsContext?.addPost,
-    ]
-  );
+    try {
+      await addPost(body);
+      onSuccess();
+    } catch (error) {
+      if (modalsContext?.addPost) modalsContext.addPost.disabledHide = false;
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <>

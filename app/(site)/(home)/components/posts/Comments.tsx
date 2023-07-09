@@ -20,7 +20,7 @@ const COMMENTS = [
 const Comments = () => {
   return (
     <div className="flex flex-col gap-2">
-      {COMMENTS.map((c) => (
+      {[].map((c) => (
         <Comment key={c.id} comment={c} />
       ))}
     </div>

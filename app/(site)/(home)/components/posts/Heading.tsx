@@ -11,8 +11,8 @@ interface HeadingProps {
   name: string;
   postedAt: string;
   whoCanSeeIt: string;
-  postId: string;
   authorId: string;
+  currUserId: string;
 }
 
 const Heading = async ({
@@ -20,20 +20,28 @@ const Heading = async ({
   name,
   postedAt,
   whoCanSeeIt,
-  postId,
   authorId,
+  currUserId,
 }: HeadingProps) => {
   return (
     <div className="flex justify-between">
       <div className="flex items-center gap-2">
         <Avatar img={img}>
-          {/* @ts-ignore */}
-          <UserBox user={author} />
+          <UserBox
+            authorId={authorId}
+            name={name}
+            img={img}
+            currUserId={currUserId}
+          />
         </Avatar>
         <div className="flex flex-col">
           <AuthorName name={name}>
-            {/* @ts-ignore */}
-            <UserBox user={author} />
+            <UserBox
+              authorId={authorId}
+              name={name}
+              img={img}
+              currUserId={currUserId}
+            />
           </AuthorName>
           <div className="text-xs dark:text-zinc-400">{`${postedAt} ${whoCanSeeIt}`}</div>
         </div>

@@ -2,6 +2,7 @@ import React from "react";
 import Heading from "./Heading";
 import Image from "next/image";
 import moment from "moment";
+import { Post as IPost } from "@prisma/client";
 
 import { AiFillLike } from "react-icons/ai";
 
@@ -11,6 +12,10 @@ import SharePost from "./buttons/SharePost";
 import Comments from "./Comments";
 import AddCommentContextProvider from "./AddCommentContextProvider";
 import AddComment from "./AddComment";
+import { preload } from "./UserBox";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { notFound } from "next/navigation";
 
 enum AUDIENCE {
   PUBLIC = "public",
@@ -18,23 +23,40 @@ enum AUDIENCE {
   ONLY_ME = "only me",
 }
 
-const Post = () => {
+const Post = async ({
+  post,
+}: {
+  post: IPost & {
+    author: {
+      id: string;
+      firstName: string;
+      lastName: string;
+      picture: string | null;
+    };
+  };
+}) => {
+  const session = await getServerSession(authOptions);
+
+  if (!session) {
+    return notFound();
+  }
+  preload(session.user.id, post.author.id);
   return (
     <div className="bg-white dark:bg-zinc-800 rounded-md shadow-lg py-2">
       <div className="px-6">
         <Heading
-          name={`test`}
-          postedAt={moment(Date.now()).fromNow()}
-          whoCanSeeIt={AUDIENCE["FRIENDS" as keyof typeof AUDIENCE]}
-          img="/avatar.jpeg"
-          postId={"test"}
-          authorId={"test"}
+          name={`${post.author.firstName} ${post.author.lastName}`}
+          postedAt={moment(post.createdAt).fromNow()}
+          whoCanSeeIt={AUDIENCE[post.audience as keyof typeof AUDIENCE]}
+          img={post.author.picture}
+          authorId={post.author.id}
+          currUserId={session.user.id}
         />
         <div className="py-3 text-sm dark:text-zinc-300">{"test"}</div>
       </div>
-      {false && (
+      {post.img && (
         <Image
-          src={""}
+          src={post.img}
           alt="postImage"
           width={600}
           height={900}
