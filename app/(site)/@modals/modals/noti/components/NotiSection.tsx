@@ -2,12 +2,15 @@ import Image from "next/image";
 import moment from "moment";
 import Message from "./notiType/friendRequest/Message";
 import Buttons from "./notiType/friendRequest/Buttons";
+import { ExtendedNotification } from "@/app/actions/getNotifications";
 
 interface NotiSectionProps {
   label: string;
+  notifications: ExtendedNotification[];
+  userId: string;
 }
 
-const NotiSection = ({ label }: NotiSectionProps) => {
+const NotiSection = ({ label, notifications, userId }: NotiSectionProps) => {
   return (
     <div className="flex flex-col gap-2">
       <div className="flex justify-between items-center">
@@ -24,9 +27,9 @@ const NotiSection = ({ label }: NotiSectionProps) => {
         </div>
       </div>
       <div className="flex flex-col gap-2">
-        {[].map((item) => (
+        {notifications.map((n) => (
           <div
-            key={item.id}
+            key={n.id}
             className="
                 flex gap-2 p-2 items-center rounded-md
                 hover:bg-gray-200 cursor-pointer transition
@@ -35,7 +38,7 @@ const NotiSection = ({ label }: NotiSectionProps) => {
           >
             <div>
               <Image
-                src={"/avatar.jpeg"}
+                src={n.sender.picture || "/avatar.jpeg"}
                 alt="img"
                 width={50}
                 height={50}
@@ -45,23 +48,23 @@ const NotiSection = ({ label }: NotiSectionProps) => {
             <div className="text-sm max-w-[320px]">
               <div className="flex flex-col">
                 <Message
-                  type={item.type}
-                  name={`${item.sender.firstName} ${item.sender.lastName}`}
+                  type={n.type}
+                  name={`${n.sender.firstName} ${n.sender.lastName}`}
                 />
                 <span className="dark:text-zinc-300">
-                  {moment(item.createdAt).fromNow()}
+                  {moment(n.createdAt).fromNow()}
                 </span>
-                {item.type === "FRIEND_REQUEST" && item.new && (
+                {n.type === "FRIEND_REQUEST" && !n.read && (
                   <Buttons
-                    id={item.id}
-                    currUserId={item.receiverId}
-                    senderId={item.senderId}
-                    senderName={`${item.sender.firstName} ${item.sender.lastName}`}
+                    id={n.id}
+                    currUserId={userId}
+                    senderId={n.senderId}
+                    senderName={`${n.sender.firstName} ${n.sender.lastName}`}
                   />
                 )}
               </div>
             </div>
-            {!item.read && (
+            {!n.read && (
               <div className="w-4 h-4 rounded-full bg-blue-500"></div>
             )}
           </div>

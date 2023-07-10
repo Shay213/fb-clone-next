@@ -23,20 +23,21 @@ model User {
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 
-  posts                 Post[]         @relation("author")
-  sendedNotifications   Notification[] @relation(name: "sender")
-  receivedNotifications Notification[] @relation(name: "receiver")
-  friendOf              User[]         @relation("UserFollows", fields: [friendOfIDs], references: [id])
-  friendOfIDs           String[]       @db.ObjectId
-  friends               User[]         @relation("UserFollows", fields: [friendsIDs], references: [id])
-  friendsIDs            String[]       @db.ObjectId
-  likedPostsIDs         String[]       @db.ObjectId
-  likedPosts            Post[]         @relation("likes", fields: [likedPostsIDs], references: [id])
-  comments              Comment[]      @relation("postedBy")
-  likedCommentsIDs      String[]       @db.ObjectId
-  likedComments         Comment[]      @relation("commentsLikes", fields: [likedCommentsIDs], references: [id])
-  conversations         Conversation[]
-  messages              Message[]
+  posts                    Post[]         @relation("author")
+  sendedNotifications      Notification[] @relation(name: "sender")
+  receivedNotificationsIDs String[]       @db.ObjectId
+  receivedNotifications    Notification[] @relation(fields: [receivedNotificationsIDs], references: [id], name: "receiver")
+  friendOf                 User[]         @relation("UserFollows", fields: [friendOfIDs], references: [id])
+  friendOfIDs              String[]       @db.ObjectId
+  friends                  User[]         @relation("UserFollows", fields: [friendsIDs], references: [id])
+  friendsIDs               String[]       @db.ObjectId
+  likedPostsIDs            String[]       @db.ObjectId
+  likedPosts               Post[]         @relation("likes", fields: [likedPostsIDs], references: [id])
+  comments                 Comment[]      @relation("postedBy")
+  likedCommentsIDs         String[]       @db.ObjectId
+  likedComments            Comment[]      @relation("commentsLikes", fields: [likedCommentsIDs], references: [id])
+  conversations            Conversation[]
+  messages                 Message[]
 }
 
 model Post {
@@ -55,16 +56,16 @@ model Post {
 }
 
 model Notification {
-  id         String           @id @default(auto()) @map("_id") @db.ObjectId
-  senderId   String           @db.ObjectId
-  sender     User             @relation(name: "sender", fields: [senderId], references: [id], onDelete: Cascade)
-  receiverId String           @db.ObjectId
-  receiver   User             @relation(name: "receiver", fields: [receiverId], references: [id], onDelete: Cascade)
-  new        Boolean          @default(true)
-  read       Boolean          @default(false)
-  seen       Boolean          @default(false)
-  type       NotificationType
-  createdAt  DateTime         @default(now())
+  id           String           @id @default(auto()) @map("_id") @db.ObjectId
+  senderId     String           @db.ObjectId
+  sender       User             @relation(name: "sender", fields: [senderId], references: [id], onDelete: Cascade)
+  receiversIds String[]         @db.ObjectId
+  receivers    User[]           @relation(name: "receiver", fields: [receiversIds], references: [id])
+  new          Boolean          @default(true)
+  read         Boolean          @default(false)
+  seen         Boolean          @default(false)
+  type         NotificationType
+  createdAt    DateTime         @default(now())
 }
 
 model Comment {
@@ -104,7 +105,8 @@ model Message {
 
 enum NotificationType {
   FRIEND_REQUEST
-  REMOVED_FRIEND
+  REMOVED_FROM_FRIENDS
+  FRIEND_NEW_POST
 }
 
 enum Gender {

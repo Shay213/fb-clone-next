@@ -18,11 +18,17 @@ const Message = ({ type, name }: MessageProps) => {
             request.
           </p>
         );
-      case "REMOVED_FRIEND":
+      case "REMOVED_FROM_FRIENDS":
         return (
           <p className="dark:text-zinc-200">
             <span className="font-bold">{`${name} `}</span> removed you from
             friends.
+          </p>
+        );
+      case "FRIEND_NEW_POST":
+        return (
+          <p className="dark:text-zinc-200">
+            <span className="font-bold">{`${name} `}</span> added new post.
           </p>
         );
       default:

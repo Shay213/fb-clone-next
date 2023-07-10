@@ -13,6 +13,7 @@ import { useModalsContext } from "@/app/providers/ModalsProvider";
 import Loader from "@/app/(site)/components/Loader";
 import { useRouter } from "next/navigation";
 import addPost from "@/app/actions/addPost";
+import sendNotification from "@/app/actions/sendNotification";
 
 export enum AUDIENCE {
   PUBLIC = "public",
@@ -39,6 +40,10 @@ const Form = () => {
     modalsContext?.addPost.hide();
     router.refresh();
     toast.success("Post added successfully.");
+    sendNotification({
+      type: "FRIEND_NEW_POST",
+      senderId: session?.user.id as string,
+    });
   };
 
   const handleSubmit: FormEventHandler = async (e) => {
