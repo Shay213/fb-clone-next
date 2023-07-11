@@ -8,23 +8,20 @@ export async function GET(
   const { userId } = params;
   try {
     const notifications = await prisma.notification.findMany({
-      where: { receiversIds: { has: userId } },
-      include: {
-        sender: {
-          select: {
-            id: true,
-            picture: true,
-            firstName: true,
-            lastName: true,
-          },
-        },
+      where: {
+        AND: [{ receiversIds: { has: userId } }, { seen: { equals: false } }],
       },
-      orderBy: {
-        createdAt: "desc",
+      select: {
+        id: true,
       },
     });
 
-    return new NextResponse(JSON.stringify(notifications), { status: 200 });
+    return new NextResponse(
+      JSON.stringify({ notificationsCount: notifications.length }),
+      {
+        status: 200,
+      }
+    );
   } catch (error: any) {
     return new NextResponse(error.message, { status: 400 });
   }

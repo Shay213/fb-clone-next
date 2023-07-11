@@ -31,6 +31,7 @@ export async function GET(
           },
         },
       },
+      orderBy: { createdAt: "desc" },
     });
     return new NextResponse(JSON.stringify(posts), { status: 200 });
   } catch (error: any) {

@@ -1,21 +1,37 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ExtendedNotification } from "@/app/actions/getNotifications";
 import NotiSection from "./NotiSection";
+import { pusherClient } from "@/lib/pusher";
 
 const OPTIONS = ["all", "unread"] as const;
 
 type OPTIONS_VALUES = (typeof OPTIONS)[number];
 
 const Options = ({
-  notifications,
+  initNotifications,
   userId,
 }: {
-  notifications: ExtendedNotification[];
+  initNotifications: ExtendedNotification[];
   userId: string;
 }) => {
   const [option, setOption] = useState<OPTIONS_VALUES>("all");
+  const [notifications, setNotifications] = useState(initNotifications);
+
+  useEffect(() => {
+    const handler = (notification: ExtendedNotification) => {
+      setNotifications((prev) => [notification, ...prev]);
+    };
+
+    pusherClient.subscribe(`notifications-${userId}`);
+    pusherClient.bind("incoming-notifications", handler);
+
+    return () => {
+      pusherClient.unsubscribe(`notifications-${userId}`);
+      pusherClient.unbind("incoming-notifications", handler);
+    };
+  }, [userId]);
 
   let content: ExtendedNotification[];
 

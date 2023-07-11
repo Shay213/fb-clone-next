@@ -52,7 +52,9 @@ const Post = async ({
           authorId={post.author.id}
           currUserId={session.user.id}
         />
-        <div className="py-3 text-sm dark:text-zinc-300">{"test"}</div>
+        <div className="py-3 text-sm dark:text-zinc-300">
+          {post.description}
+        </div>
       </div>
       {post.img && (
         <Image

@@ -1,12 +1,38 @@
 "use client";
 
 import { useModalsContext } from "@/app/providers/ModalsProvider";
-import React from "react";
+import { pusherClient } from "@/lib/pusher";
+import React, { useEffect, useState } from "react";
 import { IoIosNotifications } from "react-icons/io";
 
-const Noti = ({ size }: { size: number }) => {
+const Noti = ({
+  size,
+  initialNotificationsCount,
+  userId,
+}: {
+  size: number;
+  initialNotificationsCount: number;
+  userId?: string;
+}) => {
+  const [notificationsCount, setNotificationsCount] = useState(
+    initialNotificationsCount
+  );
   const homeModalsContext = useModalsContext();
   const isOpen = !!homeModalsContext?.noti.isOpen;
+
+  useEffect(() => {
+    const handler = () => {
+      setNotificationsCount((prev) => prev + 1);
+    };
+
+    pusherClient.subscribe(`notifications-count-${userId}`);
+    pusherClient.bind("new-notifications-count", handler);
+
+    return () => {
+      pusherClient.unsubscribe(`notifications-count-${userId}`);
+      pusherClient.unbind("new-notifications-count", handler);
+    };
+  }, [userId]);
 
   return (
     <div
@@ -36,7 +62,7 @@ const Noti = ({ size }: { size: number }) => {
         justify-center absolute top-0 right-0 bg-red-500 
         text-white text-sm"
       >
-        1
+        {notificationsCount}
       </div>
     </div>
   );
