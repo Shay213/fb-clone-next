@@ -4,6 +4,18 @@ import { useModalsContext } from "@/app/providers/ModalsProvider";
 import { pusherClient } from "@/lib/pusher";
 import React, { useEffect, useState } from "react";
 import { IoIosNotifications } from "react-icons/io";
+import { useSession } from "next-auth/react";
+
+const markCurrentNotificationsAsSeen = async (userId: string) => {
+  const res = await fetch("http://localhost:3000/api/notifications/seen", {
+    method: "PATCH",
+    body: JSON.stringify({ userId }),
+  });
+
+  if (!res.ok) {
+    throw new Error("Request failed: " + res.status);
+  }
+};
 
 const Noti = ({
   size,
@@ -19,6 +31,7 @@ const Noti = ({
   );
   const homeModalsContext = useModalsContext();
   const isOpen = !!homeModalsContext?.noti.isOpen;
+  const { data: session } = useSession();
 
   useEffect(() => {
     const handler = () => {
@@ -34,6 +47,13 @@ const Noti = ({
     };
   }, [userId]);
 
+  useEffect(() => {
+    if (isOpen && session && notificationsCount > 0) {
+      markCurrentNotificationsAsSeen(session.user.id);
+      setNotificationsCount(0);
+    }
+  }, [isOpen, notificationsCount, session]);
+
   return (
     <div
       className={`
@@ -45,7 +65,7 @@ const Noti = ({
             : "hover:bg-gray-300 bg-gray-200 dark:hover:bg-zinc-500 dark:bg-zinc-600"
         } 
       `}
-      onClick={async () => {
+      onClick={() => {
         homeModalsContext?.hideOthers("noti");
         homeModalsContext?.noti.toggle();
       }}

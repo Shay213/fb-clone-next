@@ -21,6 +21,7 @@ const Options = ({
 
   useEffect(() => {
     const handler = (notification: ExtendedNotification) => {
+      console.log(notification);
       setNotifications((prev) => [notification, ...prev]);
     };
 

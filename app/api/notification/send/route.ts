@@ -50,7 +50,6 @@ export async function POST(req: Request) {
       id: notificationId,
       new: true,
       read: false,
-      seen: false,
       type,
       senderId,
       receiversIds,
@@ -61,6 +60,7 @@ export async function POST(req: Request) {
         firstName: user.firstName,
         lastName: user.lastName,
       },
+      seenByIds: [],
     };
 
     receiversIds.forEach((id) => {

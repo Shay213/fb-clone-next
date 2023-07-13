@@ -38,6 +38,8 @@ model User {
   likedComments            Comment[]      @relation("commentsLikes", fields: [likedCommentsIDs], references: [id])
   conversations            Conversation[]
   messages                 Message[]
+  seenNotificationsIDs     String[]       @db.ObjectId
+  seenNotifications        Notification[] @relation(name: "seenBy", fields: [seenNotificationsIDs], references: [id])
 }
 
 model Post {
@@ -63,7 +65,8 @@ model Notification {
   receivers    User[]           @relation(name: "receiver", fields: [receiversIds], references: [id])
   new          Boolean          @default(true)
   read         Boolean          @default(false)
-  seen         Boolean          @default(false)
+  seenByIds    String[]         @db.ObjectId
+  seenBy       User[]           @relation(name: "seenBy", fields: [seenByIds], references: [id])
   type         NotificationType
   createdAt    DateTime         @default(now())
 }

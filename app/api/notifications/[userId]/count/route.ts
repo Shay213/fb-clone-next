@@ -7,17 +7,22 @@ export async function GET(
 ) {
   const { userId } = params;
   try {
-    const notifications = await prisma.notification.findMany({
-      where: {
-        AND: [{ receiversIds: { has: userId } }, { seen: { equals: false } }],
-      },
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
       select: {
-        id: true,
+        receivedNotifications: {
+          where: {
+            seenBy: { none: { id: { equals: userId } } },
+          },
+          select: { id: true },
+        },
       },
     });
 
     return new NextResponse(
-      JSON.stringify({ notificationsCount: notifications.length }),
+      JSON.stringify({
+        notificationsCount: user?.receivedNotifications?.length,
+      }),
       {
         status: 200,
       }
