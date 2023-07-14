@@ -12,9 +12,11 @@ type OPTIONS_VALUES = (typeof OPTIONS)[number];
 const Options = ({
   initNotifications,
   userId,
+  userName,
 }: {
   initNotifications: ExtendedNotification[];
   userId: string;
+  userName: string;
 }) => {
   const [option, setOption] = useState<OPTIONS_VALUES>("all");
   const [notifications, setNotifications] = useState(initNotifications);
@@ -65,7 +67,12 @@ const Options = ({
           </div>
         ))}
       </div>
-      <NotiSection label={option} notifications={content} userId={userId} />
+      <NotiSection
+        label={option}
+        notifications={content}
+        userId={userId}
+        userName={userName}
+      />
     </>
   );
 };

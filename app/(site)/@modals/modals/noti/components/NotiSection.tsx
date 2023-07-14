@@ -8,9 +8,15 @@ interface NotiSectionProps {
   label: string;
   notifications: ExtendedNotification[];
   userId: string;
+  userName: string;
 }
 
-const NotiSection = ({ label, notifications, userId }: NotiSectionProps) => {
+const NotiSection = ({
+  label,
+  notifications,
+  userId,
+  userName,
+}: NotiSectionProps) => {
   return (
     <div className="flex flex-col gap-2">
       <div className="flex justify-between items-center">
@@ -60,6 +66,7 @@ const NotiSection = ({ label, notifications, userId }: NotiSectionProps) => {
                     currUserId={userId}
                     senderId={n.senderId}
                     senderName={`${n.sender.firstName} ${n.sender.lastName}`}
+                    userName={userName}
                   />
                 )}
               </div>

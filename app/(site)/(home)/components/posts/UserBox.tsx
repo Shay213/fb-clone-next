@@ -19,7 +19,7 @@ interface UserBoxProps {
 }
 
 const UserBox = ({ authorId, name, img, currUserId }: UserBoxProps) => {
-  const { data: isFriend } = useQuery({
+  const { data: alreadyFriendsData } = useQuery({
     queryKey: [`userBox-${authorId}-${currUserId}`],
     queryFn: () => alreadyFriends(currUserId, authorId),
   });
@@ -64,7 +64,7 @@ const UserBox = ({ authorId, name, img, currUserId }: UserBoxProps) => {
           <>
             <AddToStory /> <EditProfile />
           </>
-        ) : isFriend ? (
+        ) : alreadyFriendsData?.alreadyFriends ? (
           <>
             <RemoveFriend friendId={authorId} userId={currUserId} />
             <button
@@ -81,7 +81,7 @@ const UserBox = ({ authorId, name, img, currUserId }: UserBoxProps) => {
           </>
         ) : (
           <>
-            <AddFriend friendId={authorId} />
+            <AddFriend friendId={authorId} userId={currUserId} />
             <button
               type="button"
               className="

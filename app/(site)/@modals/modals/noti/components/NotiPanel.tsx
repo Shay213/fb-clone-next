@@ -21,7 +21,11 @@ const NotiPanel = async () => {
         "
     >
       <Heading />
-      <Options initNotifications={notifications} userId={session.user.id} />
+      <Options
+        initNotifications={notifications}
+        userId={session.user.id}
+        userName={session.user.name as string}
+      />
     </div>
   );
 };
