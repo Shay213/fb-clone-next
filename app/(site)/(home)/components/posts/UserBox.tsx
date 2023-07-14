@@ -68,7 +68,7 @@ const UserBox = async ({ authorId, name, img, currUserId }: UserBoxProps) => {
           </>
         ) : alreadyFriendsRes.alreadyFriends ? (
           <>
-            <RemoveFriend friendId={authorId} />
+            <RemoveFriend friendId={authorId} userId={currUserId} />
             <button
               type="button"
               className="

@@ -36,7 +36,8 @@ model User {
   comments                 Comment[]      @relation("postedBy")
   likedCommentsIDs         String[]       @db.ObjectId
   likedComments            Comment[]      @relation("commentsLikes", fields: [likedCommentsIDs], references: [id])
-  conversations            Conversation[]
+  conversationsIDs         String[]       @db.ObjectId
+  conversations            Conversation[] @relation(fields: [conversationsIDs], references: [id])
   messages                 Message[]
   seenNotificationsIDs     String[]       @db.ObjectId
   seenNotifications        Notification[] @relation(name: "seenBy", fields: [seenNotificationsIDs], references: [id])
@@ -87,23 +88,21 @@ model Comment {
 }
 
 model Conversation {
-  id             String    @id @default(auto()) @map("_id") @db.ObjectId
-  userID         String    @db.ObjectId
-  user           User      @relation(fields: [userID], references: [id])
-  messagesIDs    String[]  @db.ObjectId
-  messages       Message[] @relation(fields: [messagesIDs], references: [id])
-  conversationID String    @unique
+  id           String    @id @map("_id") @db.ObjectId
+  messages     Message[]
+  usersPairIDs String[]  @db.ObjectId
+  usersPair    User[]    @relation(fields: [usersPairIDs], references: [id])
 }
 
 model Message {
-  id              String         @id @default(auto()) @map("_id") @db.ObjectId
-  description     String
-  sendedByID      String         @db.ObjectId
-  sendedBy        User           @relation(fields: [sendedByID], references: [id])
-  conversationIDs String[]       @db.ObjectId
-  conversation    Conversation[] @relation(fields: [conversationIDs], references: [id])
-  createdAt       DateTime       @default(now())
-  read            Boolean        @default(false)
+  id             String       @id @default(auto()) @map("_id") @db.ObjectId
+  description    String
+  sendedByID     String       @db.ObjectId
+  sendedBy       User         @relation(fields: [sendedByID], references: [id])
+  conversationID String       @db.ObjectId
+  conversation   Conversation @relation(fields: [conversationID], references: [id])
+  createdAt      DateTime     @default(now())
+  read           Boolean      @default(false)
 }
 
 enum NotificationType {
