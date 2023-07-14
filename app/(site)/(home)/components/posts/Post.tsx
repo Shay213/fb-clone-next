@@ -12,10 +12,6 @@ import SharePost from "./buttons/SharePost";
 import Comments from "./Comments";
 import AddCommentContextProvider from "./AddCommentContextProvider";
 import AddComment from "./AddComment";
-import { preload } from "./UserBox";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import { notFound } from "next/navigation";
 
 enum AUDIENCE {
   PUBLIC = "public",
@@ -23,8 +19,9 @@ enum AUDIENCE {
   ONLY_ME = "only me",
 }
 
-const Post = async ({
+const Post = ({
   post,
+  userId,
 }: {
   post: IPost & {
     author: {
@@ -34,13 +31,8 @@ const Post = async ({
       picture: string | null;
     };
   };
+  userId: string;
 }) => {
-  const session = await getServerSession(authOptions);
-
-  if (!session) {
-    return notFound();
-  }
-  preload(session.user.id, post.author.id);
   return (
     <div className="bg-white dark:bg-zinc-800 rounded-md shadow-lg py-2">
       <div className="px-6">
@@ -50,7 +42,7 @@ const Post = async ({
           whoCanSeeIt={AUDIENCE[post.audience as keyof typeof AUDIENCE]}
           img={post.author.picture}
           authorId={post.author.id}
-          currUserId={session.user.id}
+          currUserId={userId}
         />
         <div className="py-3 text-sm dark:text-zinc-300">
           {post.description}

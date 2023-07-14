@@ -15,7 +15,7 @@ interface HeadingProps {
   currUserId: string;
 }
 
-const Heading = async ({
+const Heading = ({
   img,
   name,
   postedAt,

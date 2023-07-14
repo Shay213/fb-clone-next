@@ -9,6 +9,7 @@ import EditProfile from "./buttons/EditProfile";
 import RemoveFriend from "./buttons/RemoveFriend";
 import alreadyFriends from "@/app/actions/alreadyFriends";
 import getMutualFriends from "@/app/actions/getMutualFriends";
+import { useQuery } from "@tanstack/react-query";
 
 interface UserBoxProps {
   authorId: string;
@@ -17,19 +18,15 @@ interface UserBoxProps {
   currUserId: string;
 }
 
-export const preload = (userId: string, friendId: string) => {
-  void alreadyFriends(userId, friendId);
-  void getMutualFriends(userId, friendId);
-};
-
-const UserBox = async ({ authorId, name, img, currUserId }: UserBoxProps) => {
-  const alreadyFriendsData = alreadyFriends(currUserId, authorId);
-  const mutualFriendsData = getMutualFriends(currUserId, authorId);
-
-  const [alreadyFriendsRes, mutualFriendsRes] = await Promise.all([
-    alreadyFriendsData,
-    mutualFriendsData,
-  ]);
+const UserBox = ({ authorId, name, img, currUserId }: UserBoxProps) => {
+  const { data: isFriend } = useQuery({
+    queryKey: [`userBox-${authorId}-${currUserId}`],
+    queryFn: () => alreadyFriends(currUserId, authorId),
+  });
+  const { data: mutualFriends } = useQuery({
+    queryKey: [`mutualFriends-${authorId}-${currUserId}`],
+    queryFn: () => getMutualFriends(currUserId, authorId),
+  });
 
   return (
     <div
@@ -54,7 +51,8 @@ const UserBox = async ({ authorId, name, img, currUserId }: UserBoxProps) => {
             {name}
           </h1>
           {authorId !== currUserId &&
-            mutualFriendsRes.map((friend) => (
+            mutualFriends &&
+            mutualFriends.map((friend) => (
               <p key={friend.id} className="dark:text-zinc-300">
                 {`${friend.firstName} ${friend.lastName}`}
               </p>
@@ -66,7 +64,7 @@ const UserBox = async ({ authorId, name, img, currUserId }: UserBoxProps) => {
           <>
             <AddToStory /> <EditProfile />
           </>
-        ) : alreadyFriendsRes.alreadyFriends ? (
+        ) : isFriend ? (
           <>
             <RemoveFriend friendId={authorId} userId={currUserId} />
             <button

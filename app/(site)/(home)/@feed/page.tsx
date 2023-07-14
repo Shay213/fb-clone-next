@@ -20,7 +20,6 @@ const Feed = () => {
           </div>
         }
       >
-        {/* @ts-ignore */}
         <Posts />
       </Suspense>
     </div>
