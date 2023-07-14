@@ -30,9 +30,6 @@ const RemoveFriend = ({ friendId, userId }: RemoveFriendProps) => {
             senderId: userId,
             receiverId: friendId,
           });
-          // update alreadyFriends
-          // update feed posts
-          // update contacts
           toast.success("Removed friend");
         } catch (error) {
           console.log(error);

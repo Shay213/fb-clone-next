@@ -24,16 +24,21 @@ const Content = ({
   const [posts, setPosts] = useState(initialPosts);
 
   useEffect(() => {
-    const handler = (post: ExtendedPost) => {
+    const newPost = (post: ExtendedPost) => {
       setPosts((prev) => [post, ...prev]);
+    };
+    const filterPosts = (authorId: string) => {
+      setPosts((prev) => prev.filter((post) => post.authorId !== authorId));
     };
 
     pusherClient.subscribe(`feed-${userId}`);
-    pusherClient.bind("update-feed", handler);
+    pusherClient.bind("update-feed", newPost);
+    pusherClient.bind("update-feed-removed-friend", filterPosts);
 
     return () => {
       pusherClient.unsubscribe(`feed-${userId}`);
-      pusherClient.unbind("update-feed", handler);
+      pusherClient.unbind("update-feed", newPost);
+      pusherClient.unbind("update-feed-removed-friend", filterPosts);
     };
   }, [userId]);
 

@@ -1,9 +1,21 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
+import { pusherServer } from "@/lib/pusher";
 
 export async function PATCH(req: Request) {
   try {
     const { userId, friendId } = await req.json();
+
+    pusherServer.trigger(
+      `feed-${userId}`,
+      "update-feed-removed-friend",
+      friendId
+    );
+    pusherServer.trigger(
+      `feed-${friendId}`,
+      "update-feed-removed-friend",
+      userId
+    );
 
     await prisma.user.update({
       where: { id: userId },
