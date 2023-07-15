@@ -7,7 +7,7 @@ const Friends = async () => {
     <div>
       {[].map((item) => {
         return (
-          <FriendWrapper key={item.id}>
+          <FriendWrapper key={""}>
             <Friend name="test" />
           </FriendWrapper>
         );

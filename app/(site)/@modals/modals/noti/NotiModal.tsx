@@ -1,21 +1,29 @@
 import React from "react";
-import NotiContextContainer from "./components/NotiContextContainer";
 import NotiPanel from "./components/NotiPanel";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import getNotifications from "@/app/actions/getNotifications";
 
-const NotiModal = () => {
+const NotiModal = async () => {
+  const session = await getServerSession(authOptions);
+
+  if (!session) return null;
+
+  const notifications = await getNotifications(session.user.id);
   return (
-    <NotiContextContainer>
-      <div
-        className="
+    <div
+      className="
           fixed top-[62px] right-0 bg-transparent p-2 z-50 
           max-h-[calc(100vh-160px)] h-[calc(100vh-160px)]
           overflow-hidden
         "
-      >
-        {/* @ts-ignore */}
-        <NotiPanel />
-      </div>
-    </NotiContextContainer>
+    >
+      <NotiPanel
+        initNotifications={notifications}
+        userId={session.user.id}
+        userName={session.user.name as string}
+      />
+    </div>
   );
 };
 

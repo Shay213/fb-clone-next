@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
-import { FormData } from "@/app/@auth/modals/RegisterModal";
+import { FormData } from "@/app/(auth)/modals/RegisterModal";
 import { Gender } from "@prisma/client";
 
 export const POST = async (request: Request) => {

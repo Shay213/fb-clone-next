@@ -1,6 +1,7 @@
 "use client";
 
 import removeFriend from "@/app/actions/removeFriend";
+import revalidateTag from "@/app/actions/revalidateTag";
 import sendNotification from "@/app/actions/sendNotification";
 import React from "react";
 import { toast } from "react-hot-toast";
@@ -25,7 +26,7 @@ const RemoveFriend = ({ friendId, userId }: RemoveFriendProps) => {
       onClick={async () => {
         try {
           await removeFriend(userId, friendId);
-          sendNotification({
+          await sendNotification({
             type: "REMOVED_FROM_FRIENDS",
             senderId: userId,
             receiverId: friendId,

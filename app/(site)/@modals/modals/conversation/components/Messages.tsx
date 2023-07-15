@@ -12,7 +12,7 @@ const Messages = () => {
     >
       <div className="flex flex-col gap-1 h-full w-full">
         {[].map((m) => (
-          <Message key={m.id} message={m} />
+          <Message key={""} message={m} />
         ))}
       </div>
     </div>

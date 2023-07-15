@@ -1,5 +1,4 @@
 import { createContext, useContext, useMemo, useState } from "react";
-import { ConversationExtended } from "../actions/friends/getFriendsAndConversations";
 
 interface HomeModalsContext {
   messenger: {
@@ -34,7 +33,6 @@ interface HomeModalsContext {
     toggle: () => void;
   };
   conversation: {
-    payload?: ConversationExtended;
     isOpen: boolean;
     show: () => void;
     hide: () => void;
