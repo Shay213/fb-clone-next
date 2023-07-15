@@ -30,15 +30,20 @@ const Content = ({
     const filterPosts = (authorId: string) => {
       setPosts((prev) => prev.filter((post) => post.authorId !== authorId));
     };
+    const replacePosts = (posts: ExtendedPost[]) => {
+      setPosts(posts);
+    };
 
     pusherClient.subscribe(`feed-${userId}`);
     pusherClient.bind("update-feed", newPost);
     pusherClient.bind("update-feed-removed-friend", filterPosts);
+    pusherClient.bind("update-feed-added-friend", replacePosts);
 
     return () => {
       pusherClient.unsubscribe(`feed-${userId}`);
       pusherClient.unbind("update-feed", newPost);
       pusherClient.unbind("update-feed-removed-friend", filterPosts);
+      pusherClient.unbind("update-feed-added-friend", replacePosts);
     };
   }, [userId]);
 

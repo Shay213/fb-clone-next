@@ -31,6 +31,20 @@ const Message = ({ type, name }: MessageProps) => {
             <span className="font-bold">{`${name} `}</span> added new post.
           </p>
         );
+      case "FRIEND_REQUEST_ACCEPTED":
+        return (
+          <p className="dark:text-zinc-200">
+            <span className="font-bold">{`${name} `}</span> accepted your friend
+            request.
+          </p>
+        );
+      case "FRIEND_REQUEST_DECLINDED":
+        return (
+          <p className="dark:text-zinc-200">
+            <span className="font-bold">{`${name} `}</span> declined your friend
+            request.
+          </p>
+        );
       default:
         return null;
     }
