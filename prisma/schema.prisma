@@ -88,10 +88,11 @@ model Comment {
 }
 
 model Conversation {
-  id           String    @id @map("_id") @db.ObjectId
-  messages     Message[]
-  usersPairIDs String[]  @db.ObjectId
-  usersPair    User[]    @relation(fields: [usersPairIDs], references: [id])
+  id             String    @id @default(auto()) @map("_id") @db.ObjectId
+  conversationId String    @unique
+  messages       Message[]
+  usersPairIDs   String[]  @db.ObjectId
+  usersPair      User[]    @relation(fields: [usersPairIDs], references: [id])
 }
 
 model Message {

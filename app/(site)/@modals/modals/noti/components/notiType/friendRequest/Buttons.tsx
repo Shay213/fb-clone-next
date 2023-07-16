@@ -1,6 +1,7 @@
 "use client";
 
 import addFriend from "@/app/actions/addFriend";
+import createConversation from "@/app/actions/createConversation";
 import sendNotification from "@/app/actions/sendNotification";
 import React from "react";
 import { toast } from "react-hot-toast";
@@ -26,11 +27,12 @@ const Buttons = ({
         onClick={async () => {
           try {
             await addFriend(currUserId, senderId);
-            await sendNotification({
+            sendNotification({
               type: "FRIEND_REQUEST_ACCEPTED",
               senderId: currUserId,
               receiverId: senderId,
             });
+            createConversation(currUserId, senderId);
             toast.success(`You and ${senderName} are now friends`);
           } catch (error) {
             console.log(error);
