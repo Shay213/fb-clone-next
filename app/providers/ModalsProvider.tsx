@@ -1,4 +1,12 @@
-import { createContext, useContext, useMemo, useState } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  createContext,
+  useContext,
+  useMemo,
+  useState,
+} from "react";
+import { ExtendedConversation } from "../actions/getConversations";
 
 interface HomeModalsContext {
   messenger: {
@@ -37,6 +45,8 @@ interface HomeModalsContext {
     show: () => void;
     hide: () => void;
     toggle: () => void;
+    getConversation: () => ExtendedConversation | null;
+    setConversation: Dispatch<SetStateAction<ExtendedConversation | null>>;
   };
   hideAll: () => void;
   hideOthers: (modalName: ModalName) => void;
@@ -59,6 +69,9 @@ const ModalsProvider = ({ children }: { children: React.ReactNode }) => {
     addPost: false,
     conversation: false,
   });
+  const [conversation, setConversation] = useState<ExtendedConversation | null>(
+    null
+  );
 
   const homeModalsContext = useMemo((): HomeModalsContext => {
     return {
@@ -113,6 +126,8 @@ const ModalsProvider = ({ children }: { children: React.ReactNode }) => {
             ...prev,
             conversation: !prev.conversation,
           })),
+        getConversation: () => conversation,
+        setConversation: setConversation,
       },
       hideAll: () =>
         setIsModalOpen((prev) => ({
@@ -134,7 +149,7 @@ const ModalsProvider = ({ children }: { children: React.ReactNode }) => {
           [modalName]: prev[modalName],
         })),
     };
-  }, [isModalOpen, setIsModalOpen]);
+  }, [isModalOpen, setIsModalOpen, conversation]);
 
   return (
     <ModalsContext.Provider value={homeModalsContext}>

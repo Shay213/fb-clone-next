@@ -1,5 +1,3 @@
-"use client";
-
 import React, { useCallback, useRef, useState } from "react";
 
 import { MdSend } from "react-icons/md";
@@ -7,22 +5,30 @@ import { BiPlus } from "react-icons/bi";
 import { BsImages, BsStickyFill } from "react-icons/bs";
 import { AiOutlineGif } from "react-icons/ai";
 import Textarea from "./Textarea";
+import sendMessage from "@/app/actions/sendMessage";
 
-const Bottom = () => {
+interface BottomProps {
+  userId?: string;
+  friendId?: string;
+}
+
+const Bottom = ({ friendId, userId }: BottomProps) => {
   const [message, setMessage] = useState("");
   const [isFocused, setIsFocused] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
-  const handleSend = useCallback(async () => {
+  const handleSend = async () => {
+    if (!friendId || !userId || message.length === 0) return;
     try {
       setMessage("");
       if (textareaRef.current) {
         textareaRef.current.style.height = "";
       }
+      await sendMessage(userId, friendId, message);
     } catch (error) {
       console.log(error);
     }
-  }, []);
+  };
 
   return (
     <div className="p-2 flex items-center gap-1">

@@ -50,6 +50,8 @@ const NotiPanel = ({ initNotifications, userId, userName }: NotiPanelProps) => {
   return (
     <div
       className={`
+        fixed top-[68px] right-0 p-2 z-50
+        max-h-[calc(100vh-160px)] h-[calc(100vh-160px)] overflow-auto
         bg-slate-50 dark:bg-zinc-800 py-4 px-5 rounded-md shadow-sm border-[1px] 
         border-gray-200 dark:border-none ${
           modalsContext?.noti.isOpen

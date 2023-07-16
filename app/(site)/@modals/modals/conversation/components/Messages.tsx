@@ -1,7 +1,31 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Message from "./Message";
+import { Message as IMessage } from "@prisma/client";
+import { User } from "@prisma/client";
+import { pusherClient } from "@/lib/pusher";
+interface MessagesProps {
+  initMessages: IMessage[];
+  userId?: string;
+  friend?: User;
+}
 
-const Messages = () => {
+const Messages = ({ initMessages, userId, friend }: MessagesProps) => {
+  const [messages, setMessages] = useState(initMessages);
+
+  useEffect(() => {
+    const handler = (m: IMessage) => {
+      setMessages((prev) => [m, ...prev]);
+    };
+    const conversationId = [userId, friend?.id].sort().join();
+    pusherClient.subscribe(`messages-${conversationId}`);
+    pusherClient.bind("new-message", handler);
+
+    return () => {
+      pusherClient.unsubscribe(`messages-${conversationId}`);
+      pusherClient.unbind("new-message", handler);
+    };
+  }, [userId, friend?.id]);
+
   return (
     <div
       className="
@@ -10,9 +34,9 @@ const Messages = () => {
         dark:scrollbar-thumb-zinc-500 dark:scrollbar-track-zinc-300
       "
     >
-      <div className="flex flex-col gap-1 h-full w-full">
-        {[].map((m) => (
-          <Message key={""} message={m} />
+      <div className="flex gap-1 h-full w-full flex-col-reverse">
+        {messages?.map((m) => (
+          <Message key={m.id} message={m} userId={userId} friend={friend} />
         ))}
       </div>
     </div>

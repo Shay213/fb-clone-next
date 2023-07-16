@@ -14,7 +14,10 @@ const Friends = ({ initConversations, userId }: FriendsProps) => {
   const [conversations, setConversations] = useState(initConversations);
   const modalsContext = useModalsContext();
 
-  const handleClick = () => {};
+  const handleClick = (c: ExtendedConversation) => {
+    modalsContext?.conversation.toggle();
+    modalsContext?.conversation.setConversation(c);
+  };
 
   return (
     <div>
@@ -25,7 +28,7 @@ const Friends = ({ initConversations, userId }: FriendsProps) => {
           <Friend
             key={c.conversationId}
             user={friend}
-            handleClick={handleClick}
+            handleClick={() => handleClick(c)}
           />
         );
       })}
