@@ -45,8 +45,10 @@ interface HomeModalsContext {
     show: () => void;
     hide: () => void;
     toggle: () => void;
-    getConversation: () => ExtendedConversation | null;
-    setConversation: Dispatch<SetStateAction<ExtendedConversation | null>>;
+    setConversation?: React.Dispatch<
+      React.SetStateAction<ExtendedConversation | null>
+    >;
+    currentConversation?: ExtendedConversation | null;
   };
   hideAll: () => void;
   hideOthers: (modalName: ModalName) => void;
@@ -69,9 +71,6 @@ const ModalsProvider = ({ children }: { children: React.ReactNode }) => {
     addPost: false,
     conversation: false,
   });
-  const [conversation, setConversation] = useState<ExtendedConversation | null>(
-    null
-  );
 
   const homeModalsContext = useMemo((): HomeModalsContext => {
     return {
@@ -126,8 +125,6 @@ const ModalsProvider = ({ children }: { children: React.ReactNode }) => {
             ...prev,
             conversation: !prev.conversation,
           })),
-        getConversation: () => conversation,
-        setConversation: setConversation,
       },
       hideAll: () =>
         setIsModalOpen((prev) => ({
@@ -149,7 +146,7 @@ const ModalsProvider = ({ children }: { children: React.ReactNode }) => {
           [modalName]: prev[modalName],
         })),
     };
-  }, [isModalOpen, setIsModalOpen, conversation]);
+  }, [isModalOpen, setIsModalOpen]);
 
   return (
     <ModalsContext.Provider value={homeModalsContext}>

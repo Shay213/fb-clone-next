@@ -1,16 +1,23 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Header from "./Header";
 import Bottom from "./Bottom";
 import Messages from "./Messages";
 import { useModalsContext } from "@/app/providers/ModalsProvider";
 import { useSession } from "next-auth/react";
+import { ExtendedConversation } from "@/app/actions/getConversations";
 
 const ConversationPanel = () => {
   const { data: session } = useSession();
   const modalsContext = useModalsContext();
-  const conversation = modalsContext?.conversation.getConversation();
+  const [conversation, setConversation] = useState<null | ExtendedConversation>(
+    null
+  );
+  if (modalsContext?.conversation) {
+    modalsContext.conversation.setConversation = setConversation;
+    modalsContext.conversation.currentConversation = conversation;
+  }
 
   if (!conversation) return null;
 

@@ -53,7 +53,14 @@ const HeaderIcons = () => {
             cursor-pointer hover:bg-gray-200 
             transition p-1
           "
-        onClick={() => modalsContext?.conversation.hide()}
+        onClick={() => {
+          if (modalsContext) {
+            modalsContext?.conversation.hide();
+
+            modalsContext?.conversation?.setConversation?.(null);
+            modalsContext.conversation.currentConversation = null;
+          }
+        }}
       >
         <IoMdClose
           size={17}

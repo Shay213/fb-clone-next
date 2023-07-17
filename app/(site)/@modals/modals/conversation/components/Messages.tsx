@@ -10,7 +10,11 @@ interface MessagesProps {
 }
 
 const Messages = ({ initMessages, userId, friend }: MessagesProps) => {
-  const [messages, setMessages] = useState(initMessages);
+  const [messages, setMessages] = useState<IMessage[]>([]);
+
+  useEffect(() => {
+    setMessages(initMessages);
+  }, [initMessages]);
 
   useEffect(() => {
     const handler = (m: IMessage) => {

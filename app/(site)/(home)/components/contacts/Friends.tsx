@@ -30,8 +30,17 @@ const Friends = ({ initConversations, userId }: FriendsProps) => {
   }, [userId]);
 
   const handleClick = (c: ExtendedConversation) => {
-    modalsContext?.conversation.toggle();
-    modalsContext?.conversation.setConversation(c);
+    if (
+      modalsContext?.conversation.currentConversation?.conversationId ===
+      c.conversationId
+    ) {
+      modalsContext?.conversation.hide();
+      modalsContext.conversation?.setConversation?.(null);
+      modalsContext.conversation.currentConversation = null;
+    } else {
+      modalsContext?.conversation.show();
+      modalsContext?.conversation?.setConversation?.(c);
+    }
   };
 
   return (
