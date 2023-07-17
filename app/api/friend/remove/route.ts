@@ -16,6 +16,17 @@ export async function PATCH(req: Request) {
       "update-feed-removed-friend",
       userId
     );
+    const conversationId = [userId, friendId].sort().join();
+    pusherServer.trigger(
+      `conversations-${userId}`,
+      "friendRemoved",
+      conversationId
+    );
+    pusherServer.trigger(
+      `conversations-${friendId}`,
+      "friendRemoved",
+      conversationId
+    );
 
     await prisma.user.update({
       where: { id: userId },

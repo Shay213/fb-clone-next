@@ -16,16 +16,23 @@ const Friends = ({ initConversations, userId }: FriendsProps) => {
   const modalsContext = useModalsContext();
 
   useEffect(() => {
-    const handler = (c: ExtendedConversation) => {
+    const friendAdded = (c: ExtendedConversation) => {
       setConversations((prev) => [...prev, c]);
+    };
+    const friendRemoved = (conversationId: string) => {
+      setConversations((prev) =>
+        prev.filter((c) => c.conversationId !== conversationId)
+      );
     };
 
     pusherClient.subscribe(`conversations-${userId}`);
-    pusherClient.bind("newFriendAdded", handler);
+    pusherClient.bind("newFriendAdded", friendAdded);
+    pusherClient.bind("friendRemoved", friendRemoved);
 
     return () => {
       pusherClient.unsubscribe(`conversations-${userId}`);
-      pusherClient.unbind("newFriendAdded", handler);
+      pusherClient.unbind("newFriendAdded", friendAdded);
+      pusherClient.unbind("friendRemoved", friendRemoved);
     };
   }, [userId]);
 
