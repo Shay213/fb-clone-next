@@ -5,8 +5,10 @@ import React from "react";
 import { BsFillTelephoneFill, BsCameraVideoFill } from "react-icons/bs";
 import { AiOutlineMinus } from "react-icons/ai";
 import { IoMdClose } from "react-icons/io";
+import { useModalsContext } from "@/app/providers/ModalsProvider";
 
 const HeaderIcons = () => {
+  const modalsContext = useModalsContext();
   return (
     <div className="flex items-center gap-1">
       <div
@@ -51,7 +53,7 @@ const HeaderIcons = () => {
             cursor-pointer hover:bg-gray-200 
             transition p-1
           "
-        onClick={() => {}}
+        onClick={() => modalsContext?.conversation.hide()}
       >
         <IoMdClose
           size={17}

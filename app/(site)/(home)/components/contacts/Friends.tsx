@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Friend from "./Friend";
 import { ExtendedConversation } from "@/app/actions/getConversations";
 import { useModalsContext } from "@/app/providers/ModalsProvider";
+import { pusherClient } from "@/lib/pusher";
 
 interface FriendsProps {
   initConversations: ExtendedConversation[];
@@ -13,6 +14,20 @@ interface FriendsProps {
 const Friends = ({ initConversations, userId }: FriendsProps) => {
   const [conversations, setConversations] = useState(initConversations);
   const modalsContext = useModalsContext();
+
+  useEffect(() => {
+    const handler = (c: ExtendedConversation) => {
+      setConversations((prev) => [...prev, c]);
+    };
+
+    pusherClient.subscribe(`conversations-${userId}`);
+    pusherClient.bind("newFriendAdded", handler);
+
+    return () => {
+      pusherClient.unsubscribe(`conversations-${userId}`);
+      pusherClient.unbind("newFriendAdded", handler);
+    };
+  }, [userId]);
 
   const handleClick = (c: ExtendedConversation) => {
     modalsContext?.conversation.toggle();

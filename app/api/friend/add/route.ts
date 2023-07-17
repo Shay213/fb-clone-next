@@ -1,10 +1,53 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { pusherServer } from "@/lib/pusher";
+import { ExtendedConversation } from "@/app/actions/getConversations";
 
 export async function PATCH(req: Request) {
   try {
     const { userId, friendId } = await req.json();
+
+    const conversationId = [userId, friendId].sort().join();
+
+    const conversation = await prisma.conversation.findUnique({
+      where: { conversationId },
+      include: { messages: true, usersPair: true },
+    });
+
+    if (conversation) {
+      pusherServer.trigger(
+        `conversations-${userId}`,
+        "newFriendAdded",
+        conversation
+      );
+      pusherServer.trigger(
+        `conversations-${friendId}`,
+        "newFriendAdded",
+        conversation
+      );
+    } else {
+      const conversation = await prisma.conversation.create({
+        data: {
+          conversationId,
+          usersPair: { connect: { id: userId } },
+        },
+      });
+      const updatedConversation = await prisma.conversation.update({
+        where: { id: conversation.id },
+        data: { usersPair: { connect: { id: friendId } } },
+        include: { messages: true, usersPair: true },
+      });
+      pusherServer.trigger(
+        `conversations-${userId}`,
+        "newFriendAdded",
+        updatedConversation
+      );
+      pusherServer.trigger(
+        `conversations-${friendId}`,
+        "newFriendAdded",
+        updatedConversation
+      );
+    }
 
     await prisma.user.update({
       where: { id: userId },
