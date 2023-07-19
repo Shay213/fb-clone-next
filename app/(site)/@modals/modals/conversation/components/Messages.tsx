@@ -7,25 +7,32 @@ interface MessagesProps {
   initMessages: IMessage[];
   userId?: string;
   friend?: User;
+  isLoading: boolean;
+  isError: boolean;
 }
 
-const Messages = ({ initMessages, userId, friend }: MessagesProps) => {
-  const [messages, setMessages] = useState<IMessage[]>([]);
-
-  useEffect(() => {
-    setMessages(initMessages);
-  }, [initMessages]);
+const Messages = ({
+  initMessages,
+  userId,
+  friend,
+  isError,
+  isLoading,
+}: MessagesProps) => {
+  const [messages, setMessages] = useState<IMessage[]>(initMessages);
 
   useEffect(() => {
     const handler = (m: IMessage) => {
-      setMessages((prev) => [m, ...prev]);
+      const conversationId = [userId, friend?.id].sort().join();
+      if (m.conversationID === conversationId) {
+        setMessages((prev) => [m, ...prev]);
+      }
     };
-    const conversationId = [userId, friend?.id].sort().join();
-    pusherClient.subscribe(`messages-${conversationId}`);
+
+    pusherClient.subscribe(`messages-${userId}`);
     pusherClient.bind("new-message", handler);
 
     return () => {
-      pusherClient.unsubscribe(`messages-${conversationId}`);
+      pusherClient.subscribe(`messages-${userId}`);
       pusherClient.unbind("new-message", handler);
     };
   }, [userId, friend?.id]);
@@ -33,15 +40,19 @@ const Messages = ({ initMessages, userId, friend }: MessagesProps) => {
   return (
     <div
       className="
-        flex-1 px-2 overflow-y-auto scrollbar-thin
+        max-h-80 h-80 px-2 overflow-y-scroll scrollbar-thin
         scrollbar-thumb-gray-300 scrollbar-track-slate-100
         dark:scrollbar-thumb-zinc-500 dark:scrollbar-track-zinc-300
       "
     >
       <div className="flex gap-1 h-full w-full flex-col-reverse">
-        {messages?.map((m) => (
-          <Message key={m.id} message={m} userId={userId} friend={friend} />
-        ))}
+        {isLoading
+          ? "Loading..."
+          : isError
+          ? "Something went wrong"
+          : messages?.map((m) => (
+              <Message key={m.id} message={m} userId={userId} friend={friend} />
+            ))}
       </div>
     </div>
   );

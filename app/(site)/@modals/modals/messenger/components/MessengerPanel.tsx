@@ -1,18 +1,34 @@
+"use client";
+
 import React from "react";
 import Heading from "./Heading";
 import Categories from "./Categories";
 import Chats from "./Chats";
 import Footer from "./Footer";
-import SearchWrapper from "./SearchWrapper";
+import { useModalsContext } from "@/app/providers/ModalsProvider";
+import Search from "./Search";
+import { ExtendedConversation } from "@/app/actions/getConversations";
 
-const MessengerPanel = () => {
+interface MessengerPanelProps {
+  initConversations: ExtendedConversation[];
+  userId: string;
+}
+
+const MessengerPanel = ({ initConversations, userId }: MessengerPanelProps) => {
+  const modalsContext = useModalsContext();
   return (
     <div
-      className="
-        max-h-full flex flex-col dark:dark:bg-zinc-800
+      className={`
+        fixed top-[68px] right-0 z-50 max-h-[calc(100vh-160px)] overflow-auto
+        flex flex-col dark:dark:bg-zinc-800
         bg-slate-50 rounded-md shadow-sm border-[1px] dark:border-none
-        border-gray-200 animate-slideInRightToLeft
-      "
+        border-gray-200
+        ${
+          modalsContext?.messenger.isOpen
+            ? "animate-slideInRightToLeft"
+            : "translate-x-full"
+        }
+      `}
     >
       <div
         className={`
@@ -22,10 +38,9 @@ const MessengerPanel = () => {
           `}
       >
         <Heading />
-        <SearchWrapper>
-          <Categories />
-          <Chats />
-        </SearchWrapper>
+        <Search />
+        <Categories />
+        <Chats initConversations={initConversations} userId={userId} />
       </div>
       <Footer />
     </div>

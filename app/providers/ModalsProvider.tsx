@@ -1,12 +1,4 @@
-import {
-  Dispatch,
-  SetStateAction,
-  createContext,
-  useContext,
-  useMemo,
-  useState,
-} from "react";
-import { ExtendedConversation } from "../actions/getConversations";
+import { createContext, useContext, useMemo, useState } from "react";
 
 interface HomeModalsContext {
   messenger: {
@@ -45,10 +37,6 @@ interface HomeModalsContext {
     show: () => void;
     hide: () => void;
     toggle: () => void;
-    setConversation?: React.Dispatch<
-      React.SetStateAction<ExtendedConversation | null>
-    >;
-    currentConversation?: ExtendedConversation | null;
   };
   hideAll: () => void;
   hideOthers: (modalName: ModalName) => void;

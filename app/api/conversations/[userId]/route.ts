@@ -12,7 +12,10 @@ export async function GET(
       where: { id: userId },
       select: {
         conversations: {
-          include: { messages: true, usersPair: true },
+          include: {
+            messages: { orderBy: { createdAt: "desc" } },
+            usersPair: true,
+          },
         },
       },
     });

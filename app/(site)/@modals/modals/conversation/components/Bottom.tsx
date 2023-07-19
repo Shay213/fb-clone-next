@@ -20,11 +20,11 @@ const Bottom = ({ friendId, userId }: BottomProps) => {
   const handleSend = async () => {
     if (!friendId || !userId || message.length === 0) return;
     try {
+      await sendMessage(userId, friendId, message);
       setMessage("");
       if (textareaRef.current) {
         textareaRef.current.style.height = "";
       }
-      await sendMessage(userId, friendId, message);
     } catch (error) {
       console.log(error);
     }

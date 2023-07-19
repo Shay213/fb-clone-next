@@ -20,11 +20,16 @@ export async function POST(req: Request) {
       sendedByID: senderId,
     };
 
-    pusherServer.trigger(
-      `messages-${conversationId}`,
-      "new-message",
-      newMessage
-    );
+    pusherServer.trigger(`messages-${senderId}`, "new-message", newMessage);
+    pusherServer.trigger(`messages-${receiverId}`, "new-message", newMessage);
+    pusherServer.trigger(`chats-${receiverId}`, "new-message", {
+      m: newMessage,
+      conversationId,
+    });
+    pusherServer.trigger(`chats-${senderId}`, "new-message", {
+      m: newMessage,
+      conversationId,
+    });
 
     await prisma.message.create({
       data: {

@@ -5,6 +5,7 @@ import Friend from "./Friend";
 import { ExtendedConversation } from "@/app/actions/getConversations";
 import { useModalsContext } from "@/app/providers/ModalsProvider";
 import { pusherClient } from "@/lib/pusher";
+import { useConversationIdContext } from "@/app/providers/ConversationIdProvider";
 
 interface FriendsProps {
   initConversations: ExtendedConversation[];
@@ -14,6 +15,7 @@ interface FriendsProps {
 const Friends = ({ initConversations, userId }: FriendsProps) => {
   const [conversations, setConversations] = useState(initConversations);
   const modalsContext = useModalsContext();
+  const conversationIdContext = useConversationIdContext();
 
   useEffect(() => {
     const friendAdded = (c: ExtendedConversation) => {
@@ -37,16 +39,18 @@ const Friends = ({ initConversations, userId }: FriendsProps) => {
   }, [userId]);
 
   const handleClick = (c: ExtendedConversation) => {
-    if (
-      modalsContext?.conversation.currentConversation?.conversationId ===
-      c.conversationId
-    ) {
+    if (conversationIdContext?.conversationId === c.conversationId) {
+      conversationIdContext?.setConversationId(null);
+      conversationIdContext?.setFriendName(null);
       modalsContext?.conversation.hide();
-      modalsContext.conversation?.setConversation?.(null);
-      modalsContext.conversation.currentConversation = null;
     } else {
+      const friend = c.usersPair.find((user) => user.id !== userId);
+
+      conversationIdContext?.setConversationId(c.conversationId);
+      conversationIdContext?.setFriendName(
+        `${friend?.firstName} ${friend?.lastName}`
+      );
       modalsContext?.conversation.show();
-      modalsContext?.conversation?.setConversation?.(c);
     }
   };
 

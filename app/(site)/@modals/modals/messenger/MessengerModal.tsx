@@ -1,20 +1,23 @@
 import React from "react";
-import MessengerContextContainer from "./components/MessengerContextContainer";
 import MessengerPanel from "./components/MessengerPanel";
+import getConversations from "@/app/actions/getConversations";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
-const MessengerModal = () => {
+const MessengerModal = async () => {
+  const session = await getServerSession(authOptions);
+
+  if (!session) {
+    return null;
+  }
+
+  const conversations = await getConversations(session.user.id);
+
   return (
-    <MessengerContextContainer>
-      <div
-        className="
-          fixed top-[62px] right-0 bg-transparent p-2 z-50 
-          max-h-[calc(100vh-160px)] h-[calc(100vh-160px)]
-          overflow-hidden
-        "
-      >
-        <MessengerPanel />
-      </div>
-    </MessengerContextContainer>
+    <MessengerPanel
+      initConversations={conversations}
+      userId={session.user.id}
+    />
   );
 };
 
