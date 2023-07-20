@@ -19,25 +19,23 @@ const Messenger = ({ size, initialUnReadMessages }: MessengerProps) => {
 
   useEffect(() => {
     if (!session) return;
-    const handler = () => {
+    const newUnreadMessage = () => {
       setUnReadMessages((prev) => prev + 1);
+    };
+    const readMessages = (count: number) => {
+      setUnReadMessages((prev) => prev - count);
     };
 
     pusherClient.subscribe(`unread-messages-count-${session.user.id}`);
-    pusherClient.bind("new-unread-message", handler);
+    pusherClient.bind("new-unread-message", newUnreadMessage);
+    pusherClient.bind("user-read-messages", readMessages);
 
     return () => {
       pusherClient.unsubscribe(`unread-messages-count-${session.user.id}`);
-      pusherClient.unbind("new-unread-message", handler);
+      pusherClient.unbind("new-unread-message", newUnreadMessage);
+      pusherClient.unbind("user-read-messages", readMessages);
     };
   }, [session]);
-
-  useEffect(() => {
-    if (isOpen && session && unReadMessages > 0) {
-      //markCurrentNotificationsAsSeen(session.user.id);
-      //setUnReadMessages(0);
-    }
-  }, [isOpen, session, unReadMessages]);
 
   return (
     <>

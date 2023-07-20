@@ -10,6 +10,7 @@ import { ExtendedConversation } from "@/app/actions/getConversations";
 import { useQuery } from "@tanstack/react-query";
 import getConversation from "@/app/actions/getConvertsation";
 import { useConversationIdContext } from "@/app/providers/ConversationIdProvider";
+import markConversationMessagesAsRead from "@/app/actions/markConversationMessagesAsRead";
 
 const ConversationPanel = () => {
   const { data: session } = useSession();
@@ -25,6 +26,19 @@ const ConversationPanel = () => {
   });
   const friend = data?.usersPair.find((user) => user.id !== session?.user.id);
   const messages = data?.messages || [];
+
+  const {} = useQuery({
+    queryKey: [
+      "markConversationMessagesAsRead",
+      conversationIdContext?.conversationId,
+      session?.user.id,
+    ],
+    queryFn: () =>
+      markConversationMessagesAsRead(
+        conversationIdContext?.conversationId,
+        session?.user.id
+      ),
+  });
 
   return (
     <>
