@@ -34,13 +34,30 @@ const Chats = ({ initConversations, userId }: ChatsProps) => {
         })
       );
     };
+    const markLastMessageAsRead = (conversationId: string) => {
+      setConversations((prev) =>
+        prev.map((conversation) => {
+          if (conversation.conversationId === conversationId) {
+            return {
+              ...conversation,
+              messages: conversation.messages.map((message, i) =>
+                i === 0 ? { ...message, read: true } : message
+              ),
+            };
+          }
+          return conversation;
+        })
+      );
+    };
 
     pusherClient.subscribe(`chats-${userId}`);
     pusherClient.bind("new-message", handler);
+    pusherClient.bind("mark-last-message-as-read", markLastMessageAsRead);
 
     return () => {
       pusherClient.unsubscribe(`chats-${userId}`);
       pusherClient.unbind("new-message", handler);
+      pusherClient.unbind("mark-last-message-as-read", markLastMessageAsRead);
     };
   }, [userId]);
 

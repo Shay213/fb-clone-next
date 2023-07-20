@@ -30,6 +30,11 @@ export async function PATCH(
         "user-read-messages",
         unreadMessagesCount
       );
+      pusherServer.trigger(
+        `chats-${userId}`,
+        "mark-last-message-as-read",
+        conversationId
+      );
     }
 
     await prisma.conversation.update({
