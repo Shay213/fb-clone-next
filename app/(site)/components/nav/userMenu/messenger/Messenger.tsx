@@ -1,12 +1,43 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { AiFillMessage } from "react-icons/ai";
 import { useModalsContext } from "@/app/providers/ModalsProvider";
+import { useSession } from "next-auth/react";
+import { pusherClient } from "@/lib/pusher";
 
-const Messenger = ({ size }: { size: number }) => {
+interface MessengerProps {
+  size: number;
+  initialUnReadMessages: number;
+}
+
+const Messenger = ({ size, initialUnReadMessages }: MessengerProps) => {
   const homeModalsContext = useModalsContext();
   const isOpen = !!homeModalsContext?.messenger.isOpen;
+  const [unReadMessages, setUnReadMessages] = useState(initialUnReadMessages);
+  const { data: session } = useSession();
+
+  useEffect(() => {
+    if (!session) return;
+    const handler = () => {
+      setUnReadMessages((prev) => prev + 1);
+    };
+
+    pusherClient.subscribe(`unread-messages-count-${session.user.id}`);
+    pusherClient.bind("new-unread-message", handler);
+
+    return () => {
+      pusherClient.unsubscribe(`unread-messages-count-${session.user.id}`);
+      pusherClient.unbind("new-unread-message", handler);
+    };
+  }, [session]);
+
+  useEffect(() => {
+    if (isOpen && session && unReadMessages > 0) {
+      //markCurrentNotificationsAsSeen(session.user.id);
+      //setUnReadMessages(0);
+    }
+  }, [isOpen, session, unReadMessages]);
 
   return (
     <>
@@ -37,7 +68,7 @@ const Messenger = ({ size }: { size: number }) => {
           justify-center absolute top-0 right-0 bg-red-500 
           text-white text-sm"
         >
-          2
+          {unReadMessages}
         </div>
       </div>
     </>

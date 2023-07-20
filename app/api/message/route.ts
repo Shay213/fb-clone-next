@@ -30,6 +30,11 @@ export async function POST(req: Request) {
       m: newMessage,
       conversationId,
     });
+    pusherServer.trigger(
+      `unread-messages-count-${receiverId}`,
+      "new-unread-message",
+      {}
+    );
 
     await prisma.message.create({
       data: {
