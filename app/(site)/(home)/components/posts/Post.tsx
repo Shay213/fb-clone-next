@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Heading from "./Heading";
 import Image from "next/image";
 import moment from "moment";
@@ -10,8 +10,9 @@ import LikePost from "./buttons/LikePost";
 import ShowAddComment from "./buttons/ShowAddComment";
 import SharePost from "./buttons/SharePost";
 import Comments from "./Comments";
-import AddCommentContextProvider from "./AddCommentContextProvider";
 import AddComment from "./AddComment";
+import { pusherClient } from "@/lib/pusher";
+import likePost from "@/app/actions/likePost";
 
 enum AUDIENCE {
   PUBLIC = "public",
@@ -33,6 +34,16 @@ const Post = ({
   };
   userId: string;
 }) => {
+  const [isAddCommentOpen, setIsAddCommentOpen] = useState(false);
+
+  const handleClick = async () => {
+    try {
+      await likePost({ postId: post.id, userId });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="bg-white dark:bg-zinc-800 rounded-md shadow-lg py-2">
       <div className="px-6">
@@ -61,26 +72,28 @@ const Post = ({
         <div className="py-4 flex justify-between text-sm text-gray-600 dark:text-zinc-300">
           <div className="flex items-center gap-2">
             <AiFillLike size={20} className="fill-blue-500" />
-            <span>2</span>
+            <span>{post.likedByIDs.length}</span>
           </div>
           <div className="flex items-center gap-2">
             <div>{`60 comments`}</div>
             <div>{`20 shares`}</div>
           </div>
         </div>
-        <AddCommentContextProvider>
-          <div
-            className="
+        <div
+          className="
             py-1 border-y-[1px] border-gray-300
             flex items-center gap-2 dark:border-zinc-600
           "
-          >
-            <LikePost userEmail={""} postId={""} />
-            <ShowAddComment />
-            <SharePost />
-          </div>
-          <AddComment />
-        </AddCommentContextProvider>
+        >
+          <LikePost
+            userId={userId}
+            likedByIds={post.likedByIDs}
+            handleClick={handleClick}
+          />
+          <ShowAddComment setIsAddCommentOpen={setIsAddCommentOpen} />
+          <SharePost />
+        </div>
+        {isAddCommentOpen && <AddComment />}
         <Comments />
       </div>
     </div>

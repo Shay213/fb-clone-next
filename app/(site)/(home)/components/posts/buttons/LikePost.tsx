@@ -1,16 +1,13 @@
-"use client";
-
-import React, { useCallback, useState } from "react";
-
 import { BiLike } from "react-icons/bi";
 
 interface LikePostProps {
-  userEmail: string;
-  postId: string;
+  userId: string;
+  likedByIds: string[];
+  handleClick: () => void;
 }
 
-const LikePost = ({ postId, userEmail }: LikePostProps) => {
-  const isLiked = false;
+const LikePost = ({ userId, likedByIds, handleClick }: LikePostProps) => {
+  const hasUserLikedPost = likedByIds.find((id) => id === userId);
 
   return (
     <div
@@ -18,12 +15,15 @@ const LikePost = ({ postId, userEmail }: LikePostProps) => {
             hover:bg-gray-200 transition cursor-pointer
               dark:hover:bg-zinc-700
             `}
-      onClick={() => {}}
+      onClick={handleClick}
     >
       <div className="flex items-center gap-2 py-2 dark:text-zinc-300">
-        <BiLike size={20} className={`${isLiked ? "fill-blue-500" : ""}`} />
-        <span className={`${isLiked ? "text-blue-500" : ""}`}>
-          {isLiked ? "Liked" : "Like"}
+        <BiLike
+          size={20}
+          className={`${hasUserLikedPost ? "fill-blue-500" : ""}`}
+        />
+        <span className={`${hasUserLikedPost ? "text-blue-500" : ""}`}>
+          {hasUserLikedPost ? "Liked" : "Like"}
         </span>
       </div>
     </div>

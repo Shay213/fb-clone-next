@@ -33,17 +33,54 @@ const Content = ({
     const replacePosts = (posts: ExtendedPost[]) => {
       setPosts(posts);
     };
+    const postLiked = ({
+      postId,
+      likedById,
+    }: {
+      postId: string;
+      likedById: string;
+    }) => {
+      setPosts((prev) =>
+        prev.map((post) =>
+          post.id === postId
+            ? { ...post, likedByIDs: [...post.likedByIDs, likedById] }
+            : post
+        )
+      );
+    };
+    const postDisliked = ({
+      postId,
+      dislikedById,
+    }: {
+      postId: string;
+      dislikedById: string;
+    }) => {
+      setPosts((prev) =>
+        prev.map((post) =>
+          post.id === postId
+            ? {
+                ...post,
+                likedByIDs: post.likedByIDs.filter((id) => id !== dislikedById),
+              }
+            : post
+        )
+      );
+    };
 
     pusherClient.subscribe(`feed-${userId}`);
     pusherClient.bind("update-feed", newPost);
     pusherClient.bind("update-feed-removed-friend", filterPosts);
     pusherClient.bind("update-feed-added-friend", replacePosts);
+    pusherClient.bind("update-feed-post-liked", postLiked);
+    pusherClient.bind("update-feed-post-disliked", postDisliked);
 
     return () => {
       pusherClient.unsubscribe(`feed-${userId}`);
       pusherClient.unbind("update-feed", newPost);
       pusherClient.unbind("update-feed-removed-friend", filterPosts);
       pusherClient.unbind("update-feed-added-friend", replacePosts);
+      pusherClient.unbind("update-feed-post-liked", postLiked);
+      pusherClient.unbind("update-feed-post-disliked", postDisliked);
     };
   }, [userId]);
 

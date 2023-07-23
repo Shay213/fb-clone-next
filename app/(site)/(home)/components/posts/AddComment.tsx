@@ -6,7 +6,6 @@ import Image from "next/image";
 import { GrEmoji } from "react-icons/gr";
 import { MdOutlinePhotoCamera, MdSend } from "react-icons/md";
 import { AiOutlineGif } from "react-icons/ai";
-import { useAddCommentContext } from "./AddCommentContextProvider";
 
 interface AddCommentProps {
   img?: string | null;
@@ -15,11 +14,6 @@ interface AddCommentProps {
 const AddComment = ({ img }: AddCommentProps) => {
   const [description, setDescription] = useState("");
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
-  const addCommentContext = useAddCommentContext();
-
-  if (!addCommentContext?.isOpen) {
-    return null;
-  }
 
   return (
     <div className="flex items-start gap-1 w-full">
