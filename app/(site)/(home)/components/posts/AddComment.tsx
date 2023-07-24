@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 
 import { GrEmoji } from "react-icons/gr";
@@ -9,11 +9,18 @@ import { AiOutlineGif } from "react-icons/ai";
 
 interface AddCommentProps {
   img?: string | null;
+  isAddCommentOpen: boolean;
 }
 
-const AddComment = ({ img }: AddCommentProps) => {
+const AddComment = ({ img, isAddCommentOpen }: AddCommentProps) => {
   const [description, setDescription] = useState("");
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+
+  useEffect(() => {
+    if (isAddCommentOpen) {
+      textareaRef?.current?.focus();
+    }
+  }, [isAddCommentOpen]);
 
   return (
     <div className="flex items-start gap-1 w-full">

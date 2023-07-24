@@ -11,8 +11,9 @@ import ShowAddComment from "./buttons/ShowAddComment";
 import SharePost from "./buttons/SharePost";
 import Comments from "./Comments";
 import AddComment from "./AddComment";
-import { pusherClient } from "@/lib/pusher";
 import likePost from "@/app/actions/likePost";
+import { useQuery } from "@tanstack/react-query";
+import getPostComments from "@/app/actions/getPostComments";
 
 enum AUDIENCE {
   PUBLIC = "public",
@@ -35,6 +36,12 @@ const Post = ({
   userId: string;
 }) => {
   const [isAddCommentOpen, setIsAddCommentOpen] = useState(false);
+  const [numOfComments, setNumOfComments] = useState(1);
+
+  const { isLoading, isError, data } = useQuery({
+    queryKey: ["comments", post.id],
+    queryFn: () => getPostComments(post.id, numOfComments),
+  });
 
   const handleClick = async () => {
     try {
@@ -93,8 +100,12 @@ const Post = ({
           <ShowAddComment setIsAddCommentOpen={setIsAddCommentOpen} />
           <SharePost />
         </div>
-        {isAddCommentOpen && <AddComment />}
-        <Comments />
+        {isAddCommentOpen && <AddComment isAddCommentOpen={isAddCommentOpen} />}
+        <Comments
+          isLoading={isLoading}
+          isError={isError}
+          initialComments={data || []}
+        />
       </div>
     </div>
   );

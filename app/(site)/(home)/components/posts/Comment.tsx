@@ -2,31 +2,31 @@ import React from "react";
 import Avatar from "./Avatar";
 import UserBox from "./UserBox";
 import AuthorName from "./AuthorName";
+import moment from "moment";
 
 import { AiFillLike } from "react-icons/ai";
 
-interface CommentProps {
-  comment: {
-    id: string;
-    postedBy: {
-      userImg: null;
-      id: string;
-      firstName: string;
-      lastName: string;
-      email: string;
-    };
-    description: string;
-    likes: number;
-    createdAt: string;
-  };
-}
+import { ExtendedComment } from "@/app/actions/getPostComments";
 
-const Comment = ({ comment }: CommentProps) => {
-  const { id, description, likes, postedBy, createdAt } = comment;
+const Comment = ({
+  createdAt,
+  description,
+  id,
+  likedByIDs,
+  postId,
+  postedBy,
+  postedByID,
+  rootCommentID,
+}: ExtendedComment) => {
   return (
     <div className="flex gap-1 items-start">
       <div className="h-full">
-        <Avatar img={postedBy.userImg} width={30} height={30}>
+        <Avatar
+          img={postedBy.picture}
+          width={30}
+          height={30}
+          authorId={postedByID}
+        >
           {/* @ts-ignore */}
           <UserBox user={postedBy} />
         </Avatar>
@@ -34,7 +34,10 @@ const Comment = ({ comment }: CommentProps) => {
       </div>
       <div className="flex flex-col relative">
         <div className="bg-gray-100 rounded-md px-2 pb-2 pt-1 w-max">
-          <AuthorName name={`${postedBy.firstName} ${postedBy.lastName}`}>
+          <AuthorName
+            name={`${postedBy.firstName} ${postedBy.lastName}`}
+            authorId={postedByID}
+          >
             {/* @ts-ignore */}
             <UserBox user={postedBy} />
           </AuthorName>
@@ -50,7 +53,7 @@ const Comment = ({ comment }: CommentProps) => {
           <button type="button" className="hover:underline transition">
             Share
           </button>
-          <span className="text-gray-700">{createdAt}</span>
+          <span className="text-gray-700">{moment(createdAt).fromNow()}</span>
         </div>
         <div
           className="
@@ -62,7 +65,7 @@ const Comment = ({ comment }: CommentProps) => {
           <div className="flex justify-center items-center p-[2px] rounded-full bg-blue-500">
             <AiFillLike size={13} className="fill-white" />
           </div>
-          {likes}
+          {likedByIDs.length}
         </div>
       </div>
     </div>

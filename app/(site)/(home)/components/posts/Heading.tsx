@@ -26,7 +26,7 @@ const Heading = ({
   return (
     <div className="flex justify-between">
       <div className="flex items-center gap-2">
-        <Avatar img={img}>
+        <Avatar img={img} authorId={authorId}>
           <UserBox
             authorId={authorId}
             name={name}
@@ -35,7 +35,7 @@ const Heading = ({
           />
         </Avatar>
         <div className="flex flex-col">
-          <AuthorName name={name}>
+          <AuthorName name={name} authorId={authorId}>
             <UserBox
               authorId={authorId}
               name={name}

@@ -1,28 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import Comment from "./Comment";
+import { ExtendedComment } from "@/app/actions/getPostComments";
+import { TailSpin } from "react-loader-spinner";
 
-const COMMENTS = [
-  {
-    id: "i5juifsui",
-    postedBy: {
-      userImg: null,
-      id: "dsa5t43",
-      firstName: "John",
-      lastName: "Doe",
-      email: "test@gmail.com",
-    },
-    description: "desc desc desc desc",
-    likes: 13,
-    createdAt: "9h",
-  },
-];
+interface CommentsProps {
+  isError: boolean;
+  isLoading: boolean;
+  initialComments: ExtendedComment[];
+}
 
-const Comments = () => {
+const Comments = ({ initialComments, isError, isLoading }: CommentsProps) => {
+  const [comments, setComments] = useState(initialComments);
   return (
     <div className="flex flex-col gap-2">
-      {[].map((c) => (
-        <Comment key={""} comment={c} />
-      ))}
+      {isError ? (
+        <div className="text-center">Could not load any comments</div>
+      ) : isLoading ? (
+        <TailSpin color="rgb(59 130 246)" width={30} height={30} />
+      ) : (
+        comments.map((c) => <Comment key={c.id} {...c} />)
+      )}
     </div>
   );
 };

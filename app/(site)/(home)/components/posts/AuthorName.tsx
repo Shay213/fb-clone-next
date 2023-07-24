@@ -1,17 +1,20 @@
 "use client";
 
+import Link from "next/link";
 import React, { useState } from "react";
 
 interface AuthorNameProps {
   name: string;
   children: React.ReactNode;
+  authorId: string;
 }
 
-const AuthorName = ({ name, children }: AuthorNameProps) => {
+const AuthorName = ({ name, children, authorId }: AuthorNameProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div
+    <Link
+      href={`/profile/${authorId}`}
       onMouseEnter={() => setIsOpen(true)}
       onMouseLeave={() => setIsOpen(false)}
       className="relative cursor-pointer w-max"
@@ -25,7 +28,7 @@ const AuthorName = ({ name, children }: AuthorNameProps) => {
         {name}
       </span>
       {isOpen && children}
-    </div>
+    </Link>
   );
 };
 
