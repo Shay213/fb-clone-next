@@ -6,21 +6,46 @@ import Image from "next/image";
 import { GrEmoji } from "react-icons/gr";
 import { MdOutlinePhotoCamera, MdSend } from "react-icons/md";
 import { AiOutlineGif } from "react-icons/ai";
+import addPostComment from "@/app/actions/addPostComment";
 
 interface AddCommentProps {
   img?: string | null;
   isAddCommentOpen: boolean;
+  setIsAddCommentOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  postId: string;
+  userId: string;
 }
 
-const AddComment = ({ img, isAddCommentOpen }: AddCommentProps) => {
+const AddComment = ({
+  img,
+  isAddCommentOpen,
+  postId,
+  userId,
+  setIsAddCommentOpen,
+}: AddCommentProps) => {
   const [description, setDescription] = useState("");
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (isAddCommentOpen) {
       textareaRef?.current?.focus();
     }
   }, [isAddCommentOpen]);
+
+  const handleAddComment = async () => {
+    if (description.length === 0 || isLoading) return;
+
+    setIsLoading(true);
+    try {
+      await addPostComment(postId, description, userId);
+      setIsAddCommentOpen(false);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <div className="flex items-start gap-1 w-full">
@@ -47,7 +72,14 @@ const AddComment = ({ img, isAddCommentOpen }: AddCommentProps) => {
               textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
             }
           }}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault();
+              handleAddComment();
+            }
+          }}
           ref={textareaRef}
+          disabled={isLoading}
         />
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-2">
@@ -81,6 +113,7 @@ const AddComment = ({ img, isAddCommentOpen }: AddCommentProps) => {
               flex justify-center items-center p-1 rounded-full 
               cursor-pointer hover:bg-gray-200 transition 
             "
+            onClick={handleAddComment}
           >
             <MdSend size={18} />
           </div>

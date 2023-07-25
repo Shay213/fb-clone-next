@@ -30,6 +30,20 @@ export async function GET(
             lastName: true,
           },
         },
+        comments: {
+          take: 2,
+          orderBy: { createdAt: "desc" },
+          include: {
+            postedBy: {
+              select: {
+                id: true,
+                firstName: true,
+                lastName: true,
+                picture: true,
+              },
+            },
+          },
+        },
       },
       orderBy: { createdAt: "desc" },
     });

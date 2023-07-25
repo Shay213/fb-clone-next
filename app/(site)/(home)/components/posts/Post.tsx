@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Heading from "./Heading";
 import Image from "next/image";
 import moment from "moment";
@@ -12,8 +12,7 @@ import SharePost from "./buttons/SharePost";
 import Comments from "./Comments";
 import AddComment from "./AddComment";
 import likePost from "@/app/actions/likePost";
-import { useQuery } from "@tanstack/react-query";
-import getPostComments from "@/app/actions/getPostComments";
+import { ExtendedPost } from "@/app/actions/getPosts";
 
 enum AUDIENCE {
   PUBLIC = "public",
@@ -21,27 +20,13 @@ enum AUDIENCE {
   ONLY_ME = "only me",
 }
 
-const Post = ({
-  post,
-  userId,
-}: {
-  post: IPost & {
-    author: {
-      id: string;
-      firstName: string;
-      lastName: string;
-      picture: string | null;
-    };
-  };
+interface PostProps {
+  post: ExtendedPost;
   userId: string;
-}) => {
-  const [isAddCommentOpen, setIsAddCommentOpen] = useState(false);
-  const [numOfComments, setNumOfComments] = useState(1);
+}
 
-  const { isLoading, isError, data } = useQuery({
-    queryKey: ["comments", post.id],
-    queryFn: () => getPostComments(post.id, numOfComments),
-  });
+const Post = ({ post, userId }: PostProps) => {
+  const [isAddCommentOpen, setIsAddCommentOpen] = useState(false);
 
   const handleClick = async () => {
     try {
@@ -100,12 +85,15 @@ const Post = ({
           <ShowAddComment setIsAddCommentOpen={setIsAddCommentOpen} />
           <SharePost />
         </div>
-        {isAddCommentOpen && <AddComment isAddCommentOpen={isAddCommentOpen} />}
-        <Comments
-          isLoading={isLoading}
-          isError={isError}
-          initialComments={data || []}
-        />
+        {isAddCommentOpen && (
+          <AddComment
+            isAddCommentOpen={isAddCommentOpen}
+            setIsAddCommentOpen={setIsAddCommentOpen}
+            postId={post.id}
+            userId={userId}
+          />
+        )}
+        <Comments initialComments={post.comments} postId={post.id} />
       </div>
     </div>
   );

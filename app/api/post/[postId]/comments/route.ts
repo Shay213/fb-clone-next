@@ -7,14 +7,17 @@ export async function GET(
 ) {
   const { postId } = params;
   const { searchParams } = new URL(req.url);
-  const count = searchParams.get("count");
-  const numOfComments = count ? +count : 1;
+  const stringTake = searchParams.get("take");
+  const stringSkip = searchParams.get("skip");
+  const take = stringTake ? parseInt(stringTake) : undefined;
+  const skip = stringSkip ? parseInt(stringSkip) : undefined;
   try {
     const post = await prisma.post.findUnique({
       where: { id: postId },
       select: {
         comments: {
-          take: numOfComments,
+          take,
+          skip,
           include: {
             postedBy: {
               select: {
