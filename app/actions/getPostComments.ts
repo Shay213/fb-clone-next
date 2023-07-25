@@ -9,19 +9,14 @@ export interface ExtendedComment extends Comment {
   };
 }
 
-interface getPostCommentsArgs {
-  postId: string;
-  take: number;
-  skip: number;
-}
-
-export default async function getPostComments({
-  postId,
-  skip,
-  take,
-}: getPostCommentsArgs): Promise<ExtendedComment[]> {
+export default async function getPostComments(
+  excludeIds: string[],
+  postId: string
+): Promise<ExtendedComment[]> {
   const res = await fetch(
-    `http://localhost:3000/api/post/${postId}/comments?take=${take}&skip=${skip}`
+    `http://localhost:3000/api/post/${postId}/comments?excludeIds=${excludeIds.join(
+      ","
+    )}`
   );
 
   if (!res.ok) {

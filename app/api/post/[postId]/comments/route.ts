@@ -7,17 +7,17 @@ export async function GET(
 ) {
   const { postId } = params;
   const { searchParams } = new URL(req.url);
-  const stringTake = searchParams.get("take");
-  const stringSkip = searchParams.get("skip");
-  const take = stringTake ? parseInt(stringTake) : undefined;
-  const skip = stringSkip ? parseInt(stringSkip) : undefined;
+  const excludeIdsString = searchParams.get("excludeIds");
+  const excludeIds = excludeIdsString ? excludeIdsString.split(",") : [];
   try {
     const post = await prisma.post.findUnique({
       where: { id: postId },
       select: {
         comments: {
-          take,
-          skip,
+          where: {
+            id: { notIn: excludeIds },
+          },
+          orderBy: { createdAt: "desc" },
           include: {
             postedBy: {
               select: {

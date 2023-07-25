@@ -5,6 +5,7 @@ import getPostComments, {
 } from "@/app/actions/getPostComments";
 import { TailSpin } from "react-loader-spinner";
 import { useMutation } from "@tanstack/react-query";
+import moment from "moment";
 
 interface CommentsProps {
   initialComments: ExtendedComment[];
@@ -21,14 +22,17 @@ const Comments = ({ initialComments, postId }: CommentsProps) => {
 
   const mutation = useMutation({
     mutationFn: () =>
-      getPostComments({
-        postId,
-        skip: comments.length,
-        take: NUM_OF_COMMENTS_TO_FETCH,
-      }),
+      getPostComments(
+        comments.map((c) => c.id),
+        postId
+      ),
     onSuccess: (data) => {
       setShowMore(true);
-      setComments((prev) => [...prev, ...data]);
+      setComments((prev) =>
+        [...prev, ...data].sort((a, b) =>
+          moment(b.createdAt).diff(moment(a.createdAt))
+        )
+      );
     },
     onError: () => setIsError(true),
     onSettled: () => setIsLoading(false),
