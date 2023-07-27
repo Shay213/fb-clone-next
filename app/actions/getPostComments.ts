@@ -5,7 +5,7 @@ export interface ExtendedComment extends Comment {
     id: string;
     firstName: string;
     lastName: string;
-    picture: string;
+    picture: string | null;
   };
 }
 

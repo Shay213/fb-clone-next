@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Comment from "./Comment";
 import getPostComments, {
   ExtendedComment,
@@ -15,10 +15,21 @@ interface CommentsProps {
 const NUM_OF_COMMENTS_TO_FETCH = 5;
 
 const Comments = ({ initialComments, postId }: CommentsProps) => {
-  const [comments, setComments] = useState(initialComments);
+  const [comments, setComments] = useState<ExtendedComment[]>([]);
   const [isError, setIsError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [showMore, setShowMore] = useState(false);
+
+  useEffect(() => {
+    setComments((prev) => {
+      // remove duplicates
+      const commentsSet = new Set([...initialComments, ...prev]);
+      const commentsArray = Array.from(commentsSet);
+      return commentsArray.sort((a, b) =>
+        moment(b.createdAt).diff(moment(a.createdAt))
+      );
+    });
+  }, [initialComments]);
 
   const mutation = useMutation({
     mutationFn: () =>
@@ -39,6 +50,7 @@ const Comments = ({ initialComments, postId }: CommentsProps) => {
   });
 
   const handleClick = () => {
+    setIsLoading(true);
     mutation.mutate();
   };
 
