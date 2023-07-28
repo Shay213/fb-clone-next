@@ -35,7 +35,6 @@ const Post = ({ post, userId }: PostProps) => {
       console.log(error);
     }
   };
-  console.log(post);
   return (
     <div className="bg-white dark:bg-zinc-800 rounded-md shadow-lg py-2">
       <div className="px-6">
@@ -93,7 +92,11 @@ const Post = ({ post, userId }: PostProps) => {
             userId={userId}
           />
         )}
-        <Comments initialComments={post.comments} postId={post.id} />
+        <Comments
+          initialComments={post.comments}
+          postId={post.id}
+          userId={userId}
+        />
       </div>
     </div>
   );

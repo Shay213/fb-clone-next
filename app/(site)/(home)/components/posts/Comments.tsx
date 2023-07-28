@@ -10,11 +10,12 @@ import moment from "moment";
 interface CommentsProps {
   initialComments: ExtendedComment[];
   postId: string;
+  userId: string;
 }
 
 const NUM_OF_COMMENTS_TO_FETCH = 5;
 
-const Comments = ({ initialComments, postId }: CommentsProps) => {
+const Comments = ({ initialComments, postId, userId }: CommentsProps) => {
   const [comments, setComments] = useState<ExtendedComment[]>([]);
   const [isError, setIsError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -58,9 +59,15 @@ const Comments = ({ initialComments, postId }: CommentsProps) => {
   return (
     <div className="flex flex-col gap-2">
       {showMore
-        ? comments?.map((c) => <Comment key={c.id} {...c} />)
+        ? comments?.map((c) => (
+            <Comment key={c.id} comment={c} userId={userId} />
+          ))
         : comments.length > 0 && (
-            <Comment key={comments[0].id} {...comments[0]} />
+            <Comment
+              key={comments[0].id}
+              comment={comments[0]}
+              userId={userId}
+            />
           )}
       {!isLoading && initialComments.length > 1 && (
         <p

@@ -8,16 +8,22 @@ import { AiFillLike } from "react-icons/ai";
 
 import { ExtendedComment } from "@/app/actions/getPostComments";
 
-const Comment = ({
-  createdAt,
-  description,
-  id,
-  likedByIDs,
-  postId,
-  postedBy,
-  postedByID,
-  rootCommentID,
-}: ExtendedComment) => {
+interface CommentProps {
+  comment: ExtendedComment;
+  userId: string;
+}
+
+const Comment = ({ comment, userId }: CommentProps) => {
+  const {
+    createdAt,
+    description,
+    id,
+    likedByIDs,
+    postId,
+    postedBy,
+    postedByID,
+    rootCommentID,
+  } = comment;
   return (
     <div className="flex gap-1 items-start">
       <div className="h-full">
@@ -27,8 +33,12 @@ const Comment = ({
           height={30}
           authorId={postedByID}
         >
-          {/* @ts-ignore */}
-          <UserBox user={postedBy} />
+          <UserBox
+            authorId={postedByID}
+            currUserId={userId}
+            name={`${postedBy.firstName} ${postedBy.lastName}`}
+            img={postedBy.picture}
+          />
         </Avatar>
         <div className="h-full w-1 bg-gray-100">{` `}</div>
       </div>
@@ -38,8 +48,12 @@ const Comment = ({
             name={`${postedBy.firstName} ${postedBy.lastName}`}
             authorId={postedByID}
           >
-            {/* @ts-ignore */}
-            <UserBox user={postedBy} />
+            <UserBox
+              authorId={postedByID}
+              currUserId={userId}
+              name={`${postedBy.firstName} ${postedBy.lastName}`}
+              img={postedBy.picture}
+            />
           </AuthorName>
           <p className="text-sm">{description}</p>
         </div>
