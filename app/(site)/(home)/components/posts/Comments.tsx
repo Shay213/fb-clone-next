@@ -35,7 +35,8 @@ const Comments = ({ initialComments, postId }: CommentsProps) => {
     mutationFn: () =>
       getPostComments(
         comments.map((c) => c.id),
-        postId
+        postId,
+        NUM_OF_COMMENTS_TO_FETCH
       ),
     onSuccess: (data) => {
       setShowMore(true);

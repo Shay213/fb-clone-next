@@ -9,11 +9,14 @@ export async function GET(
   const { searchParams } = new URL(req.url);
   const excludeIdsString = searchParams.get("excludeIds");
   const excludeIds = excludeIdsString ? excludeIdsString.split(",") : [];
+  const takeString = searchParams.get("take");
+  const take = takeString ? parseInt(takeString) : undefined;
   try {
     const post = await prisma.post.findUnique({
       where: { id: postId },
       select: {
         comments: {
+          take,
           where: {
             id: { notIn: excludeIds },
           },
