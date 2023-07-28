@@ -26,24 +26,22 @@ const Comment = ({ comment, userId }: CommentProps) => {
   } = comment;
   return (
     <div className="flex gap-1 items-start">
-      <div className="h-full">
-        <Avatar
-          img={postedBy.picture}
-          width={30}
-          height={30}
+      <Avatar
+        img={postedBy.picture}
+        width={30}
+        height={30}
+        authorId={postedByID}
+        className="basis-[30px] flex-shrink-0"
+      >
+        <UserBox
           authorId={postedByID}
-        >
-          <UserBox
-            authorId={postedByID}
-            currUserId={userId}
-            name={`${postedBy.firstName} ${postedBy.lastName}`}
-            img={postedBy.picture}
-          />
-        </Avatar>
-        <div className="h-full w-1 bg-gray-100">{` `}</div>
-      </div>
-      <div className="flex flex-col relative">
-        <div className="bg-gray-100 rounded-md px-2 pb-2 pt-1 w-max">
+          currUserId={userId}
+          name={`${postedBy.firstName} ${postedBy.lastName}`}
+          img={postedBy.picture}
+        />
+      </Avatar>
+      <div className="w-max flex flex-col">
+        <div className="bg-gray-100 rounded-md px-2 pb-2 pt-1 break-words relative">
           <AuthorName
             name={`${postedBy.firstName} ${postedBy.lastName}`}
             authorId={postedByID}
@@ -56,6 +54,18 @@ const Comment = ({ comment, userId }: CommentProps) => {
             />
           </AuthorName>
           <p className="text-sm">{description}</p>
+          <div
+            className="
+            absolute bottom-0 right-0 flex p-[2px] items-center gap-1 
+            text-sm text-gray-700 bg-white rounded-md border-[1px]
+            border-gray-200
+          "
+          >
+            <div className="flex justify-center items-center p-[2px] rounded-full bg-blue-500">
+              <AiFillLike size={13} className="fill-white" />
+            </div>
+            {likedByIDs.length}
+          </div>
         </div>
         <div className="flex items-center gap-3 text-xs px-2">
           <button type="button" className="hover:underline transition">
@@ -68,18 +78,6 @@ const Comment = ({ comment, userId }: CommentProps) => {
             Share
           </button>
           <span className="text-gray-700">{moment(createdAt).fromNow()}</span>
-        </div>
-        <div
-          className="
-            absolute left-full bottom-4 flex p-[2px] items-center gap-1 
-            text-sm text-gray-700 bg-white rounded-md border-[1px]
-            border-gray-200
-          "
-        >
-          <div className="flex justify-center items-center p-[2px] rounded-full bg-blue-500">
-            <AiFillLike size={13} className="fill-white" />
-          </div>
-          {likedByIDs.length}
         </div>
       </div>
     </div>

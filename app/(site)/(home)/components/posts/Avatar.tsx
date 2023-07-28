@@ -10,14 +10,22 @@ interface AvatarProps {
   height?: number;
   children: React.ReactNode;
   authorId: string;
+  className?: string;
 }
 
-const Avatar = ({ img, width, height, children, authorId }: AvatarProps) => {
+const Avatar = ({
+  img,
+  width,
+  height,
+  children,
+  authorId,
+  className,
+}: AvatarProps) => {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <Link
       href={`/profile/${authorId}`}
-      className="relative cursor-pointer"
+      className={`relative ${className}`}
       onMouseEnter={() => setIsOpen(true)}
       onMouseLeave={() => setIsOpen(false)}
     >
